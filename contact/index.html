@@ -9,11 +9,21 @@
     <h1>Projects</h1>
 <nav></nav>
     <ul>
-        <li><a href="../portfolio.html">Home</a></li>
-        <li><a href="../portfolio/projects.html">Projects</a></li>
-        <li><a href="../portfolio/contact.html">Contact Me</a></li>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../projects/index.html">Projects</a></li>
+        <li><a href="index.html">Contact Me</a></li>
         <li><a href="https://github.com/dsalcido-ucsd" target="_blank">GitHub Profile</a></li>
     </ul>
 </nav>
+<form action="mailto:dsalcido@ucsd.edu" method="post" enctype="text/plain">
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="name" required><br><br>
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" required><br><br>
+    <label for="message">Message:</label><br>
+    <textarea id="message" name="message" rows="4" cols="50" required></textarea><br><br>
+    <input type="submit" value="Send">
+    <input type="reset" value="Reset">
+</form>
 </body>
 </html>
