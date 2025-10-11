@@ -1,6 +1,198 @@
 body {
-  /* Set line height to 1.5 times the font size
-	   and use the OS’s UI font as the website font
-	 */
   font: 100%/1.5 system-ui;
+  /* Limit line length relative to the font size (~65 characters) */
+  max-width: 65ch;
+  margin-block: 8px;
+  margin-inline: max(1em, (100% - 65ch) / 2);
+  display: block;
+  padding: 0 20px;
+}
+
+/* Accent color available to the whole document */
+:root {
+  /* Nice blue accent for the site */
+  --color-accent: #1e88ff;
+}
+
+/* make accent color available to user-agent form controls and descendants */
+html {
+  accent-color: var(--color-accent);
+}
+
+/* Step 2.1: get <ul> and <li> out of the way inside the navigation */
+nav ul,
+nav + ul,
+nav li,
+nav + ul li {
+  display: contents;
+}
+
+/* Step 2.2: use Flexbox for layout so nav children can share space */
+nav {
+  display: flex;
+  gap: 0.5rem; /* small gap between links */
+  margin-bottom: 1rem; /* separate nav from content */
+  border-bottom: 1px solid oklch(80% 3% 200); /* subtle cool gray */
+}
+
+/* make each anchor take equal space inside the nav */
+nav a {
+  flex: 1 1 0;
+  text-align: center;
+  text-decoration: underline; /* show underlines again */
+  text-decoration-color: var(--color-accent);
+  color: inherit;        /* use parent color */
+  padding: 0.5em 0.75em; /* spacing inside each link */
+  display: inline-block; /* anchors can receive padding */
+}
+
+/* highlight the current page with a thick bottom border */
+nav a.current {
+  font-weight: 600;
+  border-bottom: 0.4em solid var(--color-accent);
+  padding-bottom: 0.15em; /* reduce bottom padding to compensate for border height */
+}
+
+/* hover state uses the accent color as well */
+nav a:hover {
+  border-bottom: 0.4em solid var(--color-accent);
+  padding-bottom: 0.15em;
+}
+
+/* Step 3.1: Make form controls use the same font as the page */
+input,
+textarea,
+button,
+select {
+  font: inherit;
+}
+
+/* Step 3.2 & 3.3: Grid-based form layout
+   - form is a grid with two columns: label (auto) and control (1fr)
+   - labels become grid containers that use the form's subgrid so their contents align
+   - .form-actions span the full row
+*/
+form {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+/* Make labels participate in the grid and align their content to the first column */
+form label {
+  display: grid;
+  grid-column: 1 / 2;
+  grid-template-columns: subgrid;
+  align-items: center;
+  margin: 0; /* spacing handled by gap on the form */
+}
+
+/* Controls live in the second column */
+form input[type="text"],
+form input[type="email"],
+form input[type="tel"],
+form input[type="url"],
+form textarea,
+form select {
+  grid-column: 2 / 3;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Actions span the full width */
+.form-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Step 4.2: responsive grid for projects */
+.projects {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
+  align-items: start;
+}
+
+.projects img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Step 4.3: Horizontal alignment with subgrid */
+.projects article {
+  /* fall back to a sensible 3-row template if subgrid isn't supported */
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  grid-row: span 3; /* make each article occupy three implicit rows of the outer grid */
+  gap: 1em;
+}
+
+.projects article h2 {
+  margin: 0;
+}
+
+.projects article img {
+  align-self: start;
+}
+
+@supports (grid-template-rows: subgrid) {
+  .projects article {
+    grid-template-rows: subgrid;
+  }
+}
+
+/* Step 4.4: Heading hierarchy and defaults */
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.1; /* tighter leading for headings */
+  text-wrap: balance; /* balance lines where supported */
+}
+
+/* Make the main page title much larger for clearer contrast */
+h1 {
+  font-size: 4rem; /* ~400% of body text */
+}
+
+/* Resume page styles */
+/* header with name and contact info */
+body > header {
+  margin: 1rem 0 2rem;
+}
+
+body > header h2 {
+  margin: 0 0 0.25rem;
+  font-size: 1.5rem;
+}
+
+body > header p {
+  margin: 0.2rem 0;
+  color: #444;
+}
+
+section {
+  margin: 1.5rem 0;
+}
+
+section > article {
+  margin: 0.75rem 0;
+}
+
+section time {
+  display: block;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+/* Improve readability of lists on resume */
+section ul {
+  margin: 0.5rem 0 0.5rem 1.25rem;
+}
+
+/* Subtle card style for experience items */
+section > article {
+  padding: 0.75rem;
+  border-left: 3px solid rgba(30,136,255,0.12);
+  background: rgba(30,136,255,0.02);
 }
