@@ -1,10 +1,11 @@
 body {
   font: 100%/1.5 system-ui;
-  max-width: 65ch;
-  margin-block: 8px;
-  margin-inline: max(1em, (100% - 65ch) / 2);
-  display: block;
-  padding: 0 20px;
+  max-width: min(90ch, 1200px);
+  margin: 0 auto;
+  margin-block: 12px;
+  background: hsl(210 30% 98%);
+  color: #111;
+  padding: 1rem 20px;
 }
 
 /* Accent color */
@@ -56,13 +57,35 @@ form input[type="text"], form input[type="email"], form input[type="tel"], form 
 
 /* Projects grid */
 .projects { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(15em, 1fr)); align-items: start; }
-.projects img { width: 100%; height: auto; display: block; }
+.projects img { width: 100%; height: auto; display: block; object-fit: cover; }
 
 /* Project card alignment (subgrid fallback) */
-.projects article { display: grid; grid-template-rows: auto auto 1fr; grid-row: span 3; gap: 1em; }
+.projects article {
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  grid-row: span 3;
+  gap: 1em;
+  background: white;
+  border-radius: 8px;
+  padding: 0.75rem;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+  overflow: hidden;
+}
 .projects article h2 { margin: 0; }
 .projects article img { align-self: start; }
 @supports (grid-template-rows: subgrid) { .projects article { grid-template-rows: subgrid; } }
+
+.projects article:hover { transform: translateY(-6px); box-shadow: 0 14px 30px rgba(15, 23, 42, 0.09); }
+
+@media (min-width: 900px) {
+  .projects { grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); gap: 1.5rem; }
+  h1 { font-size: clamp(2rem, 6vw, 4rem); }
+}
+
+@media (min-width: 1200px) {
+  body { padding-left: 24px; padding-right: 24px; }
+}
 
 /* Headings */
 h1,h2,h3,h4,h5,h6 { line-height: 1.1; text-wrap: balance; }
