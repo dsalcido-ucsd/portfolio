@@ -70,22 +70,22 @@ function injectNav() {
     }
     const href = url;
 
-    // Create anchor element and set properties
+    // Create anchor element and set properties (use DOM methods for flexibility)
     const a = document.createElement('a');
     a.href = href;
     a.textContent = title;
 
-    // External links: open in new tab safely
-    if (p.external) {
+    // Detect external links: if the link's host is different from the current host
+    const isExternal = (a.protocol === 'http:' || a.protocol === 'https:') && a.host && a.host !== location.host;
+    if (isExternal) {
       a.target = '_blank';
       a.rel = 'noopener noreferrer';
     }
 
-    // Mark current link during creation
-    if (a.host === location.host && normalizePath(a.pathname) === normalizePath(location.pathname)) {
-      a.classList.add('current');
-      a.setAttribute('aria-current', 'page');
-    }
+    // Highlight current link using normalized pathnames
+    const isCurrent = a.host === location.host && normalizePath(a.pathname) === normalizePath(location.pathname);
+    a.classList.toggle('current', isCurrent);
+    if (isCurrent) a.setAttribute('aria-current', 'page');
 
     nav.append(a);
   }
