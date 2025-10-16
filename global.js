@@ -121,6 +121,37 @@ function injectColorSchemeControl() {
     } else {
       document.documentElement.setAttribute('data-theme', v);
     }
+    // Ensure we have a style tag that can override lingering light-theme tints
+    ensureLightOverrides();
+  }
+
+  // Inject a small stylesheet that forces neutral light surfaces for
+  // forced-light or automatic-when-prefers-light. Using !important here
+  // intentionally to override cached external CSS on the deployed site.
+  function ensureLightOverrides() {
+    if (document.getElementById('global-light-overrides')) return;
+    const css = `
+      /* Forced/light-mode overrides (high specificity) */
+      html[data-theme="light"] { background: #ffffff !important; color: #111 !important; }
+      html[data-theme="light"] body { background: #ffffff !important; }
+      html[data-theme="light"] .projects article { background: #ffffff !important; color: inherit !important; box-shadow: 0 6px 18px rgba(15,23,42,0.06) !important; border: none !important; }
+      html[data-theme="light"] .color-scheme { background: rgba(255,255,255,0.98) !important; color: canvastext !important; border: 1px solid rgba(0,0,0,0.06) !important; }
+      html[data-theme="light"] section > article { background: transparent !important; border-left-color: rgba(0,0,0,0.06) !important; }
+
+      /* When the user has not forced a theme but their OS prefers light, apply the same neutral surfaces */
+      @media (prefers-color-scheme: light) {
+        html:not([data-theme]) { background: #ffffff !important; color: #111 !important; }
+        html:not([data-theme]) body { background: #ffffff !important; }
+        html:not([data-theme]) .projects article { background: #ffffff !important; color: inherit !important; box-shadow: 0 6px 18px rgba(15,23,42,0.06) !important; border: none !important; }
+        html:not([data-theme]) .color-scheme { background: rgba(255,255,255,0.98) !important; color: canvastext !important; border: 1px solid rgba(0,0,0,0.06) !important; }
+        html:not([data-theme]) section > article { background: transparent !important; border-left-color: rgba(0,0,0,0.06) !important; }
+      }
+    `;
+
+    const st = document.createElement('style');
+    st.id = 'global-light-overrides';
+    st.appendChild(document.createTextNode(css));
+    document.head.appendChild(st);
   }
 
   // Load stored preference
