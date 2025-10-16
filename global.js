@@ -10,13 +10,17 @@ const pages = [
   { url: 'https://github.com/dsalcido-ucsd', title: 'GitHub Profile', external: true },
 ];
 
-const nav = document.createElement('nav');
-document.body.prepend(nav);
 
 const REPO_NAME = 'portfolio';
 const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
 const isGithubPages = location.hostname.endsWith('.github.io');
 const BASE_PATH = isLocal ? '/' : `/${REPO_NAME}/`;
+
+function buildNav() {
+  const nav = document.createElement('nav');
+  nav.setAttribute('role', 'navigation');
+  nav.setAttribute('aria-label', 'Main navigation');
+  document.body.prepend(nav);
 
 function normalizePath(p) {
   if (!p) return p;
@@ -25,7 +29,7 @@ function normalizePath(p) {
   return p;
 }
 
-for (const p of pages) {
+  for (const p of pages) {
   const url = p.url;
   const title = p.title;
   const href = !url.startsWith('http') && !url.startsWith('/') ? BASE_PATH + url : url;
@@ -44,4 +48,12 @@ for (const p of pages) {
   const curPath = normalizePath(location.pathname);
 
   if (a.host === location.host && aPath === curPath) a.classList.add('current');
+}
+
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', buildNav);
+} else {
+  buildNav();
 }
