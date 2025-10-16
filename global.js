@@ -17,6 +17,7 @@ const isGithubPages = location.hostname.endsWith('.github.io');
 const BASE_PATH = isLocal ? '/' : `/${REPO_NAME}/`;
 
 function buildNav() {
+  console.debug('buildNav running');
   const nav = document.createElement('nav');
   nav.setAttribute('role', 'navigation');
   nav.setAttribute('aria-label', 'Main navigation');
