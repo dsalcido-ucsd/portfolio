@@ -3,7 +3,7 @@ body {
   max-width: min(90ch, 1200px);
   margin: 0 auto;
   margin-block: 12px;
-  background: hsl(210 30% 98%);
+  background: #fff; /* use white for the light theme background */
   color: #111;
   padding: 1rem 20px;
 }
@@ -62,8 +62,7 @@ nav a:hover { border-bottom: 0.4em solid var(--color-accent); padding-bottom: 0.
   padding: 0.25rem 0.5rem;
   border-radius: 6px;
   box-shadow: 0 8px 24px rgba(15,23,42,0.12);
-  background: rgba(255,255,255,0.94); /* light fallback */
-  background: color-mix(in oklch, canvas 92%, black 6%);
+  background: #fff; /* keep control white in light mode */
   color: canvastext;
   border: 1px solid rgba(0,0,0,0.06);
 }
