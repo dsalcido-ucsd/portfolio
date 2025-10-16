@@ -112,17 +112,28 @@ function injectColorSchemeControl() {
   const select = document.getElementById('color-scheme-select');
   if (!select) return;
 
+  // Helper to apply theme: set data-theme and inline color-scheme for UA controls
+  function applyTheme(v) {
+    // v is one of: 'light dark' (automatic), 'light', 'dark'
+    try { document.documentElement.style.setProperty('color-scheme', v); } catch (err) { /* ignore */ }
+    if (v === 'light dark') {
+      document.documentElement.removeAttribute('data-theme');
+    } else {
+      document.documentElement.setAttribute('data-theme', v);
+    }
+  }
+
   // Load stored preference
   let stored = null;
   try { stored = localStorage.getItem('color-scheme'); } catch (err) { /* ignore */ }
   if (stored) {
     select.value = stored;
-    document.documentElement.style.setProperty('color-scheme', stored);
+    applyTheme(stored);
   }
 
   select.addEventListener('input', (e) => {
     const v = e.target.value;
     try { localStorage.setItem('color-scheme', v); } catch (err) { /* ignore */ }
-    document.documentElement.style.setProperty('color-scheme', v);
+    applyTheme(v);
   });
 }
