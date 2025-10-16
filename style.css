@@ -58,6 +58,14 @@ nav a:hover { border-bottom: 0.4em solid var(--color-accent); padding-bottom: 0.
   font-size: 80%;
   font-family: inherit;
   z-index: 1000;
+  /* make visible on light and dark backgrounds */
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(15,23,42,0.12);
+  background: rgba(255,255,255,0.94); /* light fallback */
+  background: color-mix(in oklch, canvas 92%, black 6%);
+  color: canvastext;
+  border: 1px solid rgba(0,0,0,0.06);
 }
 .color-scheme select { font: inherit; }
 

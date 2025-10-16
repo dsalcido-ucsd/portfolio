@@ -107,6 +107,7 @@ function injectColorSchemeControl() {
   `;
 
   document.body.insertAdjacentHTML('afterbegin', html);
+  console.debug('injectColorSchemeControl inserted');
 
   const select = document.getElementById('color-scheme-select');
   if (!select) return;
