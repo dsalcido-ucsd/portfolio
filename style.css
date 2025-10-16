@@ -17,6 +17,9 @@ html {
   accent-color: var(--color-accent);
 }
 
+/* Support both light and dark modes and allow the browser to pick based on OS */
+html { color-scheme: light dark; }
+
 /* Flatten list structure for navigation */
 nav ul,
 nav + ul,
@@ -30,7 +33,8 @@ nav {
   display: flex;
   gap: 0.5rem;
   margin-bottom: 1rem;
-  border-bottom: 1px solid oklch(80% 3% 200);
+  --nav-border: rgba(0,0,0,0.08);
+  border-bottom: 1px solid var(--nav-border);
 }
 
 nav a {
@@ -44,7 +48,18 @@ nav a {
 }
 
 nav a.current { font-weight: 600; border-bottom: 0.4em solid var(--color-accent); padding-bottom: 0.15em; }
-nav a:hover { border-bottom: 0.4em solid var(--color-accent); padding-bottom: 0.15em; }
+nav a:hover { border-bottom: 0.4em solid var(--color-accent); padding-bottom: 0.15em; background-color: color-mix(in oklch, var(--color-accent), canvas 88%); }
+
+/* Theme switcher (positioned top-right) */
+.color-scheme {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  font-size: 80%;
+  font-family: inherit;
+  z-index: 1000;
+}
+.color-scheme select { font: inherit; }
 
 /* Form controls use page font */
 input, textarea, button, select { font: inherit; }

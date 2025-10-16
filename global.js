@@ -15,10 +15,12 @@ function markCurrentNavLink() {
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
+    injectColorSchemeControl();
     injectNav();
     markCurrentNavLink();
   });
 } else {
+  injectColorSchemeControl();
   injectNav();
   markCurrentNavLink();
 }
@@ -89,4 +91,37 @@ function injectNav() {
 
     nav.append(a);
   }
+}
+
+// Inject a color-scheme select at the start of the body and persist choice
+function injectColorSchemeControl() {
+  const html = `
+    <label class="color-scheme">
+      Theme:
+      <select id="color-scheme-select">
+        <option value="light dark">Automatic</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </select>
+    </label>
+  `;
+
+  document.body.insertAdjacentHTML('afterbegin', html);
+
+  const select = document.getElementById('color-scheme-select');
+  if (!select) return;
+
+  // Load stored preference
+  let stored = null;
+  try { stored = localStorage.getItem('color-scheme'); } catch (err) { /* ignore */ }
+  if (stored) {
+    select.value = stored;
+    document.documentElement.style.setProperty('color-scheme', stored);
+  }
+
+  select.addEventListener('input', (e) => {
+    const v = e.target.value;
+    try { localStorage.setItem('color-scheme', v); } catch (err) { /* ignore */ }
+    document.documentElement.style.setProperty('color-scheme', v);
+  });
 }
