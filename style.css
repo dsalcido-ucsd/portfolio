@@ -110,6 +110,45 @@ form input[type="text"], form input[type="email"], form input[type="tel"], form 
   body { padding-left: 24px; padding-right: 24px; }
 }
 
+/* Dark mode polish: increase contrast and adjust surfaces */
+@media (prefers-color-scheme: dark) {
+  :root { --color-accent: #6fb0ff; }
+
+  html, body {
+    background: #071226; /* deep navy */
+    color: #e6eef8;
+  }
+
+  nav {
+    --nav-border: rgba(255,255,255,0.06);
+  }
+
+  nav a {
+    color: #e6eef8;
+    text-decoration-color: color-mix(in srgb, var(--color-accent) 80%, #e6eef8 20%);
+  }
+
+  nav a.current { border-bottom-color: color-mix(in srgb, var(--color-accent) 70%, #e6eef8 30%); }
+
+  nav a:hover { background-color: rgba(255,255,255,0.03); }
+
+  .projects article {
+    background: #071026;
+    color: #e6eef8;
+    box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+    border: 1px solid rgba(255,255,255,0.02);
+  }
+
+  .color-scheme {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.04);
+    color: #e6eef8;
+  }
+
+  body > header p { color: #b8c6d6; }
+  section time { color: #9fb0c3; }
+}
+
 /* Headings */
 h1,h2,h3,h4,h5,h6 { line-height: 1.1; text-wrap: balance; }
 h1 { font-size: 4rem; }
