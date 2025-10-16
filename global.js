@@ -5,17 +5,7 @@ function $$(selector, context = document) {
 
 function markCurrentNavLink() {
   const navLinks = $$("nav a");
-
-  function normalizePath(p) {
-    if (!p) return p;
-    if (p.endsWith('/index.html')) p = p.slice(0, -11);
-    if (p.endsWith('/') && p !== '/') p = p.slice(0, -1);
-    return p;
-  }
-
-  const current = navLinks.find(
-    (a) => a.host === location.host && normalizePath(a.pathname) === normalizePath(location.pathname)
-  );
+  const current = navLinks.find((a) => a.host === location.host && normalizePath(a.pathname) === normalizePath(location.pathname));
 
   if (current) {
     current.classList.add('current');
@@ -31,6 +21,13 @@ if (document.readyState === 'loading') {
 } else {
   injectNav();
   markCurrentNavLink();
+}
+
+function normalizePath(p) {
+  if (!p) return p;
+  if (p.endsWith('/index.html')) p = p.slice(0, -11);
+  if (p.endsWith('/') && p !== '/') p = p.slice(0, -1);
+  return p;
 }
 
 function injectNav() {
@@ -56,12 +53,23 @@ function injectNav() {
     const title = p.title;
     const href = !url.startsWith('http') && !url.startsWith('/') ? BASE_PATH + url : url;
 
-    nav.insertAdjacentHTML('beforeend', `<a href="${href}">${title}</a>`);
+    // Create anchor element and set properties
+    const a = document.createElement('a');
+    a.href = href;
+    a.textContent = title;
 
+    // External links: open in new tab safely
     if (p.external) {
-      const a = nav.lastElementChild;
-      a.setAttribute('target', '_blank');
-      a.setAttribute('rel', 'noopener noreferrer');
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
     }
+
+    // Mark current link during creation
+    if (a.host === location.host && normalizePath(a.pathname) === normalizePath(location.pathname)) {
+      a.classList.add('current');
+      a.setAttribute('aria-current', 'page');
+    }
+
+    nav.append(a);
   }
 }
