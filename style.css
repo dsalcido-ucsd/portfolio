@@ -180,4 +180,8 @@ section { margin: 1.5rem 0; }
 section > article { margin: 0.75rem 0; }
 section time { display: block; color: #666; font-size: 0.95rem; }
 section ul { margin: 0.5rem 0 0.5rem 1.25rem; }
-section > article { padding: 0.75rem; border-left: 3px solid rgba(30,136,255,0.12); background: rgba(30,136,255,0.02); }
+/* Make section articles neutral in light mode (remove blue tint) and use a subtle accent border */
+section > article { padding: 0.75rem; border-left: 3px solid rgba(30,136,255,0.06); background: transparent; }
+
+/* Dark theme alternative for section articles */
+html[data-theme="dark"] section > article { background: rgba(255,255,255,0.02); border-left: 3px solid rgba(111,176,255,0.12); }
