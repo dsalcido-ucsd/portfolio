@@ -39,9 +39,18 @@ function injectNav() {
     { url: 'https://github.com/dsalcido-ucsd', title: 'GitHub Profile', external: true },
   ];
 
-  const REPO_NAME = 'portfolio';
-  const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-  const BASE_PATH = isLocal ? '/' : `/${REPO_NAME}/`;
+  // Determine the base URL from the loaded script so links resolve relative
+  // to wherever this module is served from (works with file://, localhost, or GitHub Pages)
+  const scriptEl = document.currentScript || document.querySelector('script[type="module"][src$="global.js"], script[type="module"][src*="/global.js"], script[type="module"][src*="global.js"]');
+  let scriptBase = new URL('.', location.href).href;
+  if (scriptEl) {
+    try {
+      const resolved = new URL(scriptEl.src, location.href).href;
+      scriptBase = new URL('.', resolved).href;
+    } catch (e) {
+      // fallback: keep location.href's directory
+    }
+  }
 
   const nav = document.createElement('nav');
   nav.setAttribute('role', 'navigation');
@@ -51,7 +60,15 @@ function injectNav() {
   for (const p of pages) {
     let url = p.url;
     const title = p.title;
-    const href = !url.startsWith('http') && !url.startsWith('/') ? BASE_PATH + url : url;
+    // Resolve relative URLs against the script base so links are correct regardless of how the page is opened
+    if (!url.startsWith('http') && !url.startsWith('/')) {
+      try {
+        url = new URL(url, scriptBase).href;
+      } catch (e) {
+        // leave url as-is on failure
+      }
+    }
+    const href = url;
 
     // Create anchor element and set properties
     const a = document.createElement('a');
