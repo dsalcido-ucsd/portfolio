@@ -114,6 +114,8 @@ function injectColorSchemeControl() {
       html[data-theme="light"] .color-scheme { background: rgba(255,255,255,0.98) !important; color: canvastext !important; border: 1px solid rgba(0,0,0,0.06) !important; }
       html[data-theme="light"] section > article { background: transparent !important; border-left-color: rgba(0,0,0,0.06) !important; }
 
+  html[data-theme="light"] time { color: #0b0b0b !important; }
+
       html[data-theme="light"] p,
       html[data-theme="light"] a,
       html[data-theme="light"] li,
@@ -150,6 +152,7 @@ function injectColorSchemeControl() {
         html:not([data-theme]) blockquote {
           color: #0b0b0b !important;
         }
+        html:not([data-theme]) time { color: #0b0b0b !important; }
       }
 
     `;
