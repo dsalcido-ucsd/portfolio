@@ -107,11 +107,13 @@ function injectColorSchemeControl() {
   function ensureLightOverrides() {
     if (document.getElementById('global-light-overrides')) return;
     const css = `
+      :root { --color-text-deep-blue: #264c7a; --color-highlight-blue: #5b8fd6; }
       html[data-theme="light"] { background: #ffffff !important; color: #0b0b0b !important; }
       html[data-theme="light"] body { background: #ffffff !important; }
-      html[data-theme="light"] h1, html[data-theme="light"] h2, html[data-theme="light"] h3, html[data-theme="light"] h4 { color: #050505 !important; }
+      html[data-theme="light"] h1, html[data-theme="light"] h2, html[data-theme="light"] h3, html[data-theme="light"] h4 { color: var(--color-text-deep-blue) !important; }
       html[data-theme="light"] .projects article { background: #ffffff !important; color: inherit !important; box-shadow: 0 6px 18px rgba(15,23,42,0.06) !important; border: none !important; }
-      html[data-theme="light"] .color-scheme { background: rgba(255,255,255,0.98) !important; color: canvastext !important; border: 1px solid rgba(0,0,0,0.06) !important; }
+  html[data-theme="light"] .color-scheme { background: rgba(255,255,255,0.98) !important; color: canvastext !important; border: 1px solid rgba(0,0,0,0.06) !important; }
+  html[data-theme="light"] a { color: var(--color-text-deep-blue) !important; }
       html[data-theme="light"] section > article { background: transparent !important; border-left-color: rgba(0,0,0,0.06) !important; }
 
   html[data-theme="light"] time { color: #0b0b0b !important; }
@@ -134,12 +136,12 @@ function injectColorSchemeControl() {
       @media (prefers-color-scheme: light) {
         html:not([data-theme]) { background: #ffffff !important; color: #0b0b0b !important; }
         html:not([data-theme]) body { background: #ffffff !important; }
-        html:not([data-theme]) h1, html:not([data-theme]) h2, html:not([data-theme]) h3, html:not([data-theme]) h4 { color: #050505 !important; }
-        html:not([data-theme]) .projects article { background: #ffffff !important; color: inherit !important; box-shadow: 0 6px 18px rgba(15,23,42,0.06) !important; border: none !important; }
+  html:not([data-theme]) h1, html:not([data-theme]) h2, html:not([data-theme]) h3, html:not([data-theme]) h4 { color: var(--color-text-deep-blue) !important; }
+  html:not([data-theme]) .projects article { background: #ffffff !important; color: inherit !important; box-shadow: 0 6px 18px rgba(15,23,42,0.06) !important; border: none !important; }
         html:not([data-theme]) .color-scheme { background: rgba(255,255,255,0.98) !important; color: canvastext !important; border: 1px solid rgba(0,0,0,0.06) !important; }
         html:not([data-theme]) section > article { background: transparent !important; border-left-color: rgba(0,0,0,0.06) !important; }
-        html:not([data-theme]) p,
-        html:not([data-theme]) a,
+  html:not([data-theme]) p,
+  html:not([data-theme]) a,
         html:not([data-theme]) li,
         html:not([data-theme]) small,
         html:not([data-theme]) label,

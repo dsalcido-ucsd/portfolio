@@ -11,6 +11,8 @@ body {
 :root {
   --color-accent: #1e88ff;
   --color-text-blue: #0b3d91;
+  --color-text-deep-blue: #264c7a; /* primary deep blue */
+  --color-highlight-blue: #5b8fd6; /* lighter highlight */
 }
 
 html { accent-color: var(--color-accent); }
@@ -148,14 +150,15 @@ html[data-theme="light"] {
   background: hsl(210 30% 98%);
   color: #0b0b0b;
 }
-html[data-theme="light"] h1, html[data-theme="light"] h2, html[data-theme="light"] h3, html[data-theme="light"] h4 { color: #050505; }
-html[data-theme="light"] nav a { color: var(--color-text-blue); }
+html[data-theme="light"] h1, html[data-theme="light"] h2, html[data-theme="light"] h3, html[data-theme="light"] h4 { color: var(--color-text-deep-blue); }
+html[data-theme="light"] nav a { color: var(--color-text-deep-blue); }
 html[data-theme="light"] body > header p { color: #333; }
 html[data-theme="light"] section time { color: #555; }
 html[data-theme="light"] nav { --nav-border: rgba(0,0,0,0.08); }
 html[data-theme="light"] nav a { color: inherit; }
 html[data-theme="light"] .projects article { background: white; color: inherit; box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06); border: none; }
 html[data-theme="light"] .color-scheme { background: rgba(255,255,255,0.94); color: canvastext; border: 1px solid rgba(0,0,0,0.06); }
+html[data-theme="light"] a { color: var(--color-text-deep-blue); }
 
 html[data-theme="light"] p,
 html[data-theme="light"] a,
@@ -189,7 +192,7 @@ html[data-theme="light"] blockquote {
   }
 
   html:not([data-theme]) h1, html:not([data-theme]) h2, html:not([data-theme]) h3, html:not([data-theme]) h4 { color: var(--color-text-blue); }
-  html:not([data-theme]) nav a, html:not([data-theme]) a { color: var(--color-text-blue); }
+  html:not([data-theme]) nav a, html:not([data-theme]) a { color: var(--color-text-deep-blue); }
 }
 
 h1,h2,h3,h4,h5,h6 { line-height: 1.1; text-wrap: balance; }
