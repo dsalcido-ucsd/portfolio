@@ -175,6 +175,12 @@ html[data-theme="light"] blockquote {
   color: #0b0b0b;
 }
 
+/* Ensure figcaption is explicitly high contrast in light theme */
+html[data-theme="light"] .project-page figure > figcaption {
+  color: #0b2138; /* strong deep-ish blue for readability */
+  background: hsl(210 18% 97%);
+}
+
 @media (prefers-color-scheme: light) {
   html:not([data-theme]) p,
   html:not([data-theme]) a,
@@ -364,6 +370,27 @@ html[data-theme="dark"] .project-page figure > figcaption {
 html[data-theme="dark"] .project-page h2,
 html[data-theme="dark"] .project-page h4 {
   color: #e6eef8;
+}
+
+/* Dark-mode fixes: breadcrumb, scores, and strong labels inside method-list */
+html[data-theme="dark"] .breadcrumb,
+html[data-theme="dark"] .breadcrumb a {
+  color: #cfe8ff; /* lighter, readable breadcrumb */
+}
+
+html[data-theme="dark"] .method-list .score {
+  color: #d7e8fb; /* light, readable score */
+}
+
+html[data-theme="dark"] .method-list li strong {
+  color: #e6eef8; /* ensure strong headings inside method-list are readable */
+}
+
+/* Also ensure specificity for prefers-color-scheme: dark fallback */
+@media (prefers-color-scheme: dark) {
+  .breadcrumb, .breadcrumb a { color: #cfe8ff; }
+  .method-list .score { color: #d7e8fb; }
+  .method-list li strong { color: #e6eef8; }
 }
 
 /* Remove white backgrounds on project pages when in dark mode */

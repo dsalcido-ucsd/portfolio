@@ -9,7 +9,7 @@
     "title": "Project 2",
     "year": "2022",
     "image": "/portfolio/images/project2_thumbnail.png",
-    "url": "projects/project2.html",
+  "url": "/portfolio/projects/project2.html",
     "description": "Persuasive or deceptive visualization assignment."
   },
   {
