@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Project 1 — Whole Paycheck</title>
+    <link rel="stylesheet" href="../style.css">
+  </head>
+
+  <body class="project-page">
+    <header>
+      <h1>Project 1 — Whole Paycheck</h1>
+      <p><strong>David Salcido</strong> — <em>dsalcido@ucsd.edu</em></p>
+    </header>
+    <p class="breadcrumb"><a href="index.html">← Back to Projects</a></p>
+
+    <main>
+      <h2>Whole Paycheck: Price per calorie vs. store assortment</h2>
+
+      <figure>
+        <img src="/portfolio/images/Whole%20Paycheck%20visualizations.jpg" alt="Whole Paycheck visualization: price per kcal and NOVA composition by store" />
+        <figcaption>Price per kcal (top) and share of items by NOVA class (bottom) for Whole Foods, Walmart, and Target.</figcaption>
+      </figure>
+
+      <p>While exploring the data, I realized there is a story to be told that contrasts the “Whole Foods” brand with the concept of “whole paycheck.” Whole Foods would like consumers to believe that the majority of its foods are unprocessed or “whole,” while buyers know that it’s generally expensive. I set out to test a simple question: do shoppers face a higher price per calorie for unprocessed foods at Whole Foods than at Walmart or Target? The figure answers that question directly in the top panel and then supplies context about what each store stocks in the bottom panel. Keeping the answer and the context separate was deliberate. It avoids dual axes and mixed encodings that can muddy a single takeaway.</p>
+
+      <p>For the price comparison, I computed the mean $/kcal for each store at the item level and removed items with non-positive $/kcal so the statistic remains meaningful. A horizontal bar chart communicates these aggregates best, length along a zero-based, linear x-scale supports accurate magnitude comparisons, and a single baseline avoids the perceptual issues of stacked or dual-axis displays. Stores are shown in the same order here and in the second panel to minimize re-orientation.</p>
+
+      <p>Color is used semantically rather than decoratively. The price bars are dark green to reinforce that they summarize the unprocessed class, and the only annotation on each is a direct value label, such as “$0.28 per kcal”, which lets readers read the number without scanning the axis. Light gridlines at regular ticks ($0.00, $0.05, etc.) help viewers locate values while keeping the presentation quiet.</p>
+
+      <p>The bottom panel provides the necessary context: what’s on the shelves. Here I show 100% stacked bars for each store with segments for NOVA classes 0–3. This form communicates composition on a 0–100% scale in the least space and does not imply any relationship to the dollar scale above. The color palette mirrors the semantics from the top panel—NOVA 0 reuses the same green, while NOVA 1–3 are rendered in progressively lighter greys. I label only the green segment to keep attention on the connection back to the price panel, and I order both the legend and the stack as 0, 1, 2, 3 so viewers don’t have to translate.</p>
+
+      <p>These design choices, separating answer from context, using a zero-based linear scale, employing bars for a small set of aggregates, and reserving color for meaning, are intended to maximize clarity and trust. Readers see the claim first, can verify it with the numbers on the bars, and then immediately judge the result in light of each store’s assortment. The caption and subtitle state the exact transformations (“mean $/kcal, NOVA 0–3” and “share of items by store”), which supports evaluation and replication.</p>
+
+      <p>I think the story this visualization tells is one of access to unprocessed foods at Whole Foods. Yes, there is a higher percentage but not what you’d expect and you will pay a much higher amount for it.</p>
+
+    </main>
+    <script type="module" src="../global.js"></script>
+  </body>
+</html>

@@ -1,5 +1,12 @@
 [
   {
+    "title": "Project 1 — Whole Paycheck",
+    "year": "2025",
+    "image": "/portfolio/images/Whole%20Paycheck%20visualizations.jpg",
+    "url": "/portfolio/projects/project1.html",
+    "description": "Price-per-calorie comparison and NOVA composition across Whole Foods, Walmart, and Target."
+  },
+  {
     "title": "Assignment: Data Viz Basics",
     "year": "2021",
     "image": "https://vis-society.github.io/labs/2/images/empty.svg",
