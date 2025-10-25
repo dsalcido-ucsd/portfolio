@@ -255,3 +255,15 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
     containerElement.appendChild(article);
   }
 }
+
+// Fetch GitHub user data via the public API. Uses fetchJSON for consistency.
+export async function fetchGitHubData(username) {
+  if (!username) return null;
+  try {
+    const url = `https://api.github.com/users/${encodeURIComponent(username)}`;
+    return await fetchJSON(url);
+  } catch (err) {
+    console.error('fetchGitHubData error', err);
+    return null;
+  }
+}

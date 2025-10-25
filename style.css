@@ -216,6 +216,25 @@ html[data-theme="dark"] section time, html[data-theme="dark"] time { color: #b8c
 
 html[data-theme="dark"] body > header p, html[data-theme="dark"] .subtitle, html[data-theme="dark"] .meta { color: #c9d9ee; }
 
+/* GitHub profile stats grid for home page */
+#profile-stats { margin: 1rem 0; }
+#profile-stats dl {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem 1rem;
+  align-items: center;
+}
+#profile-stats dt {
+  grid-row: 1;
+  font-weight: 600;
+  text-align: center;
+}
+#profile-stats dd {
+  grid-row: 2;
+  margin: 0;
+  text-align: center;
+}
+
 /* Project-specific styles moved from projects/project2.html */
 .project-page main {
   background: white;

@@ -11,10 +11,13 @@ function escapeHtml(s = '') {
 
 (async function initProjects(){
   const projects = await fetchJSON('../lib/projects.json');
-  // Update header with project count
+  // Update header with project count (with pluralization)
   const titleEl = document.querySelector('.projects-title');
   const count = Array.isArray(projects) ? projects.length : 0;
-  if (titleEl) titleEl.textContent = `Projects (${count})`;
+  if (titleEl) {
+    const label = count === 1 ? 'project' : 'projects';
+    titleEl.textContent = `Projects (${count} ${label})`;
+  }
   const container = document.querySelector('.projects');
   if (!container) {
     console.warn('No .projects container found on page');
