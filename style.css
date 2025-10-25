@@ -215,3 +215,28 @@ html[data-theme="dark"] section time, html[data-theme="dark"] time { color: #b8c
 }
 
 html[data-theme="dark"] body > header p, html[data-theme="dark"] .subtitle, html[data-theme="dark"] .meta { color: #c9d9ee; }
+
+/* Project-specific styles moved from projects/project2.html */
+.project-page main {
+  background: white;
+  color: inherit;
+  border-radius: 1rem;
+  padding: 0.5rem 1rem;
+}
+.project-page figure {
+  margin: 1em 0;
+  padding: 0.5rem;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 0.1em 0.2em rgba(0,0,0,0.04);
+  text-align: center;
+  background: white;
+}
+.project-page figure > figcaption {
+  font-size: 0.9rem;
+  background: hsl(210 20% 97%);
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  text-align: left;
+}
+.project-page h1 { margin-block: 1em 0.5rem; font-size: 2rem; }
+.project-page h2 { color: var(--color-text-deep-blue); }
