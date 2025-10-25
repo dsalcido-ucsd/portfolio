@@ -1,67 +1,74 @@
 [
   {
+    "title": "Assignment: Data Viz Basics",
+    "year": "2021",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Exploratory visualizations and basic charting exercises using CSV data."
+  },
+  {
     "title": "Project 2",
+    "year": "2022",
     "image": "../images/David_and_Sirius_Black.jpg",
-    "description": "Short summary placeholder for Project 2."
+    "description": "Persuasive or deceptive visualization assignment (moved to second placement)."
   },
   {
-    "title": "Lorem ipsum dolor sit amet",
-    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vel risus non justo tincidunt convallis."
+    "title": "Interactive Dashboard Prototype",
+    "year": "2023",
+    "image": "https://via.placeholder.com/600x300?text=Dashboard",
+    "description": "Prototype for an interactive dashboard showcasing filters and small-multiples."
   },
   {
-    "title": "Lorem ipsum dolor sit amet",
-    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vel risus non justo tincidunt convallis."
+    "title": "Neighborhood Crime Map",
+    "year": "2020",
+    "image": "https://via.placeholder.com/600x300?text=Crime+Map",
+    "description": "Geospatial mapping of incident reports with choropleth layers and popups."
   },
   {
-    "title": "Lorem ipsum dolor sit amet",
-    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vel risus non justo tincidunt convallis."
+    "title": "Time Series Analysis",
+    "year": "2024",
+    "image": "https://via.placeholder.com/600x300?text=Time+Series",
+    "description": "Visual and statistical exploration of temporal trends in the dataset."
   },
   {
-    "title": "Lorem ipsum dolor sit amet",
-    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vel risus non justo tincidunt convallis."
+    "title": "Survey Results Dashboard",
+    "year": "2022",
+    "image": "https://via.placeholder.com/600x300?text=Survey",
+    "description": "Interactive charts and demographic breakdowns for survey responses."
   },
   {
-    "title": "Lorem ipsum dolor sit amet",
-    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vel risus non justo tincidunt convallis."
+    "title": "Network Graph Visualization",
+    "year": "2019",
+    "image": "https://via.placeholder.com/600x300?text=Network",
+    "description": "Exploration of relationships using force-directed graph layouts."
   },
   {
-    "title": "Lorem ipsum dolor sit amet",
-    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vel risus non justo tincidunt convallis."
+    "title": "Comparative Bar Charts",
+    "year": "2021",
+    "image": "https://via.placeholder.com/600x300?text=Bars",
+    "description": "Design experiments comparing grouped and stacked bar chart readability."
   },
   {
-    "title": "Lorem ipsum dolor sit amet",
-    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vel risus non justo tincidunt convallis."
+    "title": "Interactive Map Filters",
+    "year": "2023",
+    "image": "https://via.placeholder.com/600x300?text=Map+Filters",
+    "description": "Map with dynamic filters and client-side spatial aggregations."
   },
   {
-    "title": "Lorem ipsum dolor sit amet",
-    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vel risus non justo tincidunt convallis."
+    "title": "Prototype: Accessibility Review",
+    "year": "2024",
+    "image": "https://via.placeholder.com/600x300?text=Accessibility",
+    "description": "Audit and design updates to improve accessibility and color contrast."
   },
   {
-    "title": "Lorem ipsum dolor sit amet",
-    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vel risus non justo tincidunt convallis."
+    "title": "Experimental Glyphs",
+    "year": "2020",
+    "image": "https://via.placeholder.com/600x300?text=Glyphs",
+    "description": "Small-multiples using custom glyph marks for multivariate data."
   },
   {
-    "title": "Lorem ipsum dolor sit amet",
-    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vel risus non justo tincidunt convallis."
-  },
-  {
-    "title": "Lorem ipsum dolor sit amet",
-    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vel risus non justo tincidunt convallis."
-  },
-  {
-    "title": "Lorem ipsum dolor sit amet",
-    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vel risus non justo tincidunt convallis."
+    "title": "Final Project: Police Complaints Analysis",
+    "year": "2025",
+    "image": "https://via.placeholder.com/600x300?text=Final+Project",
+    "description": "A deeper analysis of complaint data with multiple coordinated views."
   }
 ]
