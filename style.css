@@ -388,6 +388,14 @@ html[data-theme="dark"] body.project-page nav a {
   color: #e6eef8 !important;
 }
 
+/* Make header and breadcrumb text readable on project pages in dark mode */
+html[data-theme="dark"] body.project-page header h1,
+html[data-theme="dark"] body.project-page header p,
+html[data-theme="dark"] body.project-page .breadcrumb,
+html[data-theme="dark"] body.project-page .breadcrumb a {
+  color: #e6eef8 !important;
+}
+
 /* Dark-mode fixes: breadcrumb, scores, and strong labels inside method-list */
 html[data-theme="dark"] .breadcrumb,
 html[data-theme="dark"] .breadcrumb a {
