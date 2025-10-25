@@ -294,3 +294,32 @@ html[data-theme="dark"] body > header p, html[data-theme="dark"] .subtitle, html
 @media (prefers-color-scheme: dark) {
   .project-page h4 + ul { border-left-color: rgba(111,176,255,0.08); }
 }
+
+/* Remove white backgrounds on project pages when in dark mode */
+@media (prefers-color-scheme: dark) {
+  .project-page main {
+    background: transparent;
+    color: inherit;
+  }
+  .project-page figure {
+    background: transparent;
+    border-color: rgba(255,255,255,0.04);
+    box-shadow: none;
+  }
+  .project-page figure > figcaption {
+    background: rgba(255,255,255,0.02);
+  }
+}
+
+/* Also handle explicit data-theme="dark" overrides */
+html[data-theme="dark"] .project-page main {
+  background: transparent;
+}
+html[data-theme="dark"] .project-page figure {
+  background: transparent;
+  border-color: rgba(255,255,255,0.04);
+  box-shadow: none;
+}
+html[data-theme="dark"] .project-page figure > figcaption {
+  background: rgba(255,255,255,0.02);
+}
