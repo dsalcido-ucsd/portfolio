@@ -4,7 +4,7 @@ async function initHomeProjects() {
   const projects = await fetchJSON('./lib/projects.json');
   if (!projects || !Array.isArray(projects)) return;
 
-  const latestProjects = projects.slice(0, 3);
+  const latestProjects = projects.slice(0, 2);
   const container = document.querySelector('.projects');
   if (!container) {
     console.warn('No .projects container found on home page');

@@ -27,25 +27,37 @@
 
         <p>Design Decisions and Rationale:</p>
 
-        <h4>Transformations</h4>
-        <ul>
-          <li>De-duplicate to officer–complaint pairs; define “proven” as any CCRB-substantiated variant.</li>
-          <li>Rank officers by proven counts, then bin into 20 equal 5% groups (ventiles).</li>
-          <li>Compute each ventile’s % of all proven links and the lift vs 5% fair-share (top 5% = 13.6% ⇒ 2.7×).</li>
-        </ul>
+        <h4>FOR the Proposition — Figure 1</h4>
+        <ul class="method-list">
+          <li>
+            <strong>Unit &amp; “proven” definition (officer–complaint pairs)</strong>
+            <div class="score">Score: +1.5 (earnest)</div>
+            <p>I de-duplicated to one record per officer–complaint pair and limited the numerator to CCRB-substantiated outcomes. This guards against double-counting and keeps the claim about proven misconduct. I considered using “any discipline” or “all allegations,” but those blur the evidentiary bar and dilute the concentration signal.</p>
+          </li>
 
-        <h4>Marks, Encodings &amp; Visual Design</h4>
-        <ul>
-          <li>Use bar length (most accurate) with a 5% baseline for instant “fair-share” comparison.</li>
-          <li>Single-hue sequential ramp only above 5%; ≤5% bars stay neutral gray → outliers feel dominant without altering scales.</li>
-          <li>Extra headroom prevents label collisions; arrow + value highlight just the top bar.</li>
-        </ul>
+          <li>
+            <strong>Rank + bin into 5% groups (ventiles) and compare to a 5% “even share” baseline</strong>
+            <div class="score">Score: −0.5 (mildly deceptive)</div>
+            <p>Binning makes the distribution easy to scan and the 5% baseline gives a crisp fairness yardstick. It implicitly assumes equal exposure across officers, which isn’t strictly true (assignments and complainant behavior vary). I weighed an unbinned Lorenz curve; ventiles won because they’re easier to read at a glance.</p>
+          </li>
 
-        <h4>Titles, Labels &amp; Annotations</h4>
-        <ul>
-          <li>Action title frames the claim (Top 5%… 2.7× their fair share).</li>
-          <li>Subtitle states methods on the plot (rank, ventiles, “proven” definition).</li>
-          <li>Footnote clarifies unit (officer), de-duplication, and universe (officers ever appearing in CCRB records).</li>
+          <li>
+            <strong>Desaturate the first 17 bins; apply a warm ramp only to the right tail</strong>
+            <div class="score">Score: −1.0 (deceptive framing)</div>
+            <p>The gray body of the chart recedes while the last few bins (including the top 5%) pop. This focuses attention on concentration without changing scales. I rejected icons/photos and heavy labeling as too gimmicky.</p>
+          </li>
+
+          <li>
+            <strong>Explicit callout of the top 5% (13.6%) with “2.7× above fair-share.”</strong>
+            <div class="score">Score: −0.5 (rhetorical emphasis)</div>
+            <p>The annotation translates a subtle gap into a memorable multiple. It’s accurate, but the choice to emphasize a multiple (rather than, say, the Gini) heightens perceived disparity.</p>
+          </li>
+
+          <li>
+            <strong>Full, non-truncated y-axis with a dotted “even share (5%)” line</strong>
+            <div class="score">Score: +1.5 (earnest)</div>
+            <p>Keeping a 0 baseline and showing the 5% reference guards against false magnification. I considered cropping the y-axis to 3–9% for punch; I kept the full scale to avoid exaggeration.</p>
+          </li>
         </ul>
       </section>
 
@@ -59,54 +71,48 @@
 
         <p>Design Decisions and Rationale:</p>
 
-        <h4>Transformations</h4>
-        <ul>
-          <li>Restrict to closed complaints (exclude open/unknown).</li>
-          <li>Recode outcomes to two groups: Not substantiated (Exonerated + Unsubstantiated) vs Substantiated (all variants).</li>
-          <li>Compute shares, ≈3.0× ratio, and “≈1 in 4 substantiated.”</li>
-        </ul>
+        <h4>AGAINST the Proposition — Figure 2</h4>
+        <ul class="method-list">
+          <li>
+            <strong>Outcome recode: Exonerated + Unsubstantiated → “Not substantiated.”</strong>
+            <div class="score">Score: −1.5 (meaningfully deceptive)</div>
+            <p>Collapsing two legally distinct outcomes into one category simplifies the message that most allegations do not end in proof. It’s defensible for a compositional view, but it risks implying “no wrongdoing,” which isn’t what “unsubstantiated” means. I state the mapping on-plot to surface that choice.</p>
+          </li>
 
-        <h4>Marks, Encodings &amp; Visual Design</h4>
-        <ul>
-          <li>Minimalist single 100% bar emphasizes composition; internal split preserves detail (Exonerated vs Unsubstantiated).</li>
-          <li>Calm teal for Not-substantiated (favored) vs muted peach for Substantiated (downplayed) — persuasive but not garish.</li>
-          <li>50% dashed line aids reading; badge calls out “≈1 in 4 substantiated.”</li>
-        </ul>
+          <li>
+            <strong>Single 100% bar with an internal split (composition, not counts)</strong>
+            <div class="score">Score: −0.5 (mildly deceptive)</div>
+            <p>A stacked bar makes the ratio salient and downplays time or base-rates. Alternatives (three side-by-side bars or a time series) add nuance but weaken the headline.</p>
+          </li>
 
-        <h4>Titles, Labels &amp; Annotations</h4>
-        <ul>
-          <li>Title delivers the stance (Not-substantiated outcomes are ≈3.0× as common…).</li>
-          <li>Subtitle states the exact recode on-plot; footnote reiterates mapping.</li>
-          <li>On-bar labels use contrast-safe strokes; micro-labels placed below to avoid crowding.</li>
+          <li>
+            <strong>Color semantics: calm teal for “Not substantiated;” light gray for “Substantiated.”</strong>
+            <div class="score">Score: −1.0 (deceptive framing)</div>
+            <p>The palette cues “reassuring majority” vs. “quiet minority.” I avoided alarm colors to keep the emphasis on the left block.</p>
+          </li>
+
+          <li>
+            <strong>Badge: “≈ 3 in 4 not substantiated” (instead of “≈ 1 in 4 substantiated”).</strong>
+            <div class="score">Score: −0.5 (rhetorical emphasis)</div>
+            <p>Both are true; this wording reinforces the counter-argument. I kept the ratio (≈3.0×) in the title to preserve quant precision.</p>
+          </li>
+
+          <li>
+            <strong>Micro-labels for Exonerated vs. Unsubstantiated; minimal mid-block text</strong>
+            <div class="score">Score: +0.5 (slightly earnest)</div>
+            <p>Small labels along the bottom clarify the internal split and keep the middle clean so the overall share reads first. I considered removing the split entirely (cleaner but less transparent).</p>
+          </li>
         </ul>
       </section>
 
       <section id="final-reflection">
         <h2>Final Reflection</h2>
 
-        <p>This assignment asks us to operate in the ethically gray zone, persuasive but not misleading. Both figures are honest about magnitudes and show appropriate baselines; the subtle rhetorical moves happen elsewhere:</p>
+        <p>This project made clear how much framing lives inside seemingly technical choices. In the “FOR” figure, concentration emerges from ranking, binning, and comparing to a 5% even-share baseline. Every step is defensible, yet the baseline encodes a value judgment (that equal shares are the right reference). In the “AGAINST” figure, a different, but still plausible aggregation (Exonerated + Unsubstantiated) flips the narrative. The numbers never changed; the lens did.</p>
 
-        <p><strong>Choice of aggregation changes the story.</strong><br>
-        In Figure 1, I collapse the data to officer–complaint pairs, rank by proven counts, and compare to a fair-share expectation. This legitimately highlights concentration—the finding that a small subset of officers account for a disproportionate share of substantiated misconduct—but it also frames the baseline as “even distribution,” which may not be realistic if exposure to risky assignments or complaint propensity varies across officers. Another honest baseline (e.g., by assignment or tenure) could change the headline.</p>
+        <p>The hardest part was finding the line where persuasion ends and distortion begins. I avoided classic red flags like truncated axes, dual-y tricks, 3D junk, but I did use strategic aggregation, palette, and wording to steer attention. My current definition of ethical analysis/visualization is: make choices that are defensible, disclose those choices near the figure, and demonstrate that alternative, equally defensible choices produce different views of the same data. In practice, that means: document the unit, mappings, filters, and baselines on the plot; prefer accurate encodings; and, when possible, show a sensitivity alternative (such as “proven” vs. “any discipline,” or ventiles vs. a Lorenz curve).</p>
 
-        <p><strong>Choice of grouping reframes meaning.</strong><br>
-        In Figure 2, I group Exonerated and Unsubstantiated together. That is defensible for a compositional view of outcomes, but ethically fraught: “not substantiated” ≠ “no wrongdoing.” Unsubstantiated could reflect insufficient evidence or process limitations rather than innocence, and exonerated may hinge on complaint specifics rather than broader behavior. The figure states this mapping explicitly, but the palette and headline nudge the reader toward a reassuring interpretation.</p>
-
-        <p><strong>Color as rhetoric, not distortion.</strong><br>
-        I avoid axis games, truncated scales, and 3D effects. The persuasion comes from color semantics (warm ramp for “problem,” calm/neutral for “not a problem”), ordering, and what’s aggregated. These cues are subtle enough that a seasoned reader would need to examine labels and footnotes to identify the slant, which is the boundary the rubric encourages.</p>
-
-        <p><strong>What’s omitted matters.</strong><br>
-        Neither figure addresses under-reporting, selection bias, or changes over time (the data span 1985–2020). Complaints not filed or not referred to the CCRB are invisible; substantiation standards and NYPD/CCRB practices may have evolved. A fully ethical presentation would pair these static views with context: rates per officer-year, time trends, and uncertainty or sensitivity analyses.</p>
-
-        <h4>How I would reduce ethical risk in a non-assignment setting.</h4>
-        <ul>
-          <li>Offer an interactive toggle to switch “proven” to alternative definitions (e.g., “proven + ACD,” “any disciplinary outcome”).</li>
-          <li>Provide alternate baselines in Figure 1 (by assignment, precinct, or exposure).</li>
-          <li>Split Figure 2 into three outcomes (Exonerated, Unsubstantiated, Substantiated) by default, with the binary recode shown as a secondary view.</li>
-          <li>Add confidence/uncertainty and time slices to show stability of the claims.</li>
-        </ul>
-
-        <p><strong>Bottom line.</strong> The two figures make opposed, politically charged arguments about the same dataset by changing how we count and how we frame the result, without falsifying the underlying quantities. Each design decision is documented on-plot so readers can audit the choices. The exercise demonstrates that visualization is not neutral: small, defensible choices in transformation and design can meaningfully shift interpretation, which is exactly why transparent method notes and sensitivity views are essential outside of a classroom exercise.</p>
+        <p>As for bounds, I’d call acceptable persuasion anything that (1) keeps truthful quantities and scales, (2) states non-obvious transformations on-plot, and (3) would survive a skeptical peer’s replication. Misleading begins when readers can’t recover what was counted (hidden mappings/filters), or when design exaggerates magnitudes (truncated axes, inconsistent scales), or when crucial context (e.g., closed-case filter) is omitted. This assignment sharpened that distinction: both of my visuals are persuasive, and intentionally so, but each includes enough on-plot disclosure that a careful reader can see how the argument was constructed.</p>
       </section>
     </main>
     <script type="module" src="../global.js"></script>

@@ -240,8 +240,8 @@ html[data-theme="dark"] body > header p, html[data-theme="dark"] .subtitle, html
   background: white;
   color: inherit;
   border-radius: 1rem;
-  padding: 0.5rem 1rem;
-  max-width: 900px; /* improve measure for readability */
+  padding: 1rem 1.25rem; /* slightly more padding for readability */
+  max-width: 980px; /* wider measure for large screens */
   margin-left: auto;
   margin-right: auto;
 }
@@ -256,9 +256,11 @@ html[data-theme="dark"] body > header p, html[data-theme="dark"] .subtitle, html
 .project-page figure > figcaption {
   font-size: 0.95rem;
   background: hsl(210 20% 97%);
-  padding: 0.5rem;
+  padding: 0.6rem;
   margin-top: 0.5rem;
   text-align: left;
+  color: var(--color-text-deep-blue); /* ensure strong contrast in light mode */
+  line-height: 1.45;
 }
 .project-page h1 { margin-block: 1em 0.5rem; font-size: 2rem; }
 .project-page h2 { color: var(--color-text-deep-blue); }
@@ -296,7 +298,7 @@ html[data-theme="dark"] body > header p, html[data-theme="dark"] .subtitle, html
   width: 100%;
   height: auto;
   border-radius: 8px;
-  margin: 0.5rem 0 1rem;
+  margin: 0.5rem auto 1rem; /* center the headshot */
 }
 
 /* Method / rationale list styling for project pages */
@@ -319,6 +321,33 @@ html[data-theme="dark"] body > header p, html[data-theme="dark"] .subtitle, html
   margin-bottom: 0.45rem;
   line-height: 1.4;
 }
+
+.method-list { margin: 0.5rem 0 1.25rem 0; padding-left: 0.8rem; }
+.method-list li { margin-bottom: 1rem; }
+.method-list li strong { display:block; font-weight:700; margin-bottom:0.25rem; }
+.method-list .score { font-style: italic; color: var(--color-text-deep-blue); margin-bottom: 0.4rem; }
+
+/* Ensure figcaption remains readable in light and dark themes */
+@media (prefers-color-scheme: dark) {
+  .project-page figure > figcaption {
+    background: rgba(255,255,255,0.02);
+    color: #d7e8fb; /* light, readable caption color in dark mode */
+  }
+}
+
+html[data-theme="dark"] .project-page figure > figcaption {
+  background: rgba(255,255,255,0.02);
+  color: #d7e8fb;
+}
+
+/* Slight spacing improvements for headings and paragraphs */
+.project-page h3 { margin-top: 1.5rem; margin-bottom: 0.5rem; }
+.project-page p { hyphens: auto; }
+
+/* Small visual tweak for breadcrumb to increase contrast */
+.breadcrumb { color: var(--color-text-deep-blue); }
+.breadcrumb a { color: var(--color-text-deep-blue); }
+
 
 @media (prefers-color-scheme: dark) {
   .project-page h4 + ul { border-left-color: rgba(111,176,255,0.08); }
