@@ -380,6 +380,14 @@ html[data-theme="dark"] .project-page h4 {
   color: var(--color-text-deep-blue); /* use deep blue so headings read on white panel even in dark mode */
 }
 
+/* Ensure nav links are readable specifically on project pages in dark mode.
+   This targets nav anchors when the page body has the project-page class
+   and when the dark theme is active. Using !important prevents accidental
+   overrides from project-scoped rules. */
+html[data-theme="dark"] body.project-page nav a {
+  color: #e6eef8 !important;
+}
+
 /* Dark-mode fixes: breadcrumb, scores, and strong labels inside method-list */
 html[data-theme="dark"] .breadcrumb,
 html[data-theme="dark"] .breadcrumb a {
