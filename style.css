@@ -434,3 +434,26 @@ html[data-theme="dark"] .project-page figure > figcaption {
   background: hsl(210 18% 97%);
   color: #0b2138;
 }
+
+.project-page p,
+.project-page li,
+.project-page a,
+.project-page dd,
+.project-page dt {
+  color: #222222 !important; /* dark gray for body copy */
+}
+.project-page h1,
+.project-page h2,
+.project-page h3,
+.project-page h4 {
+  color: var(--color-text-deep-blue) !important; /* consistent deep-blue headings */
+}
+.project-page .method-list .score,
+.project-page .method-list li strong,
+.project-page figure > figcaption {
+  color: #123a5e !important; /* darker blue for scores, strong labels, and captions */
+}
+.project-page .breadcrumb,
+.project-page .breadcrumb a {
+  color: var(--color-text-deep-blue) !important;
+}

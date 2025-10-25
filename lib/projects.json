@@ -6,18 +6,18 @@
     "url": "/portfolio/projects/project1.html",
     "description": "Price-per-calorie comparison and NOVA composition across Whole Foods, Walmart, and Target."
   },
-  {
-    "title": "Assignment: Data Viz Basics",
-    "year": "2021",
-    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-    "description": "Exploratory visualizations and basic charting exercises using CSV data."
-  },
-  {
+    {
     "title": "Project 2",
     "year": "2022",
     "image": "/portfolio/images/project2_thumbnail.png",
   "url": "/portfolio/projects/project2.html",
     "description": "Persuasive or deceptive visualization assignment."
+  },
+  {
+    "title": "Assignment: Data Viz Basics",
+    "year": "2021",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Exploratory visualizations and basic charting exercises using CSV data."
   },
   {
     "title": "Interactive Dashboard Prototype",
