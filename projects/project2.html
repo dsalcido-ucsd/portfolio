@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Project 2</title>
+    <style>
+      :root {
+        --color-neutral-95: hsl(220 10% 95%);
+        --color-neutral-90: hsl(220 10% 90%);
+        --color-neutral-80: hsl(220 10% 80%);
+        --color-neutral-70: hsl(220 10% 70%);
+        --color-neutral-60: hsl(220 10% 60%);
+        --color-neutral-50: hsl(220 10% 50%);
+        --color-neutral-40: hsl(220 10% 40%);
+        --color-neutral-30: hsl(220 10% 30%);
+        --color-neutral-20: hsl(220 10% 20%);
+        --color-neutral-10: hsl(220 10% 10%);
+      }
+
+      html {
+        font: 100%/1.5 system-ui;
+        counter-reset: figure;
+        background: var(--color-neutral-95);
+        max-width: min(75vw, 80em);
+        margin: 0 auto;
+      }
+
+      header {
+        padding-block: 1em;
+        text-align: center;
+      }
+
+      main {
+        background: white;
+        color: var(--color-neutral-20);
+        border-radius: 1rem;
+        padding: 0.1rem 2rem;
+      }
+
+      figure {
+        margin: 1em 0;
+        padding: 0.5rem;
+        margin-inline: -0.5em;
+        border: 1px solid var(--color-neutral-80);
+        box-shadow: 0 0.1em 0.2em var(--color-neutral-95);
+        text-align: center;
+        background: white;
+      }
+
+      figure > figcaption {
+        font: 500 75% var(--font-sans);
+        background: var(--color-neutral-95);
+        padding: 0.5rem;
+        margin: -0.5rem;
+        margin-top: 0.5rem;
+        counter-increment: figure;
+        text-align: left;
+      }
+
+      h1 { margin-block: 1em 0.5rem; font-size: 2.2rem; }
+      h2 { color: var(--color-neutral-30); }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>Project 2</h1>
+      <p><strong>David Salcido</strong> — <em>dsalcido@ucsd.edu</em></p>
+    </header>
+
+    <main>
+      <h2>Proposition: [STATE PROPOSITION]</h2>
+
+      <section>
+        <h3>FOR the Proposition</h3>
+
+        <figure>
+          <img src="../images/David_and_Sirius_Black.jpg" alt="Project illustration" width="600" />
+          <figcaption>BRIEF CAPTION HERE.</figcaption>
+        </figure>
+
+        <p>Design Decisions and Rationale:</p>
+
+        <ul>
+          <li>RATIONALE_1</li>
+          <li>RATIONALE_2</li>
+          <li>RATIONALE_3</li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>AGAINST the Proposition</h3>
+
+        <figure>
+          <img src="../images/David_and_Sirius_Black.jpg" alt="Project illustration" width="600" />
+          <figcaption>BRIEF CAPTION HERE.</figcaption>
+        </figure>
+
+        <p>Design Decisions and Rationale:</p>
+
+        <ul>
+          <li>RATIONALE_1</li>
+          <li>RATIONALE_2</li>
+          <li>RATIONALE_3</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Final Reflection</h2>
+
+        <p>[WRITE FINAL REFLECTION PARAGRAPHS HERE.]</p>
+      </section>
+    </main>
+  </body>
+</html>
