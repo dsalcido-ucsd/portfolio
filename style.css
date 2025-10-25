@@ -244,12 +244,14 @@ html[data-theme="dark"] body > header p, html[data-theme="dark"] .subtitle, html
 /* Project-specific styles moved from projects/project2.html */
 .project-page main {
   background: white;
-  color: inherit;
+  color: #0b0b0b; /* dark text on white panel for readability in both themes */
   border-radius: 1rem;
   padding: 1rem 1.25rem; /* slightly more padding for readability */
   max-width: 980px; /* wider measure for large screens */
   margin-left: auto;
   margin-right: auto;
+  box-shadow: 0 8px 28px rgba(15,23,42,0.06);
+  border: 1px solid rgba(0,0,0,0.06);
 }
 .project-page figure {
   margin: 1em 0;
@@ -369,7 +371,7 @@ html[data-theme="dark"] .project-page figure > figcaption {
 
 html[data-theme="dark"] .project-page h2,
 html[data-theme="dark"] .project-page h4 {
-  color: #e6eef8;
+  color: var(--color-text-deep-blue); /* use deep blue so headings read on white panel even in dark mode */
 }
 
 /* Dark-mode fixes: breadcrumb, scores, and strong labels inside method-list */
@@ -393,31 +395,42 @@ html[data-theme="dark"] .method-list li strong {
   .method-list li strong { color: #e6eef8; }
 }
 
-/* Remove white backgrounds on project pages when in dark mode */
+/* Keep a white content panel and readable dark text even in dark mode for project pages */
 @media (prefers-color-scheme: dark) {
   .project-page main {
-    background: transparent;
-    color: inherit;
+    background: white; /* white panel */
+    color: #0b0b0b; /* dark text on the white panel */
+    border: 1px solid rgba(2,6,23,0.06);
+    box-shadow: 0 10px 30px rgba(2,6,23,0.18);
   }
   .project-page figure {
-    background: transparent;
-    border-color: rgba(255,255,255,0.04);
-    box-shadow: none;
+    background: white;
+    border-color: rgba(2,6,23,0.06);
+    box-shadow: 0 8px 20px rgba(2,6,23,0.08);
   }
   .project-page figure > figcaption {
-    background: rgba(255,255,255,0.02);
+    background: hsl(210 18% 97%);
+    color: #0b2138;
   }
+  /* Ensure method-list text is dark on white panel */
+  .project-page p, .project-page li, .project-page a { color: #0b0b0b; }
+  .method-list .score { color: #264c7a; }
+  .method-list li strong { color: #0b0b0b; }
 }
 
-/* Also handle explicit data-theme="dark" overrides */
+/* Explicitly handle data-theme dark override too */
 html[data-theme="dark"] .project-page main {
-  background: transparent;
+  background: white;
+  color: #0b0b0b;
+  border: 1px solid rgba(2,6,23,0.06);
+  box-shadow: 0 10px 30px rgba(2,6,23,0.18);
 }
 html[data-theme="dark"] .project-page figure {
-  background: transparent;
-  border-color: rgba(255,255,255,0.04);
-  box-shadow: none;
+  background: white;
+  border-color: rgba(2,6,23,0.06);
+  box-shadow: 0 8px 20px rgba(2,6,23,0.08);
 }
 html[data-theme="dark"] .project-page figure > figcaption {
-  background: rgba(255,255,255,0.02);
+  background: hsl(210 18% 97%);
+  color: #0b2138;
 }
