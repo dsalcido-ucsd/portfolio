@@ -14,22 +14,37 @@
     </header>
 
     <main>
-      <h2>Proposition: [STATE PROPOSITION]</h2>
+      <h2>Proposition: The NYPD has a systemic misconduct problem that requires reform.</h2>
 
       <section>
         <h3>FOR the Proposition</h3>
 
         <figure>
-          <img src="../images/David_and_Sirius_Black.jpg" alt="Project illustration" width="600" />
-          <figcaption>BRIEF CAPTION HERE.</figcaption>
+          <img src="sideA.jpg" alt="Ventile bar chart of officers ranked by proven (CCRB-substantiated) misconduct. Each bar is 5% of officers; bars show each group’s share of all proven misconduct. Top 5% holds 13.6% (≈2.7× fair-share)." width="600" />
+          <figcaption>Figure 1. NYC CCRB (1985–2020). Officers ranked by substantiated officer–complaint links; grouped into equal 5% bins. Bars encode share of all proven links; dashed line = 5% fair-share.</figcaption>
         </figure>
 
         <p>Design Decisions and Rationale:</p>
 
+        <h4>Transformations</h4>
         <ul>
-          <li>RATIONALE_1</li>
-          <li>RATIONALE_2</li>
-          <li>RATIONALE_3</li>
+          <li>De-duplicate to officer–complaint pairs; define “proven” as any CCRB-substantiated variant.</li>
+          <li>Rank officers by proven counts, then bin into 20 equal 5% groups (ventiles).</li>
+          <li>Compute each ventile’s % of all proven links and the lift vs 5% fair-share (top 5% = 13.6% ⇒ 2.7×).</li>
+        </ul>
+
+        <h4>Marks, Encodings &amp; Visual Design</h4>
+        <ul>
+          <li>Use bar length (most accurate) with a 5% baseline for instant “fair-share” comparison.</li>
+          <li>Single-hue sequential ramp only above 5%; ≤5% bars stay neutral gray → outliers feel dominant without altering scales.</li>
+          <li>Extra headroom prevents label collisions; arrow + value highlight just the top bar.</li>
+        </ul>
+
+        <h4>Titles, Labels &amp; Annotations</h4>
+        <ul>
+          <li>Action title frames the claim (Top 5%… 2.7× their fair share).</li>
+          <li>Subtitle states methods on the plot (rank, ventiles, “proven” definition).</li>
+          <li>Footnote clarifies unit (officer), de-duplication, and universe (officers ever appearing in CCRB records).</li>
         </ul>
       </section>
 
@@ -37,16 +52,31 @@
         <h3>AGAINST the Proposition</h3>
 
         <figure>
-          <img src="../images/David_and_Sirius_Black.jpg" alt="Project illustration" width="600" />
-          <figcaption>BRIEF CAPTION HERE.</figcaption>
+          <img src="sideB.jpg" alt="Horizontal stacked 100 percent bar chart showing share of closed CCRB complaints (1985–2020). Primary subject is a single full-width bar divided into Not substantiated on the left about 75.1 percent and Substantiated on the right about 24.9 percent. The left Not substantiated block is internally split into Exonerated 28.8 percent and Unsubstantiated 46.3 percent. Visible text labels include Not substantiated (Exonerated + Unsubstantiated) ≈ 75.1%, Exonerated 28.8%, Unsubstantiated 46.3%, Substantiated ≈ 24.9%, and x axis label Share of closed complaints (%). A dashed vertical 50 percent reference line is shown. The image is a neutral, evidence-focused chart intended to inform rather than evoke emotion." width="600" />
+          <figcaption>Closed complaints only (1985–2020). ‘Not substantiated’ = Exonerated + Unsubstantiated. Single 100% bar with an internal split; 50% reference line. Ratio ≈ 3.0× not-substantiated : substantiated.</figcaption>
         </figure>
 
         <p>Design Decisions and Rationale:</p>
 
+        <h4>Transformations</h4>
         <ul>
-          <li>RATIONALE_1</li>
-          <li>RATIONALE_2</li>
-          <li>RATIONALE_3</li>
+          <li>Restrict to closed complaints (exclude open/unknown).</li>
+          <li>Recode outcomes to two groups: Not substantiated (Exonerated + Unsubstantiated) vs Substantiated (all variants).</li>
+          <li>Compute shares, ≈3.0× ratio, and “≈1 in 4 substantiated.”</li>
+        </ul>
+
+        <h4>Marks, Encodings &amp; Visual Design</h4>
+        <ul>
+          <li>Minimalist single 100% bar emphasizes composition; internal split preserves detail (Exonerated vs Unsubstantiated).</li>
+          <li>Calm teal for Not-substantiated (favored) vs muted peach for Substantiated (downplayed) — persuasive but not garish.</li>
+          <li>50% dashed line aids reading; badge calls out “≈1 in 4 substantiated.”</li>
+        </ul>
+
+        <h4>Titles, Labels &amp; Annotations</h4>
+        <ul>
+          <li>Title delivers the stance (Not-substantiated outcomes are ≈3.0× as common…).</li>
+          <li>Subtitle states the exact recode on-plot; footnote reiterates mapping.</li>
+          <li>On-bar labels use contrast-safe strokes; micro-labels placed below to avoid crowding.</li>
         </ul>
       </section>
 

@@ -14,61 +14,61 @@
   {
     "title": "Interactive Dashboard Prototype",
     "year": "2023",
-    "image": "https://via.placeholder.com/600x300?text=Dashboard",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
     "description": "Prototype for an interactive dashboard showcasing filters and small-multiples."
   },
   {
     "title": "Neighborhood Crime Map",
     "year": "2020",
-    "image": "https://via.placeholder.com/600x300?text=Crime+Map",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
     "description": "Geospatial mapping of incident reports with choropleth layers and popups."
   },
   {
     "title": "Time Series Analysis",
     "year": "2024",
-    "image": "https://via.placeholder.com/600x300?text=Time+Series",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
     "description": "Visual and statistical exploration of temporal trends in the dataset."
   },
   {
     "title": "Survey Results Dashboard",
     "year": "2022",
-    "image": "https://via.placeholder.com/600x300?text=Survey",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
     "description": "Interactive charts and demographic breakdowns for survey responses."
   },
   {
     "title": "Network Graph Visualization",
     "year": "2019",
-    "image": "https://via.placeholder.com/600x300?text=Network",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
     "description": "Exploration of relationships using force-directed graph layouts."
   },
   {
     "title": "Comparative Bar Charts",
     "year": "2021",
-    "image": "https://via.placeholder.com/600x300?text=Bars",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
     "description": "Design experiments comparing grouped and stacked bar chart readability."
   },
   {
     "title": "Interactive Map Filters",
     "year": "2023",
-    "image": "https://via.placeholder.com/600x300?text=Map+Filters",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
     "description": "Map with dynamic filters and client-side spatial aggregations."
   },
   {
     "title": "Prototype: Accessibility Review",
     "year": "2024",
-    "image": "https://via.placeholder.com/600x300?text=Accessibility",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
     "description": "Audit and design updates to improve accessibility and color contrast."
   },
   {
     "title": "Experimental Glyphs",
     "year": "2020",
-    "image": "https://via.placeholder.com/600x300?text=Glyphs",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
     "description": "Small-multiples using custom glyph marks for multivariate data."
   },
   {
     "title": "Final Project: Police Complaints Analysis",
     "year": "2025",
-    "image": "https://via.placeholder.com/600x300?text=Final+Project",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
     "description": "A deeper analysis of complaint data with multiple coordinated views."
   }
 ]
