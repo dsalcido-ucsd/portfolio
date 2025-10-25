@@ -31,6 +31,26 @@ function normalizePath(p) {
   return p;
 }
 
+// Fetch a JSON file and return the parsed object.
+export async function fetchJSON(url) {
+  try {
+    // Fetch the JSON file from the given URL
+    const response = await fetch(url);
+    // Inspect response in browser devtools
+    console.log('fetchJSON response for', url, response);
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch projects: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching or parsing JSON data:', error);
+    return null;
+  }
+}
+
 function injectNav() {
   const pages = [
     { url: '', title: 'Home' },
@@ -174,4 +194,64 @@ function injectColorSchemeControl() {
     try { localStorage.setItem('color-scheme', v); } catch (err) { }
     applyTheme(v);
   });
+}
+
+// Render a list of projects into a container element.
+// projects: Array of { title, image, description, url? }
+// containerElement: DOM element to receive the generated <article> elements
+// headingLevel: 'h2' (default) or any of h1..h6
+export function renderProjects(projects, containerElement, headingLevel = 'h2') {
+  if (!containerElement || !(containerElement instanceof Element)) {
+    console.error('renderProjects: invalid containerElement', containerElement);
+    return;
+  }
+
+  // Clear existing contents
+  containerElement.innerHTML = '';
+
+  if (!Array.isArray(projects) || projects.length === 0) {
+    const msg = document.createElement('p');
+    msg.textContent = 'No projects to display.';
+    containerElement.appendChild(msg);
+    return;
+  }
+
+  // Validate heading level
+  const validHeadings = ['h1','h2','h3','h4','h5','h6'];
+  let headingTag = String(headingLevel || 'h2').toLowerCase();
+  if (!validHeadings.includes(headingTag)) headingTag = 'h2';
+
+  for (const p of projects) {
+    const article = document.createElement('article');
+
+    // Title
+    const h = document.createElement(headingTag);
+    h.textContent = p && p.title ? p.title : 'Untitled Project';
+
+    // Image (optional)
+    if (p && p.image) {
+      const img = document.createElement('img');
+      img.src = p.image;
+      img.alt = p.title || '';
+      article.appendChild(img);
+    }
+
+    // Description
+    const desc = document.createElement('p');
+    desc.textContent = p && p.description ? p.description : '';
+
+    // If a url is provided, wrap title (and optionally image) in a link
+    if (p && p.url) {
+      const a = document.createElement('a');
+      a.href = p.url;
+      a.appendChild(h);
+      article.appendChild(a);
+    } else {
+      article.appendChild(h);
+    }
+
+    article.appendChild(desc);
+
+    containerElement.appendChild(article);
+  }
 }
