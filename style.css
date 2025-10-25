@@ -116,6 +116,12 @@ form input[type="text"], form input[type="email"], form input[type="tel"], form 
     text-decoration-color: color-mix(in srgb, var(--color-accent) 80%, #e6eef8 20%);
   }
 
+  /* Ensure nav links stay light in dark mode even on project pages where
+     some project-scoped rules set colors for headings or panels. This
+     explicitly targets nav links to avoid accidental overrides and keeps
+     body text colors unchanged. */
+  nav a { color: #e6eef8 !important; }
+
   nav a.current { border-bottom-color: color-mix(in srgb, var(--color-accent) 70%, #e6eef8 30%); }
 
   nav a:hover { background-color: rgba(255,255,255,0.03); }
