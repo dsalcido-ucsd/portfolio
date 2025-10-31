@@ -1,6 +1,8 @@
 import { fetchJSON, renderProjects } from '../global.js';
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
 
+let query = '';
+
 function escapeHtml(s = '') {
   return String(s)
     .replace(/&/g, '&amp;')
@@ -13,11 +15,6 @@ function escapeHtml(s = '') {
 (async function initProjects(){
   const projects = await fetchJSON('../lib/projects.json');
   const titleEl = document.querySelector('.projects-title');
-  const count = Array.isArray(projects) ? projects.length : 0;
-  if (titleEl) {
-    const label = count === 1 ? 'project' : 'projects';
-    titleEl.textContent = `Projects (${count} ${label})`;
-  }
   const container = document.querySelector('.projects');
   if (!container) {
     console.warn('No .projects container found on page');
@@ -29,30 +26,57 @@ function escapeHtml(s = '') {
     return;
   }
 
-  if (typeof renderProjects === 'function') {
-    try {
-      renderProjects(projects, container, 'h2');
-    } catch (err) {
-      console.error('renderProjects threw an error, falling back to basic renderer', err);
-      container.innerHTML = projects.map(p => `
-        <article>
-          <h2>${escapeHtml(p.title)}</h2>
-          <img src="${escapeHtml(p.image)}" alt="${escapeHtml(p.title)}">
-          <p>${escapeHtml(p.description)}</p>
-        </article>
-      `).join('\n');
+  function updateProjects(projectsToShow) {
+    const count = projectsToShow.length;
+    if (titleEl) {
+      const label = count === 1 ? 'project' : 'projects';
+      titleEl.textContent = `Projects (${count} ${label})`;
     }
+
+    if (typeof renderProjects === 'function') {
+      try {
+        renderProjects(projectsToShow, container, 'h2');
+      } catch (err) {
+        console.error('renderProjects threw an error, falling back to basic renderer', err);
+        container.innerHTML = projectsToShow.map(p => `
+          <article>
+            <h2>${escapeHtml(p.title)}</h2>
+            <img src="${escapeHtml(p.image)}" alt="${escapeHtml(p.title)}">
+            <p>${escapeHtml(p.description)}</p>
+          </article>
+        `).join('\n');
+      }
+    }
+
+    drawPieChart(projectsToShow);
   }
 
-  drawPieChart(projects);
+  updateProjects(projects);
+
+  const searchInput = document.querySelector('.searchBar');
+  if (searchInput) {
+    searchInput.addEventListener('input', (event) => {
+      query = event.target.value;
+      const filteredProjects = projects.filter((project) => {
+        const values = Object.values(project).join('\n').toLowerCase();
+        return values.includes(query.toLowerCase());
+      });
+      updateProjects(filteredProjects);
+    });
+  }
 })();
 
-function drawPieChart(projects) {
+function drawPieChart(projectsGiven) {
   const svg = d3.select('#projects-pie-plot');
   if (svg.empty()) return;
 
+  svg.selectAll('path').remove();
+
+  const legend = d3.select('.legend');
+  legend.selectAll('li').remove();
+
   const rolledData = d3.rollups(
-    projects,
+    projectsGiven,
     (v) => v.length,
     (d) => d.year,
   );
@@ -74,7 +98,6 @@ function drawPieChart(projects) {
     .attr('d', arcGenerator)
     .attr('fill', (_, idx) => colors(idx));
 
-  const legend = d3.select('.legend');
   data.forEach((d, idx) => {
     legend
       .append('li')
