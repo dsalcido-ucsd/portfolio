@@ -1,4 +1,5 @@
 import { fetchJSON, renderProjects } from '../global.js';
+import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
 
 function escapeHtml(s = '') {
   return String(s)
@@ -46,4 +47,28 @@ function escapeHtml(s = '') {
       <p>${escapeHtml(p.description)}</p>
     </article>
   `).join('\n');
+})();
+
+// Draw a static pie chart using D3
+(() => {
+  const svg = d3.select('#projects-pie-plot');
+  if (svg.empty()) return;
+
+  // Step 1.5: more data (replaces [1, 2])
+  const data = [1, 2, 3, 4, 5, 5];
+
+  // Generators
+  const sliceGenerator = d3.pie();
+  const arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
+
+  // Compute slices and draw paths
+  const arcData = sliceGenerator(data);
+  const colors = d3.scaleOrdinal(d3.schemeTableau10);
+
+  svg.selectAll('path')
+    .data(arcData)
+    .enter()
+    .append('path')
+    .attr('d', arcGenerator)
+    .attr('fill', (_, idx) => colors(idx));
 })();
