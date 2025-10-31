@@ -12,7 +12,6 @@ function escapeHtml(s = '') {
 
 (async function initProjects(){
   const projects = await fetchJSON('../lib/projects.json');
-  // Update header with project count (with pluralization)
   const titleEl = document.querySelector('.projects-title');
   const count = Array.isArray(projects) ? projects.length : 0;
   if (titleEl) {
@@ -39,7 +38,6 @@ function escapeHtml(s = '') {
     }
   }
 
-  // Fallback renderer: safe, minimal markup
   container.innerHTML = projects.map(p => `
     <article>
       <h2>${escapeHtml(p.title)}</h2>
@@ -49,19 +47,22 @@ function escapeHtml(s = '') {
   `).join('\n');
 })();
 
-// Draw a static pie chart using D3
 (() => {
   const svg = d3.select('#projects-pie-plot');
   if (svg.empty()) return;
 
-  // Step 1.5: more data (replaces [1, 2])
-  const data = [1, 2, 3, 4, 5, 5];
+  const data = [
+    { value: 1, label: 'apples' },
+    { value: 2, label: 'oranges' },
+    { value: 3, label: 'mangos' },
+    { value: 4, label: 'pears' },
+    { value: 5, label: 'limes' },
+    { value: 5, label: 'cherries' },
+  ];
 
-  // Generators
-  const sliceGenerator = d3.pie();
+  const sliceGenerator = d3.pie().value((d) => d.value);
   const arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
 
-  // Compute slices and draw paths
   const arcData = sliceGenerator(data);
   const colors = d3.scaleOrdinal(d3.schemeTableau10);
 
@@ -71,4 +72,13 @@ function escapeHtml(s = '') {
     .append('path')
     .attr('d', arcGenerator)
     .attr('fill', (_, idx) => colors(idx));
+
+  const legend = d3.select('.legend');
+  data.forEach((d, idx) => {
+    legend
+      .append('li')
+      .attr('style', `--color:${colors(idx)}`)
+      .attr('class', 'legend-item')
+      .html(`<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`);
+  });
 })();

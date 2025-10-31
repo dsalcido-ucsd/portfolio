@@ -124,6 +124,47 @@ html[data-theme="dark"] .projects article .project-year { color: #b8cfe6; }
   overflow: visible;
 }
 
+/* Container for pie chart and legend side-by-side */
+.container {
+  display: flex;
+  align-items: center;
+  gap: 2em;
+  margin: 2em 0;
+}
+
+/* Legend styling */
+.legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9em, 1fr));
+  gap: 1em;
+  list-style: none;
+  padding: 1em;
+  margin: 0;
+  border: 1px solid #ccc;
+  border-radius: 0.5em;
+  flex: 1;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.swatch {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background-color: var(--color);
+  border-radius: 0.2em;
+}
+
+@media (prefers-color-scheme: dark) {
+  .legend {
+    border-color: #444;
+  }
+}
+
 @media (min-width: 1200px) {
   body { padding-left: 24px; padding-right: 24px; }
 }
