@@ -32,33 +32,34 @@ function escapeHtml(s = '') {
   if (typeof renderProjects === 'function') {
     try {
       renderProjects(projects, container, 'h2');
-      return;
     } catch (err) {
       console.error('renderProjects threw an error, falling back to basic renderer', err);
+      container.innerHTML = projects.map(p => `
+        <article>
+          <h2>${escapeHtml(p.title)}</h2>
+          <img src="${escapeHtml(p.image)}" alt="${escapeHtml(p.title)}">
+          <p>${escapeHtml(p.description)}</p>
+        </article>
+      `).join('\n');
     }
   }
 
-  container.innerHTML = projects.map(p => `
-    <article>
-      <h2>${escapeHtml(p.title)}</h2>
-      <img src="${escapeHtml(p.image)}" alt="${escapeHtml(p.title)}">
-      <p>${escapeHtml(p.description)}</p>
-    </article>
-  `).join('\n');
+  drawPieChart(projects);
 })();
 
-(() => {
+function drawPieChart(projects) {
   const svg = d3.select('#projects-pie-plot');
   if (svg.empty()) return;
 
-  const data = [
-    { value: 1, label: 'apples' },
-    { value: 2, label: 'oranges' },
-    { value: 3, label: 'mangos' },
-    { value: 4, label: 'pears' },
-    { value: 5, label: 'limes' },
-    { value: 5, label: 'cherries' },
-  ];
+  const rolledData = d3.rollups(
+    projects,
+    (v) => v.length,
+    (d) => d.year,
+  );
+
+  const data = rolledData.map(([year, count]) => {
+    return { value: count, label: year };
+  });
 
   const sliceGenerator = d3.pie().value((d) => d.value);
   const arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
@@ -81,4 +82,4 @@ function escapeHtml(s = '') {
       .attr('class', 'legend-item')
       .html(`<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`);
   });
-})();
+}
