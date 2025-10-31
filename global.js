@@ -236,9 +236,25 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
       article.appendChild(img);
     }
 
-    // Description
+    // Description + Year container (prevents grid overlap)
+    const summary = document.createElement('div');
+    summary.className = 'project-summary';
+
     const desc = document.createElement('p');
+    desc.className = 'project-desc';
     desc.textContent = p && p.description ? p.description : '';
+    summary.appendChild(desc);
+
+    if (p && p.year) {
+      const yearEl = document.createElement('time');
+      yearEl.className = 'project-year';
+      const y = String(p.year);
+      // If year parses to a 4-digit number, set datetime; else just text
+      const yNum = y.replace(/[^0-9]/g, '');
+      if (yNum && yNum.length === 4) yearEl.setAttribute('datetime', `${yNum}`);
+      yearEl.textContent = y;
+      summary.appendChild(yearEl);
+    }
 
     // If a url is provided, wrap title (and optionally image) in a link
     if (p && p.url) {
@@ -250,7 +266,7 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
       article.appendChild(h);
     }
 
-    article.appendChild(desc);
+    article.appendChild(summary);
 
     containerElement.appendChild(article);
   }

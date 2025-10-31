@@ -95,6 +95,28 @@ form input[type="text"], form input[type="email"], form input[type="tel"], form 
   h1 { font-size: clamp(2rem, 6vw, 4rem); }
 }
 
+/* Project card: description + year stack (prevents grid overlap) */
+.projects article .project-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.projects article .project-desc {
+  margin: 0;
+}
+
+.projects article .project-year {
+  font-size: 0.95rem;
+  color: #324b6e; /* subtle, readable meta color in light mode */
+}
+
+@media (prefers-color-scheme: dark) {
+  .projects article .project-year { color: #b8cfe6; }
+}
+
+html[data-theme="dark"] .projects article .project-year { color: #b8cfe6; }
+
 @media (min-width: 1200px) {
   body { padding-left: 24px; padding-right: 24px; }
 }
