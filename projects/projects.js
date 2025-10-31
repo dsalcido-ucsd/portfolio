@@ -2,6 +2,7 @@ import { fetchJSON, renderProjects } from '../global.js';
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
 
 let query = '';
+let selectedIndex = -1;
 
 function escapeHtml(s = '') {
   return String(s)
@@ -48,7 +49,7 @@ function escapeHtml(s = '') {
       }
     }
 
-    drawPieChart(projectsToShow);
+    drawPieChart(projectsToShow, projects, container, titleEl);
   }
 
   updateProjects(projects);
@@ -66,7 +67,7 @@ function escapeHtml(s = '') {
   }
 })();
 
-function drawPieChart(projectsGiven) {
+function drawPieChart(projectsGiven, allProjects, container, titleEl) {
   const svg = d3.select('#projects-pie-plot');
   if (svg.empty()) return;
 
@@ -96,13 +97,46 @@ function drawPieChart(projectsGiven) {
     .enter()
     .append('path')
     .attr('d', arcGenerator)
-    .attr('fill', (_, idx) => colors(idx));
+    .attr('fill', (_, idx) => colors(idx))
+    .attr('class', (_, idx) => idx === selectedIndex ? 'selected' : '')
+    .on('click', (event, d) => {
+      const idx = arcData.indexOf(d);
+      selectedIndex = selectedIndex === idx ? -1 : idx;
+
+      svg.selectAll('path')
+        .attr('class', (_, i) => i === selectedIndex ? 'selected' : '');
+
+      legend.selectAll('li')
+        .attr('class', (_, i) => i === selectedIndex ? 'legend-item selected' : 'legend-item');
+
+      if (selectedIndex === -1) {
+        const count = projectsGiven.length;
+        if (titleEl) {
+          const label = count === 1 ? 'project' : 'projects';
+          titleEl.textContent = `Projects (${count} ${label})`;
+        }
+        if (typeof renderProjects === 'function') {
+          renderProjects(projectsGiven, container, 'h2');
+        }
+      } else {
+        const selectedYear = data[selectedIndex].label;
+        const filteredByYear = allProjects.filter((project) => project.year == selectedYear);
+        const count = filteredByYear.length;
+        if (titleEl) {
+          const label = count === 1 ? 'project' : 'projects';
+          titleEl.textContent = `Projects (${count} ${label})`;
+        }
+        if (typeof renderProjects === 'function') {
+          renderProjects(filteredByYear, container, 'h2');
+        }
+      }
+    });
 
   data.forEach((d, idx) => {
     legend
       .append('li')
       .attr('style', `--color:${colors(idx)}`)
-      .attr('class', 'legend-item')
+      .attr('class', idx === selectedIndex ? 'legend-item selected' : 'legend-item')
       .html(`<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`);
   });
 }

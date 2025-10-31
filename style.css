@@ -124,6 +124,23 @@ html[data-theme="dark"] .projects article .project-year { color: #b8cfe6; }
   overflow: visible;
 }
 
+#projects-pie-plot path {
+  transition: 300ms;
+  cursor: pointer;
+}
+
+#projects-pie-plot:has(path:hover) path:not(:hover) {
+  opacity: 0.5;
+}
+
+.selected {
+  --color: oklch(60% 45% 0) !important;
+}
+
+.selected:is(path) {
+  fill: var(--color);
+}
+
 /* Container for pie chart and legend side-by-side */
 .container {
   display: flex;
