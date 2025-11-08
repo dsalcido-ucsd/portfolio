@@ -378,9 +378,64 @@ html[data-theme="dark"] body > header p, html[data-theme="dark"] .subtitle, html
   stroke-width: 0;
 }
 
+circle {
+  transition: 200ms;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+circle:hover {
+  transform: scale(1.5);
+}
+
 @media (prefers-color-scheme: dark) {
   .gridlines line {
     stroke: #444;
+  }
+}
+
+/* Tooltip styling */
+dl.info {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem 1rem;
+  transition-duration: 500ms;
+  transition-property: opacity, visibility;
+}
+
+dl.info dt {
+  font-weight: 600;
+  color: #666;
+  margin: 0;
+}
+
+dl.info dd {
+  margin: 0;
+}
+
+dl.info[hidden]:not(:hover, :focus-within) {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.tooltip {
+  position: fixed;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  pointer-events: none;
+  z-index: 1000;
+}
+
+@media (prefers-color-scheme: dark) {
+  .tooltip {
+    background: rgba(30, 30, 30, 0.95);
+  }
+  
+  dl.info dt {
+    color: #999;
   }
 }
 
