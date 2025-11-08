@@ -132,13 +132,13 @@ function renderScatterPlot(data, commits) {
     .attr('viewBox', `0 0 ${width} ${height}`)
     .style('overflow', 'visible');
 
-  const xScale = d3
+  window.xScale = d3
     .scaleTime()
     .domain(d3.extent(commits, (d) => d.datetime))
     .range([usableArea.left, usableArea.right])
     .nice();
 
-  const yScale = d3.scaleLinear()
+  window.yScale = d3.scaleLinear()
     .domain([0, 24])
     .range([usableArea.bottom, usableArea.top]);
 
@@ -153,11 +153,11 @@ function renderScatterPlot(data, commits) {
     .attr('class', 'gridlines')
     .attr('transform', `translate(${usableArea.left}, 0)`);
 
-  gridlines.call(d3.axisLeft(yScale).tickFormat('').tickSize(-usableArea.width));
+  gridlines.call(d3.axisLeft(window.yScale).tickFormat('').tickSize(-usableArea.width));
 
-  const xAxis = d3.axisBottom(xScale);
+  const xAxis = d3.axisBottom(window.xScale);
   const yAxis = d3
-    .axisLeft(yScale)
+    .axisLeft(window.yScale)
     .tickFormat((d) => String(d % 24).padStart(2, '0') + ':00');
 
   svg
@@ -178,8 +178,8 @@ function renderScatterPlot(data, commits) {
     .selectAll('circle')
     .data(sortedCommits)
     .join('circle')
-    .attr('cx', (d) => xScale(d.datetime))
-    .attr('cy', (d) => yScale(d.hourFrac))
+    .attr('cx', (d) => window.xScale(d.datetime))
+    .attr('cy', (d) => window.yScale(d.hourFrac))
     .attr('r', (d) => rScale(d.totalLines))
     .attr('fill', 'steelblue')
     .style('fill-opacity', 0.7)
@@ -193,10 +193,82 @@ function renderScatterPlot(data, commits) {
       d3.select(event.currentTarget).style('fill-opacity', 0.7);
       updateTooltipVisibility(false);
     });
+
+  svg.call(d3.brush().on('start brush end', brushed));
+
+  svg.selectAll('.dots, .overlay ~ *').raise();
+}
+
+function isCommitSelected(selection, commit) {
+  if (!selection) {
+    return false;
+  }
+
+  const [[x0, y0], [x1, y1]] = selection;
+  const x = window.xScale(commit.datetime);
+  const y = window.yScale(commit.hourFrac);
+
+  return x >= x0 && x <= x1 && y >= y0 && y <= y1;
+}
+
+function renderSelectionCount(selection, commits) {
+  const selectedCommits = selection
+    ? commits.filter((d) => isCommitSelected(selection, d))
+    : [];
+
+  const countElement = document.querySelector('#selection-count');
+  countElement.textContent = `${
+    selectedCommits.length || 'No'
+  } commits selected`;
+
+  return selectedCommits;
+}
+
+function renderLanguageBreakdown(selection, commits) {
+  const selectedCommits = selection
+    ? commits.filter((d) => isCommitSelected(selection, d))
+    : [];
+  const container = document.getElementById('language-breakdown');
+
+  if (selectedCommits.length === 0) {
+    container.innerHTML = '';
+    return;
+  }
+
+  const requiredCommits = selectedCommits.length ? selectedCommits : commits;
+  const lines = requiredCommits.flatMap((d) => d.lines);
+
+  const breakdown = d3.rollup(
+    lines,
+    (v) => v.length,
+    (d) => d.type,
+  );
+
+  container.innerHTML = '';
+
+  for (const [language, count] of breakdown) {
+    const proportion = count / lines.length;
+    const formatted = d3.format('.1~%')(proportion);
+
+    container.innerHTML += `
+      <dt>${language}</dt>
+      <dd>${count} lines (${formatted})</dd>
+    `;
+  }
+}
+
+function brushed(event) {
+  const selection = event.selection;
+  d3.selectAll('circle').classed('selected', (d) =>
+    isCommitSelected(selection, d),
+  );
+  renderSelectionCount(selection, commits);
+  renderLanguageBreakdown(selection, commits);
 }
 
 let data = await loadData();
 let commits = processCommits(data);
+window.commits = commits;
 console.log(commits);
 
 renderCommitInfo(data, commits);
