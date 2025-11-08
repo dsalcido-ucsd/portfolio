@@ -57,6 +57,7 @@ function injectNav() {
     { url: 'projects/', title: 'Projects' },
     { url: 'contact/', title: 'Contact Me' },
     { url: 'resume/', title: 'Resume' },
+    { url: 'meta/', title: 'Meta' },
     { url: 'https://github.com/dsalcido-ucsd', title: 'GitHub Profile', external: true },
   ];
   const scriptEl = document.currentScript || document.querySelector('script[type="module"][src$="global.js"], script[type="module"][src*="/global.js"], script[type="module"][src*="global.js"]');
