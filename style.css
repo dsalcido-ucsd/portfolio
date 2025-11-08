@@ -363,6 +363,27 @@ html[data-theme="dark"] body > header p, html[data-theme="dark"] .subtitle, html
   }
 }
 
+/* Scatterplot styling for meta page */
+#chart svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.gridlines line {
+  stroke: #ddd;
+  stroke-opacity: 0.7;
+}
+
+.gridlines path {
+  stroke-width: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .gridlines line {
+    stroke: #444;
+  }
+}
+
 /* Project-specific styles moved from projects/project2.html */
 .project-page main {
   background: white;
