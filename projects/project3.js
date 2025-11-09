@@ -53,7 +53,18 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
   // Categorical colors for peak status
   const statusDomain = ["peaked", "2050", "2055plus", "no_peak"];
   const statusColors = d3.scaleOrdinal().domain(statusDomain).range(["#6e40aa", "#32a852", "#2a7fff", "#b3b3b3"]);
-  const statusLabels = { "peaked": "peaked", "2050": "2050", "2055plus": "2055plus", "no_peak": "no peak (by 2100)" };
+  const statusLabels = { 
+    "peaked": "Peaked", 
+    "2050": "2050", 
+    "2055plus": "2055+", 
+    "no_peak": "No peak (by 2100)" 
+  };
+  const statusDescriptions = {
+    "peaked": "peak occurred before 2025.",
+    "2050": "peak projected 2025–2054.",
+    "2055plus": "peak projected 2055 or later.",
+    "no_peak": "total population never turns downward within 1950–2100."
+  };
 
   // Water background
   mapSvg.append("path").attr("class","background").attr("d", path({ type: "Sphere" })).attr("fill", "#eef6fb");
@@ -164,7 +175,7 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
     if (!selected.length) {
       summaryDiv.html(`
         <div class="summary-title">No country selected</div>
-        <div class="summary-body">Click a country on the map (Shift-click to compare up to 5). This panel will show peak year and the change in OADR over N years.</div>
+        <div class="summary-body">Click a country on the map (Shift-click to compare up to 5). Use the slider below to change N (10–30) to see OADR at Peak + N years.</div>
       `);
       return;
     }
@@ -204,9 +215,14 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
     .data(statusDomain)
     .join("label")
     .attr("class", "chk")
-    .style("margin-right", "12px")
+    .style("display", "block")
+    .style("margin-bottom", "8px")
     .style("cursor", "pointer")
-    .html(s => `<input type="checkbox" checked value="${s}"> <span class="swatch" style="background:${statusColors(s)}"></span> ${statusLabels[s]}`)
+    .html(s => `
+      <input type="checkbox" checked value="${s}"> 
+      <span class="swatch" style="background:${statusColors(s)}"></span> 
+      <strong>${statusLabels[s]}:</strong> ${statusDescriptions[s]}
+    `)
     .select("input")
     .on("change", function(ev) {
       const v = this.value;
