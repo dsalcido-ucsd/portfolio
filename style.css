@@ -709,26 +709,26 @@ html[data-theme="dark"] body.project3-page.project-page figure > figcaption {
   color: #d7e8fb !important;
 }
 
-.project-page p,
-.project-page li,
-.project-page a,
-.project-page dd,
-.project-page dt {
+.project-page:not(.project3-page) p,
+.project-page:not(.project3-page) li,
+.project-page:not(.project3-page) a,
+.project-page:not(.project3-page) dd,
+.project-page:not(.project3-page) dt {
   color: #222222 !important; /* dark gray for body copy */
 }
-.project-page h1,
-.project-page h2,
-.project-page h3,
-.project-page h4 {
+.project-page:not(.project3-page) h1,
+.project-page:not(.project3-page) h2,
+.project-page:not(.project3-page) h3,
+.project-page:not(.project3-page) h4 {
   color: var(--color-text-deep-blue) !important; /* consistent deep-blue headings */
 }
-.project-page .method-list .score,
-.project-page .method-list li strong,
-.project-page figure > figcaption {
+.project-page:not(.project3-page) .method-list .score,
+.project-page:not(.project3-page) .method-list li strong,
+.project-page:not(.project3-page) figure > figcaption {
   color: #123a5e !important; /* darker blue for scores, strong labels, and captions */
 }
-.project-page .breadcrumb,
-.project-page .breadcrumb a {
+.project-page:not(.project3-page) .breadcrumb,
+.project-page:not(.project3-page) .breadcrumb a {
   color: var(--color-text-deep-blue) !important;
 }
 
@@ -836,7 +836,7 @@ html[data-theme="dark"] body.project3-page.project-page figure > figcaption {
 /* Project 3 specific styling */
 .subhead { 
   font-size: 1.15rem; 
-  color: #555; 
+  color: #333; /* darker default for light mode readability */
   margin: -0.5rem 0 1.5rem; 
   line-height: 1.5;
 }
@@ -854,6 +854,7 @@ html[data-theme="dark"] body.project3-page.project-page figure > figcaption {
 }
 
 html[data-theme="dark"] .subhead { color: #b8c6d6; }
+html[data-theme="light"] .subhead { color: #333; }
 
 /* Full-bleed utility for wide visualizations */
 .full-bleed {
