@@ -859,20 +859,22 @@ html[data-theme="dark"] body.project3-page.project-page figure > figcaption {
 .summary-card {
   font-size: 0.85rem;
   line-height: 1.5;
-  padding: 0.75rem;
-  background: rgba(0,0,0,0.02);
-  border: 1px solid rgba(0,0,0,0.1);
-  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  background: #fff;
+  border: 1px solid #e3e3e3;
+  border-radius: 10px;
 }
-.summary-placeholder {
-  color: #999;
-  font-style: italic;
+.summary-title {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: inherit;
 }
-.summary-row {
-  margin-bottom: 0.4rem;
+.summary-body {
+  color: #555;
+  line-height: 1.6;
 }
-.summary-row:last-child {
-  margin-bottom: 0;
+.summary-body strong {
+  color: inherit;
 }
 
 /* Map tooltip styling */
@@ -886,8 +888,11 @@ html[data-theme="dark"] body.project3-page.project-page figure > figcaption {
     background: rgba(255,255,255,0.05);
     border-color: rgba(255,255,255,0.15);
   }
-  .summary-placeholder {
-    color: #777;
+  .summary-title {
+    color: #e6eef8;
+  }
+  .summary-body {
+    color: #b8c6d6;
   }
 }
 
@@ -895,8 +900,11 @@ html[data-theme="dark"] .summary-card {
   background: rgba(255,255,255,0.05);
   border-color: rgba(255,255,255,0.15);
 }
-html[data-theme="dark"] .summary-placeholder {
-  color: #777;
+html[data-theme="dark"] .summary-title {
+  color: #e6eef8;
+}
+html[data-theme="dark"] .summary-body {
+  color: #b8c6d6;
 }
 
 @media (prefers-color-scheme: dark) {

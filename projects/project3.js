@@ -147,27 +147,53 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
   }
 
   // Summary card update
+  // Summary card helpers
+  function fmtOADR(x) { return isFinite(x) ? d3.format(".1f")(x * 100) : "–"; }
+  
+  function yearsPair(id) {
+    const rec = statusById.get(id);
+    if (!rec) return { peak: null, right: null, clipped: false };
+    const peak = rec.peak_year;
+    const N = currentN();
+    const right = Math.min(peak + N, 2100);
+    return { peak, right, clipped: (peak === 2100 && right === 2100) };
+  }
+
   function updateSummary() {
     const summaryDiv = d3.select("#summary");
     if (!selected.length) {
-      summaryDiv.html('<div class="summary-placeholder">Select a country to see details</div>');
+      summaryDiv.html(`
+        <div class="summary-title">No country selected</div>
+        <div class="summary-body">Click a country on the map (Shift-click to compare up to 5). This panel will show peak year and the change in OADR over N years.</div>
+      `);
       return;
     }
     const id = selected[selected.length - 1]; // last selected
-    const s = statusById.get(id);
-    const k = oadrById.get(id);
-    if (!s || !k) {
-      summaryDiv.html('<div class="summary-placeholder">No data available</div>');
+    const name = nameForId(id);
+    const yrs = yearsPair(id);
+    const r = oadrById.get(id);
+    
+    if (!r) {
+      summaryDiv.html(`
+        <div class="summary-title">${name}</div>
+        <div class="summary-body">Data unavailable for OADR.</div>
+      `);
       return;
     }
+    
     const N = currentN();
-    const rk = N===10?"oadr_p10":N===15?"oadr_p15":N===20?"oadr_p20":N===25?"oadr_p25":"oadr_p30";
-    const dOADR = (k[rk] - k.oadr_peak) * 100;
-    const name = nameForId(id);
+    const keyN = N === 10 ? "oadr_p10" : N === 15 ? "oadr_p15" : N === 20 ? "oadr_p20" : N === 25 ? "oadr_p25" : "oadr_p30";
+    const oPeak = +r.oadr_peak;
+    const oN = +r[keyN];
+    const d = (oN - oPeak) * 100;
+    
     summaryDiv.html(`
-      <div class="summary-row"><strong>${name}</strong></div>
-      <div class="summary-row">Peak year: ${s.peak_year}${s.status==="no_peak"?" (no peak by 2100)":""}</div>
-      <div class="summary-row">OADR change (Peak → +${N}y): <strong>${d3.format("+.1f")(dOADR)}</strong> per 100</div>
+      <div class="summary-title">${name} — Peak year: ${yrs.peak}${yrs.clipped ? " (no peak by 2100)" : ""}</div>
+      <div class="summary-body">
+        OADR at peak: <strong>${fmtOADR(oPeak)}</strong> per 100<br>
+        OADR at peak + ${N}: <strong>${fmtOADR(oN)}</strong> per 100<br>
+        Change: <strong>${d3.format("+.1f")(d)}</strong> per 100
+      </div>
     `);
   }
 
