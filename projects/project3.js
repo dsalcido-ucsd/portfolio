@@ -277,7 +277,7 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
   updateComponents();
 
   // ---- Responsive map resize ----
-  const mapBlockEl = document.getElementById('map-block');
+    const mapBlockEl = document.querySelector('.map-container');
   function resizeMap() {
     if (!mapBlockEl) return;
     const w = mapBlockEl.clientWidth;

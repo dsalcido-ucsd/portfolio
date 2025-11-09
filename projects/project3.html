@@ -38,35 +38,53 @@
             <h2>Visualizations</h2>
             <div class="full-bleed">
               <div class="viz-wrap">
-                <!-- Map + legend + years-after control -->
-                <div id="map-block" style="display:grid; gap: 0.75rem;">
-                  <div class="map-flex" style="display:flex; gap:1rem; align-items:flex-start; flex-wrap:wrap;">
-                      <svg id="map" width="1100" height="520" role="img" aria-label="World map"></svg>
-                      <div class="side-panel" style="min-width: 260px; display:grid; gap:0.75rem;">
-                          <div id="legend" class="legend" aria-label="Peak status legend"></div>
-                          <div class="years-control">
-                              <label for="yearsAfter">Years after peak: <span id="yearsAfterValue">25</span></label>
-                              <input id="yearsAfter" type="range" min="10" max="30" step="5" value="25" />
-                          </div>
-                          <div class="country-search-panel" style="display:grid; gap:0.4rem;">
-                              <label for="countrySearch" style="font-size:0.85rem;">Search country:</label>
-                              <input id="countrySearch" type="text" placeholder="Type country name..." style="padding:0.4rem; font-size:0.85rem; border:1px solid #ccc; border-radius:4px;" />
-                              <button id="clearSelection" style="padding:0.4rem 0.6rem; font-size:0.85rem; cursor:pointer; background:#f0f0f0; border:1px solid #ccc; border-radius:4px;">Clear Selection</button>
-                          </div>
-                      </div>
-                  </div>
-                </div>
+                                    <!-- Map + Controls in flexible layout -->
+                                    <div class="viz-grid">
+                                        <!-- Main map area -->
+                                        <div class="map-container">
+                                            <svg id="map" width="1100" height="520" role="img" aria-label="World map"></svg>
+                                        </div>
+                  
+                                        <!-- Control panel (legend, slider, search) -->
+                                        <aside class="control-panel">
+                                            <div class="control-section">
+                                                <h3>Filter by peak status</h3>
+                                                <div id="legend" class="legend" aria-label="Peak status legend"></div>
+                                            </div>
+                    
+                                            <div class="control-section">
+                                                <h3>Years after peak</h3>
+                                                <div class="years-control">
+                                                    <div class="slider-display">
+                                                        <label for="yearsAfter">N = <span id="yearsAfterValue">25</span> years</label>
+                                                    </div>
+                                                    <input id="yearsAfter" type="range" min="10" max="30" step="5" value="25" />
+                                                </div>
+                                            </div>
+                    
+                                            <div class="control-section">
+                                                <h3>Country search</h3>
+                                                <div class="search-controls">
+                                                    <input id="countrySearch" type="text" placeholder="Type country name..." />
+                                                    <button id="clearSelection">Clear Selection</button>
+                                                </div>
+                                            </div>
+                                        </aside>
+                                    </div>
 
-                <!-- OADR slopegraph -->
-                <div id="oadr-section" class="viz-panel">
-                    <div id="oadrChart"></div>
-                </div>
-
-                <!-- Components of change (decadal) -->
-                <div id="components-section" class="viz-panel" style="display:grid; gap:0.5rem;">
-                    <div id="controls"></div>
-                    <div id="componentsChart"></div>
-                </div>
+                                    <!-- OADR slopegraph and Components side-by-side -->
+                                    <div class="charts-grid">
+                                        <div class="chart-panel">
+                                            <h3>Old-Age Dependency Ratio (OADR)</h3>
+                                            <div id="oadrChart"></div>
+                                        </div>
+                  
+                                        <div class="chart-panel">
+                                            <h3>Components of Change</h3>
+                                            <div id="controls"></div>
+                                            <div id="componentsChart"></div>
+                                        </div>
+                                    </div>
               </div>
             </div>
         </section>
