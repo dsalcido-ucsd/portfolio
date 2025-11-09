@@ -713,20 +713,17 @@ html[data-theme="dark"] .project-page figure > figcaption {
 /* Full-bleed utility for wide visualizations */
 .full-bleed {
   width: 100vw;
-  position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
   padding-left: clamp(1rem, 3vw, 2rem);
   padding-right: clamp(1rem, 3vw, 2rem);
   box-sizing: border-box;
 }
 
-/* Keep inner grid constrained if needed */
-.full-bleed > #map-block { max-width: 1600px; margin-inline: auto; }
+/* Inner wrapper to constrain content width */
+.full-bleed .viz-wrap { max-width: 1600px; margin-inline: auto; }
 
 @media (max-width: 900px) {
-  .full-bleed > #map-block { display: block; }
+  .full-bleed .viz-wrap { display: block; }
   #map { height: auto; }
 }
