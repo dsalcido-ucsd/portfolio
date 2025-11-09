@@ -16,11 +16,22 @@
     </nav>
 
     <main>
-        <h1>Project 3: Interactive Map Visualization</h1>
+        <h1>Peak &amp; Pace: How countries age before and after population peak</h1>
+        <p class="subhead">Explore when each country reaches (or doesn't reach) its population peak and how quickly the old-age burden rises afterward.</p>
         
         <section>
-            <h2>Overview</h2>
-            <p>This project explores data through interactive map-based visualizations using D3.js. The visualizations combine geographic data with statistical analysis to reveal spatial patterns and insights.</p>
+            <h2>Introduction</h2>
+            <p>This interactive uses United Nations WPP 2024 "Medium" projections (1950–2100) to show when countries peak in total population and how fast they age after that point. Select countries on the map to compare their old-age dependency ratio (OADR)—older adults (65+) per 100 working-age people (15–64)—at the peak year versus N years later. A components view breaks growth into natural increase (births − deaths) and net migration by decade.</p>
+        </section>
+
+        <section>
+            <h2>How to use</h2>
+            <ul class="how-to-list">
+                <li><strong>Map:</strong> Click a country to select; Shift-click to compare up to 5.</li>
+                <li><strong>Slider:</strong> Change N (10–30) to see OADR at Peak + N.</li>
+                <li><strong>Decade &amp; Mode:</strong> Choose a decade and toggle Absolute vs Per-1k to view components of change.</li>
+                <li><strong>Search &amp; Clear:</strong> Use the search box to jump to a country; Clear selection to reset.</li>
+            </ul>
         </section>
 
         <section>
@@ -61,18 +72,42 @@
         </section>
 
         <section>
-            <h2>Methodology</h2>
-            <ul class="method-list">
-                <li>Geographic data processing and projection</li>
-                <li>Interactive map rendering with D3.js</li>
-                <li>Statistical analysis and aggregation</li>
-                <li>Responsive design for multi-device support</li>
+            <h2>How to read the charts</h2>
+            
+            <h3>Colors on the map</h3>
+            <ul>
+                <li><strong>Peaked:</strong> peak occurred before 2025.</li>
+                <li><strong>2050:</strong> peak projected 2025–2054.</li>
+                <li><strong>2055+:</strong> peak projected 2055 or later.</li>
+                <li><strong>No peak (by 2100):</strong> total population never turns downward within 1950–2100.</li>
+            </ul>
+
+            <h3>Slopegraph (OADR)</h3>
+            <ul>
+                <li>Y-axis = older adults per 100 working-age. Higher ⇒ heavier aging burden.</li>
+                <li>Upward line ⇒ faster aging after peak; flat may indicate limited change or a no-peak-by-2100 case (both columns use 2100).</li>
+                <li><em>Callout:</em> "Japan peaked in 2008; OADR climbs quickly thereafter."</li>
+            </ul>
+
+            <h3>Components chart</h3>
+            <ul>
+                <li>Shows <strong>Births</strong> (+), <strong>Deaths</strong> (−), and <strong>Net migration</strong> (±) for the selected decade.</li>
+                <li>Total change = (Births − Deaths) + Net migration.</li>
+                <li>Switch to Per-1k to compare countries of different sizes.</li>
+                <li><em>Callout:</em> "United States shows negative natural increase in later decades but remains positive overall due to migration."</li>
+                <li><em>Callout:</em> "Many Sub-Saharan countries remain 'no peak by 2100' due to sustained natural increase."</li>
             </ul>
         </section>
 
         <section>
-            <h2>Key Findings</h2>
-            <p>Detailed findings and insights will be added as the analysis progresses.</p>
+            <h2>Data &amp; methods</h2>
+            <p><strong>Sources:</strong> UN World Population Prospects 2024, Standard Projections, Medium variant.</p>
+            <ul>
+                <li>Population by 5-year age groups (both sexes) → totals and OADR.</li>
+                <li>Demographic indicators → births, deaths, net migration (decadal sums; per-1k are decade averages).</li>
+            </ul>
+            <p><strong>Definitions:</strong> OADR = Pop(65+) / Pop(15–64). "No peak" means no decline within the projection window—not "never."</p>
+            <p><strong>Limits:</strong> Peak+N is capped at 2100; results reflect Medium-scenario assumptions about fertility, mortality, and migration.</p>
         </section>
     </main>
 

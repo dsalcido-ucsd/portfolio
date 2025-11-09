@@ -705,10 +705,28 @@ html[data-theme="dark"] .project-page figure > figcaption {
 #componentsChart .bar { shape-rendering: crispEdges; }
 #componentsChart .comp-title { font-weight: 600; }
 #componentsChart .comp-sub { font-style: italic; }
+
+/* Project 3 specific styling */
+.subhead { 
+  font-size: 1.15rem; 
+  color: #555; 
+  margin: -0.5rem 0 1.5rem; 
+  line-height: 1.5;
+}
+.how-to-list { 
+  margin: 0.75rem 0; 
+  padding-left: 1.5rem; 
+  line-height: 1.6;
+}
+.how-to-list li { margin-bottom: 0.5rem; }
+
 @media (prefers-color-scheme: dark) {
   #map { background: #0e1b29; border-color: rgba(255,255,255,0.08); }
   #legend { background: rgba(255,255,255,0.03); }
+  .subhead { color: #b8c6d6; }
 }
+
+html[data-theme="dark"] .subhead { color: #b8c6d6; }
 
 /* Full-bleed utility for wide visualizations */
 .full-bleed {
