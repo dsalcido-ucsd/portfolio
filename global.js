@@ -3,7 +3,8 @@ function $$(selector, context = document) {
 }
 
 function markCurrentNavLink() {
-  const navLinks = $$("nav a");
+  // Only consider links in the injected main nav
+  const navLinks = $$("nav[aria-label='Main navigation'] a");
   const current = navLinks.find((a) => a.host === location.host && normalizePath(a.pathname) === normalizePath(location.pathname));
 
   if (current) {
