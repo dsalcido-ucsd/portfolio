@@ -16,7 +16,7 @@
   {
     "title": "Project 3: Interactive Map Visualization",
     "year": "2025",
-    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "image": "/portfolio/images/project3_thumbnail.png",
     "url": "/portfolio/projects/project3.html",
     "description": "Geographic data exploration with interactive D3.js map visualizations and spatial analysis."
   },

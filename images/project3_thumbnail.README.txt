@@ -1,0 +1,3 @@
+Place the exported PNG screenshot for Project 3 here named project3_thumbnail.png.
+Recommended size: 640x360 or 600x338 (16:9) compressed.
+If larger, ensure width attribute or CSS handles scaling.
