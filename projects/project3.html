@@ -94,20 +94,20 @@
 
         <section id="writeup" style="max-width:900px;margin:2rem 0 4rem;">
             <h2>Design Rationale</h2>
-            <p><strong>Goal.</strong> Enable exploration of <em>when</em> countries reach peak population and <em>how fast</em> the old-age burden rises afterward—and explain <em>why</em> via births, deaths, and migration.</p>
+            <p><strong>Goal:</strong> Enable exploration of <em>when</em> countries reach peak population and <em>how fast</em> the old-age burden rises afterward—and explain <em>why</em> via births, deaths, and migration.</p>
 
-            <p><strong>Views &amp; Encodings.</strong> A categorical world map shows four peak-timing buckets (peaked, 2050, 2055+, no peak by 2100) and acts as the dynamic filter. A two-column
+            <p><strong>Views &amp; Encodings:</strong> A categorical world map shows four peak-timing buckets (peaked, 2050, 2055+, no peak by 2100) and acts as the dynamic filter. A two-column
             <em>slopegraph</em> compares the old-age dependency ratio (OADR: 65+ per 100 people aged 15–64) at the <em>peak year</em> versus <em>Peak + N</em> (slider). Lines are dashed for "no peak by 2100" so flat lines aren't misread. A <em>waterfall</em> explains mechanisms for a selected decade:
             births (+), deaths (−), net migration (±), and the resulting Δ population. A toggle switches between decade totals (Absolute; units match WPP) and average annual rates (Per 1k/yr) to normalize for country size.</p>
 
-            <p><strong>Alternatives considered.</strong> Time-series small multiples and cartograms were tested but made scanning and search harder. Stacked areas tell trends but obscure add/subtract logic, so the waterfall was chosen for clarity.</p>
+            <p><strong>Alternatives considered:</strong> Time-series small multiples and cartograms were tested but made scanning and search harder. Stacked areas tell trends but obscure add/subtract logic, so the waterfall was chosen for clarity.</p>
 
-            <p><strong>Transformations.</strong> Peak year is the argmax of annual totals (WPP 2024, Medium). Countries are bucketed: &lt;2025 = peaked; 2025–2054 = 2050; ≥2055 = 2055+; maximum at 2100 = no peak (by 2100). OADR = Pop(65+)/Pop(15–64). Peak + N is capped at 2100. Components aggregate births, deaths, net migration by decade; Per 1k/yr uses decade-average (component/pop × 1000).</p>
+            <p><strong>Data Transformations:</strong> Peak year is the argmax of annual totals (WPP 2024, Medium). Countries are bucketed: &lt;2025 = peaked; 2025–2054 = 2050; ≥2055 = 2055+; maximum at 2100 = no peak (by 2100). OADR = Pop(65+)/Pop(15–64). Peak + N is capped at 2100. Components aggregate births, deaths, net migration by decade; Per 1k/yr uses decade-average (component/pop × 1000).</p>
 
             <h2>Development Process</h2>
-            <p><strong>Stack.</strong> D3.js only on the client; data prepped with pandas; hosted via GitHub Pages (static CSVs).</p>
+            <p><strong>Stack:</strong> D3.js only on the client; data prepped with pandas; hosted via GitHub Pages (static CSVs).</p>
 
-            <p><strong>Work split.</strong> All work completed by me</p>
+            <p><strong>Work split:</strong> All work completed by me</p>
 
             <ul>
                 <li>Data acquisition &amp; cleaning (WPP 2024 Medium; country filtering): <em>[~3–5h]</em></li>
@@ -118,9 +118,7 @@
                 <li>Integration, layout, copy, QA: <em>[~2–3h]</em></li>
             </ul>
 
-            <p><strong>Biggest challenges.</strong> Harmonizing WPP tables and handling edge cases (e.g., "no peak by 2100") and coordinating multi-view interactions (map ↔ slopegraph ↔ components).</p>
-
-            <p><strong>Limits &amp; next steps.</strong> This deploy uses the Medium scenario only; adding Low/High fertility or Zero-migration toggles would show sensitivity. Small multiples for components across multi-selection are a natural extension.</p>
+            <p><strong>Biggest challenges:</strong> Harmonizing WPP tables and handling edge cases (e.g., "no peak by 2100") and coordinating multi-view interactions (map ↔ slopegraph ↔ components).</p>
         </section>
     </main>
 
