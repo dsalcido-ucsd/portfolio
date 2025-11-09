@@ -14,6 +14,13 @@
     "description": "Persuasive or deceptive visualization assignment."
   },
   {
+    "title": "Project 3: Interactive Map Visualization",
+    "year": "2025",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "url": "/portfolio/projects/project3.html",
+    "description": "Geographic data exploration with interactive D3.js map visualizations and spatial analysis."
+  },
+  {
     "title": "Assignment: Data Viz Basics",
     "year": "2021",
     "image": "https://vis-society.github.io/labs/2/images/empty.svg",

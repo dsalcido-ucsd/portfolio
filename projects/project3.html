@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project 3 - Data Visualization with Maps</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body class="project-page">
+    <nav aria-label="Breadcrumb">
+        <ol class="breadcrumb">
+            <li><a href="/">Home</a></li>
+            <li><a href="/projects/">Projects</a></li>
+            <li aria-current="page">Project 3</li>
+        </ol>
+    </nav>
+
+    <main>
+        <h1>Project 3: Interactive Map Visualization</h1>
+        
+        <section>
+            <h2>Overview</h2>
+            <p>This project explores data through interactive map-based visualizations using D3.js. The visualizations combine geographic data with statistical analysis to reveal spatial patterns and insights.</p>
+        </section>
+
+        <section>
+            <h2>Visualizations</h2>
+            <!-- Map + legend + years-after control -->
+            <div id="map-block" style="display:grid; gap: 0.75rem;">
+                <div style="display:flex; gap:1rem; align-items:flex-start; flex-wrap:wrap;">
+                    <svg id="map" width="900" height="480" role="img" aria-label="World map"></svg>
+                    <div style="min-width: 260px; display:grid; gap:0.75rem;">
+                        <div id="legend" class="legend" aria-label="Peak status legend"></div>
+                        <div class="years-control">
+                            <label for="yearsAfter">Years after peak: <span id="yearsAfterValue">25</span></label>
+                            <input id="yearsAfter" type="range" min="10" max="30" step="5" value="25" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- OADR slopegraph -->
+            <div id="oadr-section" style="margin-top: 1rem;">
+                <div id="oadrChart"></div>
+            </div>
+
+            <!-- Components of change (decadal) -->
+            <div id="components-section" style="margin-top: 1rem; display:grid; gap:0.5rem;">
+                <div id="controls"></div>
+                <div id="componentsChart"></div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Methodology</h2>
+            <ul class="method-list">
+                <li>Geographic data processing and projection</li>
+                <li>Interactive map rendering with D3.js</li>
+                <li>Statistical analysis and aggregation</li>
+                <li>Responsive design for multi-device support</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Key Findings</h2>
+            <p>Detailed findings and insights will be added as the analysis progresses.</p>
+        </section>
+    </main>
+
+    <script type="module" src="../global.js"></script>
+    <script type="module" src="project3.js"></script>
+</body>
+</html>

@@ -689,3 +689,23 @@ html[data-theme="dark"] .project-page figure > figcaption {
 .project-page .breadcrumb a {
   color: var(--color-text-deep-blue) !important;
 }
+
+/* Project 3 visualization layout tweaks */
+#map-block { margin-top: 0.5rem; }
+#map { max-width: 100%; height: auto; background: #f8fbfe; border: 1px solid rgba(0,0,0,0.08); border-radius: 4px; }
+#legend { font-size: 0.85rem; }
+#legend .item { display: flex; align-items: center; gap: 0.4rem; }
+#legend .swatch { width: 0.9rem; height: 0.9rem; display:inline-block; border-radius: 2px; }
+.years-control { display: grid; gap: 0.4rem; font-size: 0.85rem; }
+.years-control input[type=range] { width: 100%; }
+#oadrChart svg { max-width: 100%; height: auto; }
+#componentsChart svg { max-width: 100%; height: auto; }
+#controls { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-end; font-size: 0.85rem; }
+#controls .control { display: flex; flex-direction: column; gap: 0.25rem; }
+#componentsChart .bar { shape-rendering: crispEdges; }
+#componentsChart .comp-title { font-weight: 600; }
+#componentsChart .comp-sub { font-style: italic; }
+@media (prefers-color-scheme: dark) {
+  #map { background: #0e1b29; border-color: rgba(255,255,255,0.08); }
+  #legend { background: rgba(255,255,255,0.03); }
+}
