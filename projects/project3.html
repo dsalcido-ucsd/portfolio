@@ -66,7 +66,7 @@
                                     <div class="charts-grid">
                                         <div class="chart-panel">
                                             <h3>Old-Age Dependency Ratio (OADR)</h3>
-                                            <div id="oadrSummary" class="chart-summary" style="margin: 0.25rem 0 0.5rem; opacity: 0.85;"></div>
+                                            <div id="oadrSummary" class="chart-summary" aria-live="polite" style="margin: 0.25rem 0 0.5rem; opacity: 0.85;"></div>
                                             <div id="oadrChart"></div>
                                             <div id="slopeLegend" class="mini-legend" style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.85;"></div>
                                         </div>
@@ -94,31 +94,35 @@
 
         <section id="writeup" style="max-width:900px;margin:2rem 0 4rem;">
             <h2>Design Rationale</h2>
-            <p><strong>Goal:</strong> Enable exploration of <em>when</em> countries reach peak population and <em>how fast</em> the old-age burden rises afterward—and explain <em>why</em> via births, deaths, and migration.</p>
 
-            <p><strong>Views &amp; Encodings:</strong> A categorical world map shows four peak-timing buckets (peaked, 2050, 2055+, no peak by 2100) and acts as the dynamic filter. A two-column
-            <em>slopegraph</em> compares the old-age dependency ratio (OADR: 65+ per 100 people aged 15–64) at the <em>peak year</em> versus <em>Peak + N</em> (slider). Lines are dashed for "no peak by 2100" so flat lines aren't misread. A <em>waterfall</em> explains mechanisms for a selected decade:
-            births (+), deaths (−), net migration (±), and the resulting Δ population. A toggle switches between decade totals (Absolute; units match WPP) and average annual rates (Per 1k/yr) to normalize for country size.</p>
+            <h3>Motivation</h3>
+            <p>Population aging is uneven across the world. Policymakers and the public often focus on <em>if</em> and <em>when</em> populations peak, but the fiscal and social pressure is more tightly linked to how quickly the <strong>old‑age dependency ratio (OADR)</strong> rises after that peak. This project makes both timing and pace visible, side‑by‑side, and explains <em>why</em> trends differ using births, deaths, and migration.</p>
 
-            <p><strong>Alternatives considered:</strong> Time-series small multiples and cartograms were tested but made scanning and search harder. Stacked areas tell trends but obscure add/subtract logic, so the waterfall was chosen for clarity.</p>
+            <h3>Visual encodings &amp; interaction</h3>
+            <p>The world map encodes four peak‑timing buckets (peaked, 2050, 2055+, no peak by 2100) with a categorical palette and doubles as the primary filter. The <em>slopegraph</em> compares OADR at the <em>peak year</em> versus <em>Peak + N</em> (user‑controlled), using dashed lines to distinguish countries without a peak by 2100. The <em>components</em> view is a compact waterfall that separates births (+), deaths (−), and net migration (±), with a mode toggle for decade totals (Absolute) versus normalized averages (Per 1k/yr). Multi‑select enables quick comparison (up to five), with small multiples in the components panel for readability.</p>
 
-            <p><strong>Data Transformations:</strong> Peak year is the argmax of annual totals (WPP 2024, Medium). Countries are bucketed: &lt;2025 = peaked; 2025–2054 = 2050; ≥2055 = 2055+; maximum at 2100 = no peak (by 2100). OADR = Pop(65+)/Pop(15–64). Peak + N is capped at 2100. Components aggregate births, deaths, net migration by decade; Per 1k/yr uses decade-average (component/pop × 1000).</p>
+            <h3>Color palette &amp; accessibility</h3>
+            <p>Peak‑status colors are chosen for contrast and color‑blind legibility: purple (peaked), green (2050), blue (2055+), and gray (no peak by 2100). Chart marks inherit <code>currentColor</code> so they remain readable in both light and dark themes. Labels, gridlines, and zero‑lines use subdued tints to reduce clutter while preserving contrast ratios. Focus and hover affordances are provided for keyboard and pointer users, and dynamic summaries are exposed via <code>aria-live</code>.</p>
+
+            <h3>Data transformations</h3>
+            <p>Peak year is the argmax of annual totals (WPP 2024, Medium). Countries are bucketed: &lt;2025 = peaked; 2025–2054 = 2050; ≥2055 = 2055+; maximum at 2100 = no peak (by 2100). OADR = Pop(65+)/Pop(15–64). Peak + N is capped at 2100. Components aggregate births, deaths, and net migration by decade; Per‑1k/yr uses decade‑average rates (component ÷ population × 1,000).</p>
+
+            <h3>Alternatives considered</h3>
+            <p>Cartograms and time‑series small multiples were prototyped but made scanning and search slower. Stacked areas showed long‑run trends but conflated adds and subtracts, so a waterfall layout was preferred for mechanism clarity.</p>
 
             <h2>Development Process</h2>
-            <p><strong>Stack:</strong> D3.js only on the client; data prepped with pandas; hosted via GitHub Pages (static CSVs).</p>
-
-            <p><strong>Work split:</strong> All work completed by me</p>
+            <p><strong>Team:</strong> Solo project (team of one). <strong>Stack:</strong> D3.js on the client; data prepped with pandas; static CSVs for portability.</p>
 
             <ul>
-                <li>Data acquisition &amp; cleaning (WPP 2024 Medium; country filtering): <em>[~3–5h]</em></li>
-                <li>Deriving metrics (peak buckets, OADR, decade components; validation): <em>[~3–4h]</em></li>
-                <li>D3 map + interactions (projection, coloring, search, legend filters): <em>[~4–6h]</em></li>
-                <li>Slopegraph (selection, slider, tooltips, dashed no-peak): <em>[~3–4h]</em></li>
-                <li>Components waterfall (absolute/per-1k toggle, decade control): <em>[~3–4h]</em></li>
-                <li>Integration, layout, copy, QA: <em>[~2–3h]</em></li>
+                <li>Data acquisition &amp; cleaning (WPP 2024 Medium; country filtering)</li>
+                <li>Metrics (peak buckets, OADR, decade components; edge‑case handling)</li>
+                <li>D3 implementation (map projection, legend filters, search, selection)</li>
+                <li>Slopegraph (slider, dashed no‑peak, tooltips, responsive labels)</li>
+                <li>Components (absolute/per‑1k toggle, shared scales, small multiples)</li>
+                <li>Integration, copy, accessibility, QA</li>
             </ul>
 
-            <p><strong>Biggest challenges:</strong> Harmonizing WPP tables and handling edge cases (e.g., "no peak by 2100") and coordinating multi-view interactions (map ↔ slopegraph ↔ components).</p>
+            <p><strong>Challenges &amp; lessons:</strong> Aligning WPP tables and handling “no peak by 2100”; keeping multi‑view interactions fast and readable; hardening theme support for both light and dark modes without conflicts.</p>
         </section>
     </main>
 
