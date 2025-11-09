@@ -298,13 +298,18 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
 
   // ---- Components chart (decadal population change) ----
   const controls = d3.select("#controls");
-  const wrap = controls.append("div").attr("class","control");
-  wrap.append("label").attr("for","decadeSel").text("Decade:");
-  const decadeSel = wrap.append("select").attr("id","decadeSel");
-  const modeWrap = controls.append("div").attr("class","control");
-  modeWrap.append("span").text("Mode:");
-  modeWrap.append("label").html(`<input type="radio" name="mode" value="abs" checked> Absolute`);
-  modeWrap.append("label").style("margin-left","8px").html(`<input type="radio" name="mode" value="per1k"> Per 1k/yr`);
+  
+  // Decade selector
+  const decadeWrap = controls.append("div").attr("class","control-inline");
+  decadeWrap.append("label").attr("for","decadeSel").text("Decade:").style("margin-right", "0.5rem");
+  const decadeSel = decadeWrap.append("select").attr("id","decadeSel");
+  
+  // Mode radio buttons
+  const modeWrap = controls.append("div").attr("class","control-inline");
+  modeWrap.append("span").text("Mode:").style("margin-right", "0.5rem");
+  modeWrap.append("label").style("margin-right","1rem").html(`<input type="radio" name="mode" value="abs" checked> Absolute`);
+  modeWrap.append("label").html(`<input type="radio" name="mode" value="per1k"> Per 1k/yr`);
+  
   function currentMode(){ return document.querySelector('input[name="mode"]:checked').value; }
   const decades = Array.from(new Set(componentsRows.map(d => d.decade_start))).sort((a,b)=>a-b);
   decadeSel.selectAll("option").data(decades).join("option").attr("value", d=>d).text(d=>`${d}–${d+9}`);
