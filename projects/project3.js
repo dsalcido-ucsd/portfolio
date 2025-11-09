@@ -53,7 +53,7 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
   const statusColors = d3.scaleOrdinal().domain(statusDomain).range(["#6e40aa", "#32a852", "#2a7fff", "#b3b3b3"]);
 
   // Water background
-  mapSvg.append("path").attr("d", path({ type: "Sphere" })).attr("fill", "#eef6fb");
+  mapSvg.append("path").attr("class","background").attr("d", path({ type: "Sphere" })).attr("fill", "#eef6fb");
 
   // Selection state
   let selected = []; // array of numeric ids (max 5)
@@ -234,4 +234,23 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
   highlightSelection();
   updateSlopegraph();
   updateComponents();
+
+  // ---- Responsive map resize ----
+  const mapBlockEl = document.getElementById('map-block');
+  function resizeMap() {
+    if (!mapBlockEl) return;
+    const w = mapBlockEl.clientWidth;
+    const h = Math.max(320, Math.round(w * 0.48)); // maintain aspect ratio, min height
+    mapSvg.attr('width', w).attr('height', h);
+    projection.fitSize([w, h], { type: 'Sphere' });
+    mapSvg.selectAll('path.country').attr('d', path);
+    mapSvg.select('path.background').attr('d', path({ type: 'Sphere' }));
+  }
+  // Use ResizeObserver for smooth updates
+  const ro = new ResizeObserver(() => {
+    resizeMap();
+  });
+  if (mapBlockEl) ro.observe(mapBlockEl);
+  // Initial resize to override intrinsic size
+  resizeMap();
 })();

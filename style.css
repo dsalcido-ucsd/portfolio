@@ -709,3 +709,24 @@ html[data-theme="dark"] .project-page figure > figcaption {
   #map { background: #0e1b29; border-color: rgba(255,255,255,0.08); }
   #legend { background: rgba(255,255,255,0.03); }
 }
+
+/* Full-bleed utility for wide visualizations */
+.full-bleed {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  padding-left: clamp(1rem, 3vw, 2rem);
+  padding-right: clamp(1rem, 3vw, 2rem);
+  box-sizing: border-box;
+}
+
+/* Keep inner grid constrained if needed */
+.full-bleed > #map-block { max-width: 1600px; margin-inline: auto; }
+
+@media (max-width: 900px) {
+  .full-bleed > #map-block { display: block; }
+  #map { height: auto; }
+}
