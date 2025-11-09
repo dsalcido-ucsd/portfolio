@@ -745,12 +745,20 @@ html[data-theme="dark"] body.project3-page.project-page figure > figcaption {
 #oadrChart .y-axis text { fill: currentColor; opacity: 0.9; }
 #oadrChart .slope-subtitle { fill: currentColor; opacity: 0.9; }
 #oadrChart .slope-col-label { fill: currentColor; opacity: 0.95; font-weight: 600; }
-#componentsChart svg { max-width: 100%; height: auto; }
+#componentsChart { 
+  max-width: 100%; 
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+#componentsChart svg.comp-svg { 
+  max-width: 100%; 
+  height: auto; 
+}
 #controls { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-end; font-size: 0.85rem; }
 #controls .control { display: flex; flex-direction: column; gap: 0.25rem; }
 #componentsChart .bar { shape-rendering: crispEdges; }
-#componentsChart .comp-title { font-weight: 600; }
-#componentsChart .comp-sub { font-style: italic; }
 
 /* Project 3 improved layout */
 .viz-grid {
@@ -846,6 +854,50 @@ html[data-theme="dark"] body.project3-page.project-page figure > figcaption {
   line-height: 1.6;
 }
 .how-to-list li { margin-bottom: 0.5rem; }
+
+/* Summary card styling */
+.summary-card {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  padding: 0.75rem;
+  background: rgba(0,0,0,0.02);
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 4px;
+}
+.summary-placeholder {
+  color: #999;
+  font-style: italic;
+}
+.summary-row {
+  margin-bottom: 0.4rem;
+}
+.summary-row:last-child {
+  margin-bottom: 0;
+}
+
+/* Map tooltip styling */
+.map-tooltip {
+  font-family: system-ui, sans-serif;
+  line-height: 1.4;
+}
+
+@media (prefers-color-scheme: dark) {
+  .summary-card {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.15);
+  }
+  .summary-placeholder {
+    color: #777;
+  }
+}
+
+html[data-theme="dark"] .summary-card {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.15);
+}
+html[data-theme="dark"] .summary-placeholder {
+  color: #777;
+}
 
 @media (prefers-color-scheme: dark) {
   #map { background: #0e1b29; border-color: rgba(255,255,255,0.08); }

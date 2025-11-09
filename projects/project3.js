@@ -62,8 +62,8 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
   let selected = []; // array of numeric ids (max 5)
 
   // Draw countries
-  mapSvg.append("g")
-    .selectAll("path.country")
+  const countriesG = mapSvg.append("g");
+  countriesG.selectAll("path.country")
     .data(countries)
     .join("path")
     .attr("class", "country")
@@ -75,6 +75,26 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
     .attr("stroke", "#fff")
     .attr("stroke-width", 0.5)
     .style("cursor", "pointer")
+    .on("mouseover", function(event, d) {
+      if (!selected.includes(+d.id)) {
+        d3.select(this).attr("opacity", 0.7);
+      }
+      const rec = statusById.get(+d.id);
+      const oadr = oadrById.get(+d.id);
+      if (rec && oadr) {
+        const name = d.properties?.name ?? `ID ${d.id}`;
+        const N = currentN();
+        const rk = N===10?"oadr_p10":N===15?"oadr_p15":N===20?"oadr_p20":N===25?"oadr_p25":"oadr_p30";
+        const delta = ((oadr[rk] - oadr.oadr_peak) * 100).toFixed(1);
+        showTooltip(event, `${name}\nPeak: ${rec.peak_year}${rec.status==="no_peak"?" (no peak by 2100)":""}\nOADR Δ: ${delta > 0 ? '+' : ''}${delta} per 100`);
+      }
+    })
+    .on("mouseout", function(event, d) {
+      if (!selected.includes(+d.id)) {
+        d3.select(this).attr("opacity", 1);
+      }
+      hideTooltip();
+    })
     .on("click", (event, d) => {
       const id = +d.id;
       const has = selected.includes(id);
@@ -85,7 +105,8 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
       }
       highlightSelection();
       updateSlopegraph();
-      updateComponents(); // hook components chart
+      updateComponents();
+      updateSummary();
     })
     .append("title")
     .text(d => {
@@ -99,6 +120,55 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
       .attr("stroke", d => selected.includes(+d.id) ? "#111" : "#fff")
       .attr("stroke-width", d => selected.includes(+d.id) ? 1.5 : 0.5)
       .attr("opacity", d => selected.length && !selected.includes(+d.id) ? 0.6 : 1);
+  }
+
+  // Tooltip helpers
+  const tooltip = d3.select("body").append("div")
+    .attr("class", "map-tooltip")
+    .style("position", "absolute")
+    .style("background", "rgba(0,0,0,0.85)")
+    .style("color", "#fff")
+    .style("padding", "8px 12px")
+    .style("border-radius", "4px")
+    .style("font-size", "0.85rem")
+    .style("pointer-events", "none")
+    .style("opacity", 0)
+    .style("white-space", "pre-line")
+    .style("z-index", 9999);
+
+  function showTooltip(event, text) {
+    tooltip.style("opacity", 1).html(text)
+      .style("left", (event.pageX + 12) + "px")
+      .style("top", (event.pageY - 8) + "px");
+  }
+
+  function hideTooltip() {
+    tooltip.style("opacity", 0);
+  }
+
+  // Summary card update
+  function updateSummary() {
+    const summaryDiv = d3.select("#summary");
+    if (!selected.length) {
+      summaryDiv.html('<div class="summary-placeholder">Select a country to see details</div>');
+      return;
+    }
+    const id = selected[selected.length - 1]; // last selected
+    const s = statusById.get(id);
+    const k = oadrById.get(id);
+    if (!s || !k) {
+      summaryDiv.html('<div class="summary-placeholder">No data available</div>');
+      return;
+    }
+    const N = currentN();
+    const rk = N===10?"oadr_p10":N===15?"oadr_p15":N===20?"oadr_p20":N===25?"oadr_p25":"oadr_p30";
+    const dOADR = (k[rk] - k.oadr_peak) * 100;
+    const name = nameForId(id);
+    summaryDiv.html(`
+      <div class="summary-row"><strong>${name}</strong></div>
+      <div class="summary-row">Peak year: ${s.peak_year}${s.status==="no_peak"?" (no peak by 2100)":""}</div>
+      <div class="summary-row">OADR change (Peak → +${N}y): <strong>${d3.format("+.1f")(dOADR)}</strong> per 100</div>
+    `);
   }
 
   // Legend with dynamic query checkboxes
@@ -153,7 +223,11 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
 
   function currentN() { return +yearsAfterEl.property("value"); }
   yearsAfterValueEl.text(currentN());
-  yearsAfterEl.on("input", function(){ yearsAfterValueEl.text(this.value); updateSlopegraph(); });
+  yearsAfterEl.on("input", function(){ 
+    yearsAfterValueEl.text(this.value); 
+    updateSlopegraph(); 
+    updateSummary(); 
+  });
 
   function nameForId(id){ const f = countries.find(c => +c.id === +id); return f?.properties?.name ?? `ID ${id}`; }
 
@@ -213,68 +287,165 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
   d3.selectAll('input[name="mode"]').on("change", updateComponents);
 
   const compW = 720, compH = 320, cm = {top:24, right:16, bottom:40, left:70};
-  const compSvg = d3.select("#componentsChart").append("svg").attr("width", compW).attr("height", compH);
-  const gComp = compSvg.append("g").attr("transform", `translate(${cm.left},${cm.top})`);
-  const cw = compW - cm.left - cm.right;
-  const ch = compH - cm.top - cm.bottom;
-  const xComp = d3.scaleBand().padding(0.25);
-  const yComp = d3.scaleLinear();
-  const xAxisG = gComp.append("g").attr("transform", `translate(0,${ch})`);
-  const yAxisG = gComp.append("g");
-  const emptyComp = gComp.append("text").attr("x", cw/2).attr("y", ch/2).attr("text-anchor","middle").attr("fill","#666").text("Select a country to see components of change");
+  const compContainer = d3.select("#componentsChart");
+  const emptyComp = compContainer.append("div").attr("class", "empty-comp-msg").style("text-align","center").style("color","#666").style("padding","2rem").text("Select a country to see components of change");
   const compColor = new Map([["Births", "#69b34c"],["Deaths", "#d73027"],["Net migration", "#2b8cbe"],["Δ population", "#7f7f7f"],["Natural (per 1k)", "#69b34c"],["Migration (per 1k)", "#2b8cbe"],["Total (per 1k)", "#7f7f7f"]]);
 
   function updateComponents(){
-    const id = selected.length ? selected[selected.length-1] : null; // last-picked
     const decade = +decadeSel.property("value");
     const mode = currentMode();
-    if(!id){ gComp.selectAll("rect.bar").remove(); gComp.selectAll("text.comp-label").remove(); xAxisG.selectAll("*").remove(); yAxisG.selectAll("*").remove(); emptyComp.style("display", null); return; }
-    emptyComp.style("display","none");
-    const row = componentsRows.find(d => d.id === id && d.decade_start === decade);
-    const name = nameForId(id);
-    let data, yLabel = "";
-    if(mode === "abs"){
-      data = [
-        {k:"Births", v: row?.births ?? 0},
-        {k:"Deaths", v: -(row?.deaths ?? 0)},
-        {k:"Net migration", v: row?.net_migration ?? 0},
-        {k:"Δ population", v: row?.total_change ?? 0}
-      ];
-      yLabel = "Change over decade (units match file)";
-    } else {
-      data = [
-        {k:"Natural (per 1k)", v: row?.rate_natural_per_1k ?? NaN},
-        {k:"Migration (per 1k)", v: row?.rate_migration_per_1k ?? NaN},
-        {k:"Total (per 1k)", v: row?.rate_total_per_1k ?? NaN}
-      ];
-      yLabel = "Avg annual rate (per 1,000)";
+    
+    if(!selected.length){ 
+      compContainer.selectAll("svg.comp-svg").remove();
+      emptyComp.style("display", null);
+      return;
     }
-    xComp.domain(data.map(d=>d.k)).range([0, cw]);
-    const vals = data.map(d=>d.v).filter(v=>isFinite(v));
-    const pad = d3.max(vals.map(v=>Math.abs(v))) * 0.1 || 1;
-    const ymin = d3.min([0, d3.min(vals)]) - pad;
-    const ymax = d3.max([0, d3.max(vals)]) + pad;
-    yComp.domain([ymin, ymax]).range([ch, 0]).nice();
-    xAxisG.call(d3.axisBottom(xComp));
-    yAxisG.call(d3.axisLeft(yComp));
-    const bars = gComp.selectAll("rect.bar").data(data, d=>d.k);
-    const barsEnter = bars.enter().append("rect").attr("class","bar").attr("x", d=>xComp(d.k)).attr("width", xComp.bandwidth()).attr("y", yComp(0)).attr("height",0).attr("fill", d=>compColor.get(d.k) || "#888");
-    barsEnter.append("title");
-    barsEnter.merge(bars)
-      .transition().duration(300)
-      .attr("x", d=>xComp(d.k)).attr("width", xComp.bandwidth()).attr("y", d=>Math.min(yComp(0), yComp(d.v))).attr("height", d=>Math.abs(yComp(d.v)-yComp(0)));
-    barsEnter.merge(bars).select("title").text(d => `${d.k}: ${d3.format(",.0f")(d.v)}`);
-    bars.exit().remove();
-    const titleSel = compSvg.selectAll("text.comp-title").data([`${name}: ${decade}–${decade+9}`]);
-    titleSel.enter().append("text").attr("class","comp-title").attr("x", cm.left).attr("y", 16).attr("font-size",14).attr("fill", "#333").merge(titleSel).text(d=>d);
-    const subSel = compSvg.selectAll("text.comp-sub").data([yLabel]);
-    subSel.enter().append("text").attr("class","comp-sub").attr("x", cm.left).attr("y", 32).attr("font-size",12).attr("fill", "#666").merge(subSel).text(d=>d);
+    emptyComp.style("display","none");
+    
+    const ids = selected.slice(-4); // up to 4 most recent selections
+    const isMulti = ids.length > 1;
+    
+    // Determine layout
+    let smallW, smallH, smallM;
+    if (isMulti) {
+      // 2×2 grid of small multiples
+      smallW = 340;
+      smallH = 200;
+      smallM = {top: 32, right: 12, bottom: 35, left: 50};
+    } else {
+      // Single large chart
+      smallW = compW;
+      smallH = compH;
+      smallM = cm;
+    }
+    
+    // Gather all data for shared scale
+    const allData = [];
+    ids.forEach(id => {
+      const row = componentsRows.find(d => d.id === id && d.decade_start === decade);
+      if (!row) return;
+      let vals;
+      if(mode === "abs"){
+        vals = [row.births, -row.deaths, row.net_migration, row.total_change];
+      } else {
+        vals = [row.rate_natural_per_1k, row.rate_migration_per_1k, row.rate_total_per_1k];
+      }
+      allData.push(...vals.filter(v => isFinite(v)));
+    });
+    
+    const pad = d3.max(allData.map(v=>Math.abs(v))) * 0.1 || 1;
+    const ymin = d3.min([0, d3.min(allData)]) - pad;
+    const ymax = d3.max([0, d3.max(allData)]) + pad;
+    const sharedY = d3.scaleLinear().domain([ymin, ymax]).range([smallH - smallM.top - smallM.bottom, 0]).nice();
+    
+    // Bind SVGs
+    const svgs = compContainer.selectAll("svg.comp-svg").data(ids, d => d);
+    svgs.exit().remove();
+    
+    const svgsEnter = svgs.enter().append("svg")
+      .attr("class", "comp-svg")
+      .style("display", "inline-block")
+      .style("vertical-align", "top");
+    
+    const svgsMerge = svgsEnter.merge(svgs)
+      .attr("width", smallW)
+      .attr("height", smallH);
+    
+    svgsMerge.each(function(id) {
+      const svg = d3.select(this);
+      const row = componentsRows.find(d => d.id === id && d.decade_start === decade);
+      const name = nameForId(id);
+      
+      let g = svg.select("g.main");
+      if (g.empty()) {
+        g = svg.append("g").attr("class", "main");
+      }
+      g.attr("transform", `translate(${smallM.left},${smallM.top})`);
+      
+      const innerW = smallW - smallM.left - smallM.right;
+      const innerH = smallH - smallM.top - smallM.bottom;
+      
+      let data, yLabel = "";
+      if(mode === "abs"){
+        data = [
+          {k:"Births", v: row?.births ?? 0},
+          {k:"Deaths", v: -(row?.deaths ?? 0)},
+          {k:"Net migration", v: row?.net_migration ?? 0},
+          {k:"Δ pop", v: row?.total_change ?? 0}
+        ];
+        yLabel = isMulti ? "(thousands)" : "Change over decade (thousands)";
+      } else {
+        data = [
+          {k:"Natural", v: row?.rate_natural_per_1k ?? NaN},
+          {k:"Migr.", v: row?.rate_migration_per_1k ?? NaN},
+          {k:"Total", v: row?.rate_total_per_1k ?? NaN}
+        ];
+        yLabel = isMulti ? "(per 1k/yr)" : "Avg annual rate (per 1,000)";
+      }
+      
+      const xScale = d3.scaleBand().domain(data.map(d=>d.k)).range([0, innerW]).padding(0.25);
+      
+      // Axes
+      let xAxisG = g.select("g.x-axis");
+      if (xAxisG.empty()) {
+        xAxisG = g.append("g").attr("class", "x-axis");
+      }
+      xAxisG.attr("transform", `translate(0,${innerH})`).call(d3.axisBottom(xScale).tickSize(3));
+      xAxisG.selectAll("text").attr("font-size", isMulti ? 9 : 11);
+      
+      let yAxisG = g.select("g.y-axis");
+      if (yAxisG.empty()) {
+        yAxisG = g.append("g").attr("class", "y-axis");
+      }
+      yAxisG.call(d3.axisLeft(sharedY).ticks(isMulti ? 4 : 8).tickSize(3));
+      yAxisG.selectAll("text").attr("font-size", isMulti ? 9 : 11);
+      
+      // Bars
+      const bars = g.selectAll("rect.bar").data(data, d=>d.k);
+      const barsEnter = bars.enter().append("rect").attr("class","bar")
+        .attr("fill", d=>compColor.get(d.k) || "#888");
+      barsEnter.append("title");
+      
+      barsEnter.merge(bars)
+        .attr("x", d=>xScale(d.k))
+        .attr("width", xScale.bandwidth())
+        .attr("y", d=>Math.min(sharedY(0), sharedY(d.v)))
+        .attr("height", d=>Math.abs(sharedY(d.v)-sharedY(0)))
+        .select("title")
+        .text(d => `${d.k}: ${d3.format(",.0f")(d.v)}`);
+      
+      bars.exit().remove();
+      
+      // Title
+      let titleSel = svg.select("text.comp-title");
+      if (titleSel.empty()) {
+        titleSel = svg.append("text").attr("class","comp-title");
+      }
+      titleSel.attr("x", smallM.left).attr("y", 16)
+        .attr("font-size", isMulti ? 11 : 14)
+        .attr("font-weight", 600)
+        .attr("fill", "currentColor")
+        .text(`${name}: ${decade}–${decade+9}`);
+      
+      // Subtitle
+      let subSel = svg.select("text.comp-sub");
+      if (subSel.empty()) {
+        subSel = svg.append("text").attr("class","comp-sub");
+      }
+      subSel.attr("x", smallM.left).attr("y", isMulti ? 28 : 32)
+        .attr("font-size", isMulti ? 9 : 12)
+        .attr("font-style", "italic")
+        .attr("fill", "currentColor")
+        .attr("opacity", 0.7)
+        .text(yLabel);
+    });
   }
 
   // ---- Initial paints ----
   highlightSelection();
   updateSlopegraph();
   updateComponents();
+  updateSummary();
 
   // ---- Responsive map resize ----
     const mapBlockEl = document.querySelector('.map-container');
@@ -307,6 +478,7 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
         highlightSelection();
         updateSlopegraph();
         updateComponents();
+        updateSummary();
       }
     }
   });
@@ -316,5 +488,6 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
     highlightSelection();
     updateSlopegraph();
     updateComponents();
+    updateSummary();
   });
 })();
