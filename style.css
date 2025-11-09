@@ -469,6 +469,14 @@ dl.info[hidden]:not(:hover, :focus-within) {
   box-shadow: 0 8px 28px rgba(15,23,42,0.06);
   border: 1px solid rgba(0,0,0,0.06);
 }
+/* Remove white panel entirely for Project 3 (light and dark) */
+body.project3-page.project-page main {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding-left: 0;
+  padding-right: 0;
+}
 .project-page figure {
   margin: 1em 0;
   padding: 0.5rem;
@@ -630,24 +638,43 @@ html[data-theme="dark"] .method-list li strong {
 /* Keep a white content panel and readable dark text even in dark mode for project pages */
 @media (prefers-color-scheme: dark) {
   .project-page main {
-    background: white; /* white panel */
-    color: #0b0b0b; /* dark text on the white panel */
+    background: white;
+    color: #0b0b0b;
     border: 1px solid rgba(2,6,23,0.06);
     box-shadow: 0 10px 30px rgba(2,6,23,0.18);
+  }
+  body.project3-page.project-page main {
+    background: transparent !important;
+    color: #e6eef8 !important;
+    border: none !important;
+    box-shadow: none !important;
   }
   .project-page figure {
     background: white;
     border-color: rgba(2,6,23,0.06);
     box-shadow: 0 8px 20px rgba(2,6,23,0.08);
   }
+  body.project3-page.project-page figure {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
   .project-page figure > figcaption {
     background: hsl(210 18% 97%);
     color: #0b2138;
   }
-  /* Ensure method-list text is dark on white panel */
+  body.project3-page.project-page figure > figcaption {
+    background: transparent !important;
+    color: #d7e8fb !important;
+  }
   .project-page p, .project-page li, .project-page a { color: #0b0b0b; }
   .method-list .score { color: #264c7a; }
   .method-list li strong { color: #0b0b0b; }
+  body.project3-page.project-page p,
+  body.project3-page.project-page li,
+  body.project3-page.project-page a { color: #e6eef8 !important; }
+  body.project3-page.project-page .method-list .score { color: #b8cfe6 !important; }
+  body.project3-page.project-page .method-list li strong { color: #e6eef8 !important; }
 }
 
 /* Explicitly handle data-theme dark override too */
@@ -657,14 +684,29 @@ html[data-theme="dark"] .project-page main {
   border: 1px solid rgba(2,6,23,0.06);
   box-shadow: 0 10px 30px rgba(2,6,23,0.18);
 }
+html[data-theme="dark"] body.project3-page.project-page main {
+  background: transparent !important;
+  color: #e6eef8 !important;
+  border: none !important;
+  box-shadow: none !important;
+}
 html[data-theme="dark"] .project-page figure {
   background: white;
   border-color: rgba(2,6,23,0.06);
   box-shadow: 0 8px 20px rgba(2,6,23,0.08);
 }
+html[data-theme="dark"] body.project3-page.project-page figure {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
 html[data-theme="dark"] .project-page figure > figcaption {
   background: hsl(210 18% 97%);
   color: #0b2138;
+}
+html[data-theme="dark"] body.project3-page.project-page figure > figcaption {
+  background: transparent !important;
+  color: #d7e8fb !important;
 }
 
 .project-page p,
@@ -816,7 +858,7 @@ html[data-theme="dark"] .subhead { color: #b8c6d6; }
   padding-left: clamp(1rem, 3vw, 2rem);
   padding-right: clamp(1rem, 3vw, 2rem);
   box-sizing: border-box;
-  background: white; /* match project-page main */
+  background: white; /* match project-page main (except Project 3 overrides) */
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
 }
@@ -848,6 +890,10 @@ html[data-theme="dark"] .full-bleed button,
 html[data-theme="dark"] .full-bleed select {
   color: #0b0b0b;
 }
+
+/* Project 3: remove full-bleed white background in both themes */
+body.project3-page .full-bleed { background: transparent !important; color: inherit; }
+html[data-theme="dark"] body.project3-page .full-bleed { background: transparent !important; color: #e6eef8; }
 
 /* --- Project 3 dark-mode overrides: remove white shadow box only here --- */
 /* Prefer high-specificity, theme-scoped rules so other project pages remain unchanged */
