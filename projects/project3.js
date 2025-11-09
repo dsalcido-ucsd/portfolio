@@ -141,9 +141,9 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
   const y = d3.scaleLinear().domain(d3.extent(allVals)).nice().range([innerH, 0]);
   const yAxis = d3.axisLeft(y).ticks(8).tickFormat(v => `${d3.format(".0f")(v*100)}`);
   gSlope.append("g").attr("class", "y-axis").call(yAxis);
-  gSlope.append("text").attr("x", -m.left + 4).attr("y", -8).attr("fill", "#444").attr("font-size", 12).text("older (65+) per 100 working-age (15–64)");
-  gSlope.append("text").attr("class", "col-label col-left").attr("x", colX("At peak")).attr("y", innerH + 28).attr("text-anchor", "middle").text("At peak");
-  const colRightLabel = gSlope.append("text").attr("class", "col-label col-right").attr("x", colX("Peak + N")).attr("y", innerH + 28).attr("text-anchor", "middle").text("Peak + 25");
+  gSlope.append("text").attr("x", -m.left + 4).attr("y", -8).attr("class", "slope-subtitle").attr("fill", "currentColor").attr("font-size", 12).text("older (65+) per 100 working-age (15–64)");
+  gSlope.append("text").attr("class", "col-label col-left slope-col-label").attr("x", colX("At peak")).attr("y", innerH + 28).attr("text-anchor", "middle").text("At peak");
+  const colRightLabel = gSlope.append("text").attr("class", "col-label col-right slope-col-label").attr("x", colX("Peak + N")).attr("y", innerH + 28).attr("text-anchor", "middle").text("Peak + 25");
 
   const color = d3.scaleOrdinal(d3.schemeTableau10);
   const linesG = gSlope.append("g").attr("class", "lines");

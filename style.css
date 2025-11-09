@@ -244,12 +244,12 @@ html[data-theme="light"] {
   color: #0b0b0b;
 }
 html[data-theme="light"] h1, html[data-theme="light"] h2, html[data-theme="light"] h3, html[data-theme="light"] h4 { color: var(--color-text-deep-blue); }
-html[data-theme="light"] nav a { color: var(--color-text-deep-blue); }
+html[data-theme="light"] nav a { color: #0b2138; /* darken nav links for readability */ }
 html[data-theme="light"] body > header p { color: #333; }
 html[data-theme="light"] section time { color: #555; }
 html[data-theme="light"] nav[aria-label="Main navigation"] { --nav-border: rgba(0,0,0,0.08); }
 html[data-theme="light"] nav[aria-label="Main navigation"] a { color: inherit; }
-html[data-theme="light"] .projects article { background: white; color: inherit; box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06); border: none; }
+html[data-theme="light"] .projects article { background: white; color: #0a1626; box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06); border: none; }
 html[data-theme="light"] .color-scheme { background: rgba(255,255,255,0.94); color: canvastext; border: 1px solid rgba(0,0,0,0.06); }
 html[data-theme="light"] a { color: var(--color-text-deep-blue); }
 
@@ -265,7 +265,7 @@ html[data-theme="light"] td,
 html[data-theme="light"] code,
 html[data-theme="light"] pre,
 html[data-theme="light"] blockquote {
-  color: #0b0b0b;
+  color: #0a1626; /* slightly deeper for better contrast */
 }
 
 /* Ensure figcaption is explicitly high contrast in light theme */
@@ -287,11 +287,11 @@ html[data-theme="light"] .project-page figure > figcaption {
   html:not([data-theme]) code,
   html:not([data-theme]) pre,
   html:not([data-theme]) blockquote {
-    color: #0b0b0b;
+    color: #0a1626; /* slightly deeper for better contrast */
   }
 
   html:not([data-theme]) h1, html:not([data-theme]) h2, html:not([data-theme]) h3, html:not([data-theme]) h4 { color: var(--color-text-blue); }
-  html:not([data-theme]) nav a, html:not([data-theme]) a { color: var(--color-text-deep-blue); }
+  html:not([data-theme]) nav a, html:not([data-theme]) a { color: #0b2138; }
 }
 
 h1,h2,h3,h4,h5,h6 { line-height: 1.1; text-wrap: balance; }
@@ -740,6 +740,11 @@ html[data-theme="dark"] body.project3-page.project-page figure > figcaption {
 .years-control { display: grid; gap: 0.4rem; font-size: 0.85rem; }
 .years-control input[type=range] { width: 100%; }
 #oadrChart svg { max-width: 100%; height: auto; }
+/* Slopegraph theming */
+#oadrChart .y-axis path, #oadrChart .y-axis line { stroke: currentColor; opacity: 0.6; }
+#oadrChart .y-axis text { fill: currentColor; opacity: 0.9; }
+#oadrChart .slope-subtitle { fill: currentColor; opacity: 0.9; }
+#oadrChart .slope-col-label { fill: currentColor; opacity: 0.95; font-weight: 600; }
 #componentsChart svg { max-width: 100%; height: auto; }
 #controls { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-end; font-size: 0.85rem; }
 #controls .control { display: flex; flex-direction: column; gap: 0.25rem; }
