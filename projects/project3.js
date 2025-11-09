@@ -129,7 +129,7 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
   function highlightSelection() {
     mapSvg.selectAll("path.country")
       .attr("stroke", d => selected.includes(+d.id) ? "#111" : "#fff")
-      .attr("stroke-width", d => selected.includes(+d.id) ? 1.5 : 0.5)
+      .attr("stroke-width", d => selected.includes(+d.id) ? 2.2 : 0.6)
       .attr("opacity", d => selected.length && !selected.includes(+d.id) ? 0.6 : 1);
   }
 
@@ -253,7 +253,13 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
   const y = d3.scaleLinear().domain(d3.extent(allVals)).nice().range([innerH, 0]);
   const yAxis = d3.axisLeft(y).ticks(8).tickFormat(v => `${d3.format(".0f")(v*100)}`);
   gSlope.append("g").attr("class", "y-axis").call(yAxis);
-  gSlope.append("text").attr("x", -m.left + 4).attr("y", -8).attr("class", "slope-subtitle").attr("fill", "currentColor").attr("font-size", 12).text("older (65+) per 100 working-age (15–64)");
+  gSlope.append("text")
+    .attr("x", -m.left + 4)
+    .attr("y", -8)
+    .attr("class", "slope-subtitle")
+    .attr("fill", "currentColor")
+    .attr("font-size", 12)
+    .text("OADR: older (65+) per 100 working-age (15–64)");
   gSlope.append("text").attr("class", "col-label col-left slope-col-label").attr("x", colX("At peak")).attr("y", innerH + 28).attr("text-anchor", "middle").text("At peak");
   const colRightLabel = gSlope.append("text").attr("class", "col-label col-right slope-col-label").attr("x", colX("Peak + N")).attr("y", innerH + 28).attr("text-anchor", "middle").text("Peak + 25");
 
@@ -269,6 +275,7 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
     yearsAfterValueEl.text(this.value); 
     updateSlopegraph(); 
     updateSummary(); 
+    updateOadrSummary();
   });
 
   function nameForId(id){ const f = countries.find(c => +c.id === +id); return f?.properties?.name ?? `ID ${id}`; }
@@ -310,6 +317,45 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
     pts.exit().remove();
     const lab = labelsG.selectAll("text.lab").data(series, d=>d.id);
     lab.enter().append("text").attr("class","lab").attr("font-size",12).attr("dy","0.35em").attr("fill", d=>color(d.id)).merge(lab).attr("x", colX("Peak + N") + 6).attr("y", d=>y(d.right)).text(d=>d.name); lab.exit().remove();
+    updateOadrSummary();
+    renderSlopeLegend();
+  }
+
+  // Render a small legend explaining line styles (solid vs dashed)
+  function renderSlopeLegend(){
+    const legendDiv = d3.select('#slopeLegend');
+    if (!legendDiv.node()) return;
+    if (legendDiv.selectAll('span.legend-item').empty()) {
+      legendDiv.html(`
+        <span class="legend-item" style="margin-right:1rem">
+          <svg width="24" height="8" style="vertical-align:middle"><line x1="0" y1="4" x2="24" y2="4" stroke="currentColor" stroke-width="2"></line></svg>
+          solid = has peak
+        </span>
+        <span class="legend-item">
+          <svg width="28" height="8" style="vertical-align:middle"><line x1="0" y1="4" x2="28" y2="4" stroke="currentColor" stroke-width="2" stroke-dasharray="4,3"></line></svg>
+          dashed = no peak (by 2100)
+        </span>
+      `);
+    }
+  }
+
+  // Update concise summary above slopegraph for last-clicked country
+  function updateOadrSummary(){
+    const sumEl = d3.select('#oadrSummary');
+    if (!sumEl.node()) return;
+    if (!selected.length) {
+      sumEl.text('Select a country to see peak year and OADR change.');
+      return;
+    }
+    const id = selected[selected.length - 1];
+    const rec = statusById.get(id);
+    const o = oadrById.get(id);
+    if (!rec || !o) { sumEl.text('Data unavailable'); return; }
+    const N = currentN();
+    const keyN = N === 10 ? 'oadr_p10' : N === 15 ? 'oadr_p15' : N === 20 ? 'oadr_p20' : N === 25 ? 'oadr_p25' : 'oadr_p30';
+    const delta = (o[keyN] - o.oadr_peak) * 100;
+    const peakLabel = rec.peak_year === 2100 ? 'No peak by 2100' : rec.peak_year;
+    sumEl.text(`Peak year: ${peakLabel}; OADR change @ +${N}: ${d3.format('+.1f')(delta)} per 100.`);
   }
 
   // ---- Components chart (decadal population change) ----
@@ -412,7 +458,7 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
       const innerW = smallW - smallM.left - smallM.right;
       const innerH = smallH - smallM.top - smallM.bottom;
       
-      let data, yLabel = "";
+  let data, yLabel = "", unitsLabel = "";
       if(mode === "abs"){
         data = [
           {k:"Births", v: row?.births ?? 0},
@@ -420,7 +466,8 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
           {k:"Net migration", v: row?.net_migration ?? 0},
           {k:"Δ pop", v: row?.total_change ?? 0}
         ];
-        yLabel = isMulti ? "(thousands)" : "Change over decade (thousands)";
+        yLabel = isMulti ? "(thousands)" : "Change over decade (thousands of people)";
+        unitsLabel = "Units: thousands of people per decade";
       } else {
         data = [
           {k:"Natural", v: row?.rate_natural_per_1k ?? NaN},
@@ -428,6 +475,7 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
           {k:"Total", v: row?.rate_total_per_1k ?? NaN}
         ];
         yLabel = isMulti ? "(per 1k/yr)" : "Avg annual rate (per 1,000)";
+        unitsLabel = "Units: average annual rate per 1,000 population (Per 1k/yr)";
       }
       
       const xScale = d3.scaleBand().domain(data.map(d=>d.k)).range([0, innerW]).padding(0.25);
@@ -447,6 +495,14 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
       yAxisG.call(d3.axisLeft(sharedY).ticks(isMulti ? 4 : 8).tickSize(3));
       yAxisG.selectAll("text").attr("font-size", isMulti ? 9 : 11);
       
+      // Zero line
+      let zeroLine = g.selectAll('line.zero-line').data([0]);
+      zeroLine.enter().append('line').attr('class','zero-line')
+        .attr('x1',0).attr('x2',innerW)
+        .attr('y1', sharedY(0)).attr('y2', sharedY(0))
+        .attr('stroke','currentColor').attr('stroke-width',1).attr('opacity',0.25);
+      zeroLine.attr('x2', innerW).attr('y1', sharedY(0)).attr('y2', sharedY(0));
+
       // Bars
       const bars = g.selectAll("rect.bar").data(data, d=>d.k);
       const barsEnter = bars.enter().append("rect").attr("class","bar")
@@ -459,7 +515,10 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
         .attr("y", d=>Math.min(sharedY(0), sharedY(d.v)))
         .attr("height", d=>Math.abs(sharedY(d.v)-sharedY(0)))
         .select("title")
-        .text(d => `${d.k}: ${d3.format(",.0f")(d.v)}`);
+        .text(d => {
+          const decadeLabel = `${decade}–${decade+9}`;
+          return `${name} | ${decadeLabel}\n${d.k}: ${mode==='abs' ? d3.format(',.0f')(d.v) : d3.format('+.1f')(d.v) + ' per 1k/yr'}`;
+        });
       
       bars.exit().remove();
       
@@ -484,7 +543,7 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
         .attr("font-style", "italic")
         .attr("fill", "currentColor")
         .attr("opacity", 0.7)
-        .text(yLabel);
+        .text(`${yLabel} • ${unitsLabel} • Bars: Births (+), Deaths (−), Net migration (±), Δ pop = (Births − Deaths) + Net migration`);
     });
   }
 
@@ -493,6 +552,8 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
   updateSlopegraph();
   updateComponents();
   updateSummary();
+  updateOadrSummary();
+  renderSlopeLegend();
 
   // ---- Responsive map resize ----
     const mapBlockEl = document.querySelector('.map-container');
