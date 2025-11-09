@@ -718,10 +718,38 @@ html[data-theme="dark"] .project-page figure > figcaption {
   padding-left: clamp(1rem, 3vw, 2rem);
   padding-right: clamp(1rem, 3vw, 2rem);
   box-sizing: border-box;
+  background: white; /* match project-page main */
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
 }
 
 /* Inner wrapper to constrain content width */
 .full-bleed .viz-wrap { max-width: 1600px; margin-inline: auto; }
+
+/* Ensure full-bleed text is readable in dark mode */
+@media (prefers-color-scheme: dark) {
+  .full-bleed {
+    background: white;
+    color: #0b0b0b;
+  }
+  .full-bleed label,
+  .full-bleed input,
+  .full-bleed button,
+  .full-bleed select {
+    color: #0b0b0b;
+  }
+}
+
+html[data-theme="dark"] .full-bleed {
+  background: white;
+  color: #0b0b0b;
+}
+html[data-theme="dark"] .full-bleed label,
+html[data-theme="dark"] .full-bleed input,
+html[data-theme="dark"] .full-bleed button,
+html[data-theme="dark"] .full-bleed select {
+  color: #0b0b0b;
+}
 
 @media (max-width: 900px) {
   .full-bleed .viz-wrap { display: block; }

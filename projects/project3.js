@@ -9,6 +9,8 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
 
   const yearsAfterEl = d3.select("#yearsAfter");
   const yearsAfterValueEl = d3.select("#yearsAfterValue");
+  const countrySearchEl = d3.select("#countrySearch");
+  const clearSelectionBtn = d3.select("#clearSelection");
 
   // ---- Load data (added componentsRows)
   const [world, peakStatus, oadrRows, componentsRows] = await Promise.all([
@@ -51,6 +53,7 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
   // Categorical colors for peak status
   const statusDomain = ["peaked", "2050", "2055plus", "no_peak"];
   const statusColors = d3.scaleOrdinal().domain(statusDomain).range(["#6e40aa", "#32a852", "#2a7fff", "#b3b3b3"]);
+  const statusLabels = { "peaked": "peaked", "2050": "2050", "2055plus": "2055plus", "no_peak": "no peak (by 2100)" };
 
   // Water background
   mapSvg.append("path").attr("class","background").attr("d", path({ type: "Sphere" })).attr("fill", "#eef6fb");
@@ -98,14 +101,26 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
       .attr("opacity", d => selected.length && !selected.includes(+d.id) ? 0.6 : 1);
   }
 
-  // Legend
+  // Legend with dynamic query checkboxes
+  let activeStatuses = new Set(["peaked", "2050", "2055plus", "no_peak"]);
   const legend = d3.select("#legend");
-  legend.selectAll("span.item")
+  legend.selectAll("label.chk")
     .data(statusDomain)
-    .join("span")
-    .attr("class", "item")
+    .join("label")
+    .attr("class", "chk")
     .style("margin-right", "12px")
-    .html(s => `<span class="swatch" style="background:${statusColors(s)}"></span> ${s}`);
+    .style("cursor", "pointer")
+    .html(s => `<input type="checkbox" checked value="${s}"> <span class="swatch" style="background:${statusColors(s)}"></span> ${statusLabels[s]}`)
+    .select("input")
+    .on("change", function(ev) {
+      const v = this.value;
+      this.checked ? activeStatuses.add(v) : activeStatuses.delete(v);
+      mapSvg.selectAll("path.country")
+        .attr("display", d => {
+          const rec = statusById.get(+d.id);
+          return rec && activeStatuses.has(rec.status) ? null : "none";
+        });
+    });
 
   // ---- Slopegraph (OADR) ----
   const slopeW = 720, slopeH = 360, m = {top: 20, right: 120, bottom: 35, left: 70};
@@ -153,7 +168,12 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
     lineSel.exit().remove();
     const ptData = series.flatMap(d => ([{id:d.id, side:"left", x:colX("At peak"), y:y(d.left), color:color(d.id), name:d.name},{id:d.id, side:"right", x:colX("Peak + N"), y:y(d.right), color:color(d.id), name:d.name}]));
     const pts = pointsG.selectAll("circle.pt").data(ptData, d=>`${d.id}:${d.side}`);
-    pts.enter().append("circle").attr("class","pt").attr("r",4).attr("stroke","#111").attr("stroke-width",0.8).attr("fill", d=>d.color).merge(pts).attr("cx", d=>d.x).attr("cy", d=>d.y); pts.exit().remove();
+    const ptsEnter = pts.enter().append("circle").attr("class","pt").attr("r",4).attr("stroke","#111").attr("stroke-width",0.8).attr("fill", d=>d.color);
+    ptsEnter.append("title");
+    ptsEnter.merge(pts).attr("cx", d=>d.x).attr("cy", d=>d.y)
+      .select("title")
+      .text(d => `${d.name}\n${d.side === "left" ? "OADR @ peak" : `OADR @ peak+${N}`} = ${d3.format(".1f")((y.invert(d.y))*100)}`);
+    pts.exit().remove();
     const lab = labelsG.selectAll("text.lab").data(series, d=>d.id);
     lab.enter().append("text").attr("class","lab").attr("font-size",12).attr("dy","0.35em").attr("fill", d=>color(d.id)).merge(lab).attr("x", colX("Peak + N") + 6).attr("y", d=>y(d.right)).text(d=>d.name); lab.exit().remove();
   }
@@ -220,9 +240,12 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
     xAxisG.call(d3.axisBottom(xComp));
     yAxisG.call(d3.axisLeft(yComp));
     const bars = gComp.selectAll("rect.bar").data(data, d=>d.k);
-    bars.enter().append("rect").attr("class","bar").attr("x", d=>xComp(d.k)).attr("width", xComp.bandwidth()).attr("y", yComp(0)).attr("height",0).attr("fill", d=>compColor.get(d.k) || "#888").merge(bars)
+    const barsEnter = bars.enter().append("rect").attr("class","bar").attr("x", d=>xComp(d.k)).attr("width", xComp.bandwidth()).attr("y", yComp(0)).attr("height",0).attr("fill", d=>compColor.get(d.k) || "#888");
+    barsEnter.append("title");
+    barsEnter.merge(bars)
       .transition().duration(300)
       .attr("x", d=>xComp(d.k)).attr("width", xComp.bandwidth()).attr("y", d=>Math.min(yComp(0), yComp(d.v))).attr("height", d=>Math.abs(yComp(d.v)-yComp(0)));
+    barsEnter.merge(bars).select("title").text(d => `${d.k}: ${d3.format(",.0f")(d.v)}`);
     bars.exit().remove();
     const titleSel = compSvg.selectAll("text.comp-title").data([`${name}: ${decade}–${decade+9}`]);
     titleSel.enter().append("text").attr("class","comp-title").attr("x", cm.left).attr("y", 16).attr("font-size",14).attr("fill", "#333").merge(titleSel).text(d=>d);
@@ -253,4 +276,27 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
   if (mapBlockEl) ro.observe(mapBlockEl);
   // Initial resize to override intrinsic size
   resizeMap();
+
+  // ---- Country search & clear selection ----
+  countrySearchEl.on("input", function() {
+    const query = this.value.trim().toLowerCase();
+    if (!query) return;
+    const match = countries.find(c => (c.properties?.name || "").toLowerCase().includes(query));
+    if (match) {
+      const id = +match.id;
+      if (!selected.includes(id)) {
+        selected = selected.length < 5 ? [...selected, id] : [...selected.slice(1), id];
+        highlightSelection();
+        updateSlopegraph();
+        updateComponents();
+      }
+    }
+  });
+
+  clearSelectionBtn.on("click", () => {
+    selected = [];
+    highlightSelection();
+    updateSlopegraph();
+    updateComponents();
+  });
 })();
