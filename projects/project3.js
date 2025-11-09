@@ -12,9 +12,10 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
 
   // ---- Load data (added componentsRows)
   const [world, peakStatus, oadrRows, componentsRows] = await Promise.all([
-    d3.json("./project3/data/countries-110m.json"),
-    d3.csv("./project3/data/peak_status.csv", d => ({ id: +d.id, status: d.status, peak_year: +d.peak_year })),
-    d3.csv("./project3/data/oadr_peaks.csv", d => ({
+    // Use CDN for world topology to avoid missing local file issues
+    d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json"),
+    d3.csv("./data/peak_status.csv", d => ({ id: +d.id, status: d.status, peak_year: +d.peak_year })),
+    d3.csv("./data/oadr_peaks.csv", d => ({
       id: +d.id,
       oadr_peak: +d.oadr_peak,
       oadr_p10: +d.oadr_p10,
@@ -23,7 +24,7 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
       oadr_p25: +d.oadr_p25,
       oadr_p30: +d.oadr_p30
     })),
-    d3.csv("./project3/data/components_decades.csv", d => ({
+    d3.csv("./data/components_decades.csv", d => ({
       id: +d.id,
       decade_start: +d.decade_start,
       births: +d.births,
