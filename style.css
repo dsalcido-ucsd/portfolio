@@ -953,6 +953,37 @@ html[data-theme="dark"] .full-bleed select {
 body.project3-page .full-bleed { background: transparent !important; color: inherit; }
 html[data-theme="dark"] body.project3-page .full-bleed { background: transparent !important; color: #e6eef8; }
 
+/* --- Project 3 DEFAULT (no theme set): force dark text for readability --- */
+body.project3-page.project-page main {
+  color: #0a1626 !important;
+}
+body.project3-page.project-page p,
+body.project3-page.project-page li,
+body.project3-page.project-page a,
+body.project3-page.project-page dd,
+body.project3-page.project-page dt,
+body.project3-page.project-page label {
+  color: #0a1626 !important;
+}
+body.project3-page.project-page h1,
+body.project3-page.project-page h2,
+body.project3-page.project-page h3,
+body.project3-page.project-page h4 {
+  color: #0b2138 !important;
+}
+body.project3-page .full-bleed,
+body.project3-page .full-bleed label,
+body.project3-page .full-bleed input,
+body.project3-page .full-bleed button,
+body.project3-page .full-bleed select {
+  color: #0a1626 !important;
+}
+body.project3-page #legend,
+body.project3-page .breadcrumb,
+body.project3-page .breadcrumb a {
+  color: #0a1626 !important;
+}
+
 /* --- Project 3 light-mode overrides: ensure dark text on light background --- */
 @media (prefers-color-scheme: light) {
   body.project3-page .project-page main {
