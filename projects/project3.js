@@ -157,6 +157,16 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
 
   function nameForId(id){ const f = countries.find(c => +c.id === +id); return f?.properties?.name ?? `ID ${id}`; }
 
+  function yearsFor(id){
+    const rec = statusById.get(id);
+    const peakYear = rec?.peak_year;
+    const N = currentN();
+    const rightYear = Math.min(peakYear + N, 2100);
+    return { peakYear, rightYear, clipped: (peakYear===2100 && rightYear===2100) };
+  }
+
+  const isNoPeak = id => statusById.get(id)?.status === "no_peak";
+
   function updateSlopegraph(){
     const N = currentN();
     colRightLabel.text(`Peak + ${N}`);
@@ -164,7 +174,10 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
     emptySlope.style("display", "none");
     const series = selected.map(id => { const r = oadrById.get(id); if(!r) return null; const rightKey = N===10?"oadr_p10":N===15?"oadr_p15":N===20?"oadr_p20":N===25?"oadr_p25":"oadr_p30"; return { id, name: nameForId(id), left:+r.oadr_peak, right:+r[rightKey] }; }).filter(Boolean);
     const lineSel = linesG.selectAll("path.slope").data(series, d=>d.id);
-    lineSel.enter().append("path").attr("class","slope").attr("fill","none").attr("stroke-width",2).attr("stroke", d=>color(d.id)).merge(lineSel).attr("d", d=>d3.line()([[colX("At peak"), y(d.left)],[colX("Peak + N"), y(d.right)]]));
+    lineSel.enter().append("path").attr("class","slope").attr("fill","none").attr("stroke-width",2)
+      .attr("stroke", d=>color(d.id))
+      .attr("stroke-dasharray", d => isNoPeak(d.id) ? "4,3" : null)
+      .merge(lineSel).attr("d", d=>d3.line()([[colX("At peak"), y(d.left)],[colX("Peak + N"), y(d.right)]]));
     lineSel.exit().remove();
     const ptData = series.flatMap(d => ([{id:d.id, side:"left", x:colX("At peak"), y:y(d.left), color:color(d.id), name:d.name},{id:d.id, side:"right", x:colX("Peak + N"), y:y(d.right), color:color(d.id), name:d.name}]));
     const pts = pointsG.selectAll("circle.pt").data(ptData, d=>`${d.id}:${d.side}`);
@@ -172,7 +185,12 @@ import * as topojson from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
     ptsEnter.append("title");
     ptsEnter.merge(pts).attr("cx", d=>d.x).attr("cy", d=>d.y)
       .select("title")
-      .text(d => `${d.name}\n${d.side === "left" ? "OADR @ peak" : `OADR @ peak+${N}`} = ${d3.format(".1f")((y.invert(d.y))*100)}`);
+      .text(d => {
+        const yrs = yearsFor(d.id);
+        const yLabel = d.side==="left" ? `OADR @ ${yrs.peakYear}` : `OADR @ ${yrs.rightYear}${yrs.clipped ? " (no peak by 2100)" : ""}`;
+        const val = d3.format(".1f")(y.invert(d.y) * 100);
+        return `${d.name}\n${yLabel}: ${val} per 100`;
+      });
     pts.exit().remove();
     const lab = labelsG.selectAll("text.lab").data(series, d=>d.id);
     lab.enter().append("text").attr("class","lab").attr("font-size",12).attr("dy","0.35em").attr("fill", d=>color(d.id)).merge(lab).attr("x", colX("Peak + N") + 6).attr("y", d=>y(d.right)).text(d=>d.name); lab.exit().remove();
