@@ -900,6 +900,98 @@ html[data-theme="dark"] .full-bleed select {
 body.project3-page .full-bleed { background: transparent !important; color: inherit; }
 html[data-theme="dark"] body.project3-page .full-bleed { background: transparent !important; color: #e6eef8; }
 
+/* --- Project 3 light-mode overrides: ensure dark text on light background --- */
+@media (prefers-color-scheme: light) {
+  body.project3-page .project-page main {
+    background: transparent !important;
+    color: #0a1626 !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  body.project3-page .project-page p,
+  body.project3-page .project-page li,
+  body.project3-page .project-page a,
+  body.project3-page .project-page dd,
+  body.project3-page .project-page dt {
+    color: #0a1626 !important;
+  }
+  body.project3-page .project-page h1,
+  body.project3-page .project-page h2,
+  body.project3-page .project-page h3,
+  body.project3-page .project-page h4 {
+    color: #0b2138 !important;
+  }
+  body.project3-page .full-bleed {
+    background: transparent !important;
+    color: #0a1626 !important;
+  }
+  body.project3-page .full-bleed label,
+  body.project3-page .full-bleed input,
+  body.project3-page .full-bleed button,
+  body.project3-page .full-bleed select {
+    color: #0a1626 !important;
+  }
+  body.project3-page .search-controls input {
+    background: white;
+    color: #0a1626;
+    border: 1px solid #ccc;
+  }
+  body.project3-page .search-controls button {
+    background: #f0f0f0;
+    color: #0a1626;
+    border: 1px solid #ccc;
+  }
+  body.project3-page .search-controls button:hover {
+    background: #e0e0e0;
+  }
+  body.project3-page #legend { color: #0a1626; }
+}
+
+/* Explicit html[data-theme="light"] for manual theme selection */
+html[data-theme="light"] body.project3-page .project-page main {
+  background: transparent !important;
+  color: #0a1626 !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+html[data-theme="light"] body.project3-page .project-page p,
+html[data-theme="light"] body.project3-page .project-page li,
+html[data-theme="light"] body.project3-page .project-page a,
+html[data-theme="light"] body.project3-page .project-page dd,
+html[data-theme="light"] body.project3-page .project-page dt {
+  color: #0a1626 !important;
+}
+html[data-theme="light"] body.project3-page .project-page h1,
+html[data-theme="light"] body.project3-page .project-page h2,
+html[data-theme="light"] body.project3-page .project-page h3,
+html[data-theme="light"] body.project3-page .project-page h4 {
+  color: #0b2138 !important;
+}
+html[data-theme="light"] body.project3-page .full-bleed {
+  background: transparent !important;
+  color: #0a1626 !important;
+}
+html[data-theme="light"] body.project3-page .full-bleed label,
+html[data-theme="light"] body.project3-page .full-bleed input,
+html[data-theme="light"] body.project3-page .full-bleed button,
+html[data-theme="light"] body.project3-page .full-bleed select {
+  color: #0a1626 !important;
+}
+html[data-theme="light"] body.project3-page .search-controls input {
+  background: white;
+  color: #0a1626;
+  border: 1px solid #ccc;
+}
+html[data-theme="light"] body.project3-page .search-controls button {
+  background: #f0f0f0;
+  color: #0a1626;
+  border: 1px solid #ccc;
+}
+html[data-theme="light"] body.project3-page .search-controls button:hover {
+  background: #e0e0e0;
+}
+html[data-theme="light"] body.project3-page #legend { color: #0a1626; }
+
 /* --- Project 3 dark-mode overrides: remove white shadow box only here --- */
 /* Prefer high-specificity, theme-scoped rules so other project pages remain unchanged */
 @media (prefers-color-scheme: dark) {
