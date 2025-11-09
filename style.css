@@ -463,7 +463,7 @@ dl.info[hidden]:not(:hover, :focus-within) {
   color: #0b0b0b; /* dark text on white panel for readability in both themes */
   border-radius: 1rem;
   padding: 1rem 1.25rem; /* slightly more padding for readability */
-  max-width: 980px; /* wider measure for large screens */
+  max-width: 1200px; /* allow wider visualizations like map + legend */
   margin-left: auto;
   margin-right: auto;
   box-shadow: 0 8px 28px rgba(15,23,42,0.06);
@@ -692,7 +692,7 @@ html[data-theme="dark"] .project-page figure > figcaption {
 
 /* Project 3 visualization layout tweaks */
 #map-block { margin-top: 0.5rem; }
-#map { max-width: 100%; height: auto; background: #f8fbfe; border: 1px solid rgba(0,0,0,0.08); border-radius: 4px; }
+#map { width: 100%; height: auto; background: #f8fbfe; border: 1px solid rgba(0,0,0,0.08); border-radius: 4px; }
 #legend { font-size: 0.85rem; }
 #legend .item { display: flex; align-items: center; gap: 0.4rem; }
 #legend .swatch { width: 0.9rem; height: 0.9rem; display:inline-block; border-radius: 2px; }
