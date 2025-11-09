@@ -111,7 +111,7 @@
             <p>Cartograms and time‑series small multiples were prototyped but made scanning and search slower. Stacked areas showed long‑run trends but conflated adds and subtracts, so a waterfall layout was preferred for mechanism clarity.</p>
 
             <h2>Development Process</h2>
-            <p><strong>Team:</strong> Solo project (team of one). <strong>Stack:</strong> D3.js on the client; data prepped with pandas; static CSVs for portability.</p>
+            <p><strong>Team:</strong> Collaborative. <strong>John N.</strong> identified the dataset and conducted initial exploration and visualization alternatives; I implemented the final design and interactions. <strong>Stack:</strong> D3.js on the client; data prepped with pandas; static CSVs for portability.</p>
 
             <ul>
                 <li>Data acquisition &amp; cleaning (WPP 2024 Medium; country filtering)</li>
@@ -121,6 +121,12 @@
                 <li>Components (absolute/per‑1k toggle, shared scales, small multiples)</li>
                 <li>Integration, copy, accessibility, QA</li>
             </ul>
+
+            <h3>Alternatives &amp; contributions</h3>
+            <p><strong>John N.</strong> explored multiple alternatives: bar charts of population by region and by the most populous countries, a trend line for the top 20 countries, and a bubble graph of population size by country and decade. He also prototyped a D3 bubble pack. These provided useful framing, but we ultimately chose a map + slopegraph + components trio to tightly align with the questions of <em>when</em> countries peak and <em>how fast</em> OADR rises thereafter. The alternatives either obscured the post‑peak pace (bars), overwhelmed with clutter (top‑20 trends), or made direct comparisons hard (bubble pack), while the slopegraph made before/after comparisons immediate and the components view made causes legible.</p>
+
+            <h3>Time &amp; effort</h3>
+            <p><strong>People‑hours:</strong> ~16–25 hours total. Rough breakdown: data + metrics (6–8h), interactions &amp; charts (6–10h), polish and copy (4–7h). <strong>Most time‑consuming:</strong> coordinating multi‑view interactions, edge cases for “no peak by 2100,” and theme/readability tuning across light/dark modes.</p>
 
             <p><strong>Challenges &amp; lessons:</strong> Aligning WPP tables and handling “no peak by 2100”; keeping multi‑view interactions fast and readable; hardening theme support for both light and dark modes without conflicts.</p>
         </section>
