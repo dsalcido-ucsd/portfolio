@@ -262,6 +262,15 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
     if (p && p.url) {
       const a = document.createElement('a');
       a.href = p.url;
+      // Open external links in a new tab
+      try {
+        const resolved = new URL(a.href, location.href);
+        const isExternal = (resolved.protocol === 'http:' || resolved.protocol === 'https:') && resolved.host !== location.host;
+        if (isExternal) {
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+        }
+      } catch (e) { /* no-op */ }
       a.appendChild(h);
       article.appendChild(a);
     } else {
