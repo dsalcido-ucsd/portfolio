@@ -21,6 +21,13 @@
     "description": "Geographic data exploration with interactive D3.js map visualizations and spatial analysis."
   },
   {
+    "title": "Project 4: Bikewatching",
+    "year": "2025",
+    "image": "/portfolio/images/project4_thumbnail.png",
+    "url": "https://dsalcido-ucsd.github.io/bikewatching/",
+    "description": "Exploring bike usage patterns in the Boston area with an interactive, time-filterable map of station traffic."
+  },
+  {
     "title": "Assignment: Data Viz Basics",
     "year": "2021",
     "image": "https://vis-society.github.io/labs/2/images/empty.svg",

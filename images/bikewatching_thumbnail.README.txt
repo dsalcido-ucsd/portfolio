@@ -1,0 +1,4 @@
+Placeholder for bikewatching project thumbnail.
+
+Add an image named `bikewatching_thumbnail.png` in this directory.
+Recommended size: ~640x360 (or similar 16:9) optimized for web; keep file size < 200KB.
