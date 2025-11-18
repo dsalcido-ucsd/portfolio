@@ -17,6 +17,25 @@ body {
   }
 }
 
+#files {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+
+  > div {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: subgrid;
+  }
+
+  dt {
+    grid-column: 1;
+  }
+
+  dd {
+    grid-column: 2;
+  }
+}
+
 :root {
   --color-accent: #1e88ff;
   --color-text-blue: #0b3d91;
