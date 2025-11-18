@@ -10,14 +10,14 @@
     "title": "Project 2: Persuasive vs Deceptive Visualization",
     "year": "2025",
     "image": "/portfolio/images/project2_thumbnail.png",
-  "url": "https://dsalcido-ucsd.github.io/populationpeak/",
+  "url": "/portfolio/projects/project2.html",
     "description": "Persuasive or deceptive visualization assignment."
   },
   {
     "title": "Project 3: Interactive Map Visualization",
     "year": "2025",
     "image": "/portfolio/images/project3_thumbnail.png",
-    "url": "/portfolio/projects/project3.html",
+    "url": "https://dsalcido-ucsd.github.io/populationpeak/",
     "description": "Geographic data exploration with interactive D3.js map visualizations and spatial analysis."
   },
   {
