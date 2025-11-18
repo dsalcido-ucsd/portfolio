@@ -13,6 +13,15 @@
     <h2>About This Portfolio</h2>
     <p>This portfolio showcases data visualization and analysis projects, built with modern web technologies including HTML, CSS, JavaScript, and D3.js.</p>
     
+    <div class="meta-controls">
+      <div style="display:flex; align-items:baseline; gap:1rem;">
+        <label for="commit-progress">Show commits until:
+          <input id="commit-progress" type="range" min="0" max="100" value="100">
+        </label>
+        <time id="commit-time" style="margin-left:auto"></time>
+      </div>
+    </div>
+
     <div id="stats"></div>
     
     <h2>Commits by time of day</h2>
@@ -31,7 +40,7 @@
       <dd id="commit-date"></dd>
 
       <dt>Time</dt>
-      <dd id="commit-time"></dd>
+      <dd id="commit-tooltip-time"></dd>
 
       <dt>Author</dt>
       <dd id="commit-author"></dd>

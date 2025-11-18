@@ -8,6 +8,15 @@ body {
   padding: 1rem 20px;
 }
 
+/* Meta scatter plot circles */
+#chart svg circle {
+  transition: all 200ms ease, r calc(var(--r) * 100ms) ease;
+  @starting-style {
+    r: 0;
+    fill-opacity: 0;
+  }
+}
+
 :root {
   --color-accent: #1e88ff;
   --color-text-blue: #0b3d91;
