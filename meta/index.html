@@ -22,24 +22,19 @@
       </div>
     </div>
 
-    <dl id="files">
-      <!-- we want the following structure for each file:
-      <div>
-        <dt>
-          <code>{file.name}</code>
-        </dt>
-        <dd>{file.lines.length} lines</dd>
-      </div>
-      -->
-    </dl>
-
     <div id="stats"></div>
     
     <h2>Commits by time of day</h2>
-    <div id="chart"></div>
     
-    <p id="selection-count">No commits selected</p>
-    <dl id="language-breakdown" class="stats"></dl>
+    <div id="scrolly-1">
+      <div id="scatter-story">Some filler text here</div>
+      <div id="scatter-plot">
+        <div id="chart"></div>
+        
+        <p id="selection-count">No commits selected</p>
+        <dl id="language-breakdown" class="stats"></dl>
+      </div>
+    </div>
     
     <dl id="commit-tooltip" class="info tooltip" hidden>
       <dt>Commit</dt>
@@ -58,6 +53,17 @@
 
       <dt>Lines edited</dt>
       <dd id="commit-lines"></dd>
+    </dl>
+    
+    <dl id="files">
+      <!-- we want the following structure for each file:
+      <div>
+        <dt>
+          <code>{file.name}</code>
+        </dt>
+        <dd>{file.lines.length} lines</dd>
+      </div>
+      -->
     </dl>
     
     <script type="module" src="../global.js"></script>
