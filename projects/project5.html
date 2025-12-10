@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project 5 - Interfaces of Power</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body class="project-page project5-page">
+    <p class="breadcrumb"><a href="index.html">← Back to Projects</a></p>
+
+    <main>
+        <h1>Interfaces of Power: Visualizing U.S. Political Use of Google</h1>
+        <p class="subhead">An explorable explanation revealing how political actors use Google's advertising, surveillance, and content removal systems.</p>
+        
+        <section>
+            <h2>Introduction</h2>
+            <p>Every day, billions of people use Google. But Google isn't just a tool we use—it's also infrastructure that political actors use to influence us. This project reveals three hidden "interfaces of power": advertising platforms for persuasion, data requests for surveillance, and content removal requests for censorship.</p>
+            <p>The explorable explanation combines data from Google's Transparency Reports to show how these three interfaces operate differently: advertising is cyclical and dominated by shadowy PACs, surveillance grows relentlessly regardless of which party is in power, and content removal focuses on protecting reputations rather than national security.</p>
+        </section>
+
+        <section>
+            <h2>Live Visualization</h2>
+            <p style="margin-bottom: 1rem;">
+                <a href="https://dsalcido-ucsd.github.io/populationpeak/politics_google/docs/" target="_blank" class="button" style="display: inline-block; padding: 0.75rem 1.5rem; background: #6fb0ff; color: #071226; text-decoration: none; border-radius: 6px; font-weight: 600;">
+                    View Full Interactive →
+                </a>
+            </p>
+            <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+                <iframe 
+                    src="https://dsalcido-ucsd.github.io/populationpeak/politics_google/docs/" 
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
+                    title="Interfaces of Power Visualization">
+                </iframe>
+            </div>
+        </section>
+
+        <section>
+            <h2>Key Findings</h2>
+            <ul>
+                <li><strong>$2.2 billion</strong> spent on Google political ads since 2018</li>
+                <li><strong>PACs and advocacy groups</strong> outspend both major parties combined ($1.56B vs $644M)</li>
+                <li><strong>17x growth</strong> in government data requests since 2009, regardless of which party is in power</li>
+                <li><strong>Defamation</strong> accounts for over half of all content removal requests—not national security</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Data Sources</h2>
+            <ul>
+                <li><a href="https://transparencyreport.google.com/political-ads/home" target="_blank">Google Political Advertising Transparency Report</a></li>
+                <li><a href="https://transparencyreport.google.com/user-data/overview" target="_blank">Google User Data Requests</a></li>
+                <li><a href="https://transparencyreport.google.com/government-removals/overview" target="_blank">Google Government Removal Requests</a></li>
+            </ul>
+        </section>
+
+        <section id="writeup" style="max-width:900px;margin:2rem 0 4rem;">
+            <h2>Design Rationale</h2>
+
+            <h3>Motivation</h3>
+            <p>Political power increasingly flows through digital platforms, but these interactions are largely invisible to the public. Google publishes transparency data, but it's scattered across multiple reports with different formats and time periods. This project synthesizes three separate data streams into a unified narrative that reveals patterns hidden in plain sight.</p>
+
+            <h3>Visual Encodings</h3>
+            <ul>
+                <li><strong>Stacked Area Chart (Political Ads):</strong> Shows total spending over time while encoding party affiliation through color. The stacking makes it immediately clear that "Other" (gray) dominates, which would be less obvious in a line chart.</li>
+                <li><strong>Multi-line Chart (Data Requests):</strong> Tracks requests and accounts affected over 15 years. The steadily rising lines contrast sharply with the cyclical advertising chart above, reinforcing the narrative that surveillance is persistent.</li>
+                <li><strong>Stacked Bar Chart (Content Removal):</strong> Categorical breakdown by reason, with years on the x-axis. Makes the dominance of defamation requests immediately visible through bar height.</li>
+                <li><strong>Small Multiples (Aligned Timelines):</strong> Places all three interfaces on the same time axis, enabling direct comparison of their rhythms. Election year markers (gold dashed lines) tie the patterns to political events.</li>
+            </ul>
+
+            <h3>Interactions</h3>
+            <ul>
+                <li><strong>Brush + Zoom:</strong> The Political Ads chart includes a focus+context brush for exploring specific time periods while maintaining awareness of the full timeline.</li>
+                <li><strong>Party Filtering:</strong> Clicking legend items toggles visibility, allowing viewers to isolate individual party spending or compare any subset.</li>
+                <li><strong>View Mode Toggle:</strong> Switch between stacked area and line views to see either total magnitude or individual trends.</li>
+                <li><strong>Tooltips:</strong> Reveal precise values on hover without cluttering the visual.</li>
+            </ul>
+
+            <h3>Narrative Structure</h3>
+            <p>The explorable follows an "And-But-Therefore" structure: AND political actors use Google in three ways, BUT each interface follows completely different patterns, THEREFORE we can see that Google is infrastructure for political power in ways most users never notice.</p>
+
+            <h3>The One Thing to Remember</h3>
+            <p><strong>Google isn't just a search engine—it's infrastructure for political power.</strong> This visualization succeeds because it makes that invisible infrastructure visible by synthesizing scattered transparency data into a coherent narrative with clear visual contrasts.</p>
+        </section>
+    </main>
+
+    <script src="../global.js"></script>
+</body>
+</html>

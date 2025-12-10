@@ -1,0 +1,10 @@
+Project 5 Thumbnail
+
+To add a proper thumbnail for Project 5 (Interfaces of Power):
+
+1. Take a screenshot of the main visualization at https://dsalcido-ucsd.github.io/populationpeak/politics_google/docs/
+2. Crop to approximately 800x450 pixels (16:9 aspect ratio)
+3. Save as "project5_thumbnail.png" in this folder
+4. The portfolio will automatically display it
+
+Recommended screenshot: Capture the Political Ads stacked area chart with the $2.2 Billion hook visible above it.

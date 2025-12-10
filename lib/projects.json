@@ -28,6 +28,13 @@
     "description": "Exploring bike usage patterns in the Boston area with an interactive, time-filterable map of station traffic."
   },
   {
+    "title": "Project 5: Interfaces of Power",
+    "year": "2025",
+    "image": "/portfolio/images/project5_thumbnail.png",
+    "url": "https://dsalcido-ucsd.github.io/populationpeak/politics_google/docs/",
+    "description": "An explorable explanation revealing how political actors use Google for advertising, surveillance, and content removal."
+  },
+  {
     "title": "Assignment: Data Viz Basics",
     "year": "2021",
     "image": "https://vis-society.github.io/labs/2/images/empty.svg",
